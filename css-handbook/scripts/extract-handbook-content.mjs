@@ -10,6 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 const repoRoot = path.resolve(projectRoot, '..');
+const curatedBodyDir = path.join(__dirname, 'curated-chapter-bodies');
 
 const pdfSourcePath = path.join(repoRoot, 'docs', 'CSS Handbook_prelim_compressed.pdf');
 const textFallbackPath = path.join(repoRoot, 'handbook-contnent_text.txt');
@@ -426,6 +427,48 @@ function compactBlankLines(lines) {
   return compacted;
 }
 
+function fixNeuroChapterArtifacts(body) {
+  let nextBody = body;
+
+  const misplacedNormalBlock = nextBody.match(
+    /\n- Normal pupils are equal in size[\s\S]*?(?=\nL\n|\n### SOURCES)/,
+  );
+  if (misplacedNormalBlock && nextBody.includes('**TABLE !. Glasgow Coma Scale (GCS)**')) {
+    nextBody = nextBody.replace(misplacedNormalBlock[0], '');
+    nextBody = nextBody.replace(
+      '\n**TABLE !. Glasgow Coma Scale (GCS)**',
+      `${misplacedNormalBlock[0]}\n\n**TABLE !. Glasgow Coma Scale (GCS)**`,
+    );
+  }
+
+  nextBody = nextBody.replace(
+    '### SAMPLE\n\n(Signs/symptoms):',
+    '### SAMPLE\n\n- **S (Signs/symptoms)**',
+  );
+  nextBody = nextBody.replace(/\s+\(Allergies\):/g, '\n- **A (Allergies)**');
+  nextBody = nextBody.replace(/\s+\(Medications\):/g, '\n- **M (Medications)**');
+  nextBody = nextBody.replace(/\s+\(Past illnesses\):/g, '\n- **P (Past illnesses)**');
+  nextBody = nextBody.replace(/\s+\(Last oral intake\):/g, '\n- **L (Last oral intake)**');
+  nextBody = nextBody.replace(
+    /\s+\(Events leading up to present illness\/injury\):/g,
+    '\n- **E (Events leading up to present illness/injury)**',
+  );
+  nextBody = nextBody.replace(/\nL\n\n/g, ' ');
+
+  return compactBlankLines(nextBody.split('\n')).join('\n');
+}
+
+function postprocessChapterBody(chapter, body) {
+  if (chapter.file === 'docs/part-4/4-1-neuro.mdx') {
+    return fixNeuroChapterArtifacts(body);
+  }
+  return body;
+}
+
+function escapeMdxText(body) {
+  return body.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 function findSpreadGutter(lines) {
   const nonEmpty = lines.filter((line) => line.trim());
   if (!nonEmpty.length) {
@@ -530,6 +573,22 @@ async function readHandbookSource() {
     return stdout;
   } catch {
     return fs.readFile(textFallbackPath, 'utf8');
+  }
+}
+
+async function readCuratedChapterBody(chapter) {
+  const curatedPath = path.join(
+    curatedBodyDir,
+    `${path.basename(chapter.file, path.extname(chapter.file))}.md`,
+  );
+
+  try {
+    return (await fs.readFile(curatedPath, 'utf8')).trim();
+  } catch (error) {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
+      return null;
+    }
+    throw error;
   }
 }
 
@@ -836,7 +895,9 @@ async function main() {
     const chapter = located[i];
     const end = i + 1 < located.length ? located[i + 1].index : source.length;
     const rawSection = source.slice(chapter.index, end);
-    const body = buildBody(chapter, rawSection);
+    const generatedBody = postprocessChapterBody(chapter, buildBody(chapter, rawSection));
+    const curatedBody = await readCuratedChapterBody(chapter);
+    const body = escapeMdxText(curatedBody ?? generatedBody);
     const outputPath = path.join(projectRoot, chapter.file);
     await fs.mkdir(path.dirname(outputPath), {recursive: true});
     await fs.writeFile(outputPath, buildDoc(chapter, body));
