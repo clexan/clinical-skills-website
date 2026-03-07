@@ -108,6 +108,7 @@ export default function Home(): ReactNode {
   return (
     <Layout
       title="Kabinet Vjestina"
+      noFooter
       description="Simulation of Clinical Skills digital handbook for medical students.">
       <div className={clsx(styles.mobileMenu, menuOpen && styles.open)}>
         <a href="#about" onClick={closeMenu}>
