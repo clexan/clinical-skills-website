@@ -237,7 +237,7 @@ function isPageLine(line) {
 }
 
 function isPartSummaryStart(line) {
-  return /^PART\s+[0-9!%&']:/i.test(normalizeInline(line));
+  return /^PART\s+[0-9!%&']:/.test(normalizeInline(line));
 }
 
 function isTableOrFigure(line) {
@@ -247,22 +247,11 @@ function isTableOrFigure(line) {
 function isRunningTitle(line, chapter) {
   const normalized = canonicalHeading(normalizeInline(line));
   const shortTitle = canonicalHeading(stripNumbering(chapter.title));
-  const similarity = commonPrefixLength(normalized, shortTitle);
-  const importantWords = stripNumbering(chapter.title)
-    .toLowerCase()
-    .split(/[^a-z0-9]+/)
-    .filter((word) => word.length >= 5)
-    .slice(-3);
-  const nearTitleLength = normalized.length <= shortTitle.length + 16;
-  const hasTitleKeywords =
-    importantWords.length >= 2 && importantWords.every((word) => normalized.includes(word));
 
   return (
     normalized === canonicalHeading(chapter.title) ||
     normalized === shortTitle ||
-    normalized === canonicalHeading(chapter.partLabel) ||
-    (nearTitleLength && similarity >= 18) ||
-    (nearTitleLength && hasTitleKeywords)
+    normalized === canonicalHeading(chapter.partLabel)
   );
 }
 
@@ -397,10 +386,18 @@ function moveTailBeforeSources(lines) {
 
   let tailIndex = -1;
   for (let i = sourceIndex + 1; i < lines.length; i += 1) {
+    if (!lines[i]) {
+      continue;
+    }
+    if (/^\d+\./.test(lines[i])) {
+      continue;
+    }
     if (/^##\s/.test(lines[i])) {
       tailIndex = i;
       break;
     }
+    tailIndex = i;
+    break;
   }
 
   if (tailIndex === -1) {
@@ -542,7 +539,7 @@ function buildBody(chapter, rawSection) {
     .replace(/\f/g, '\n')
     .replace(chapter.start, '\n');
 
-  const summaryIndex = text.search(/\nPART\s+[0-9!%&']:/i);
+  const summaryIndex = text.search(/\nPART\s+[0-9!%&']:/);
   if (summaryIndex !== -1) {
     text = text.slice(0, summaryIndex);
   }
@@ -557,9 +554,20 @@ function buildBody(chapter, rawSection) {
   let current = null;
   let inSampleSection = false;
   let emittedContent = false;
+  let pendingBullet = false;
+  let pendingAlpha = null;
+  let pendingNumber = null;
+  let pendingSampleLabel = null;
 
   function isListLine(line) {
     return /^- /.test(line) || /^\d+\./.test(line);
+  }
+
+  function clearPendingMarkers() {
+    pendingBullet = false;
+    pendingAlpha = null;
+    pendingNumber = null;
+    pendingSampleLabel = null;
   }
 
   function pushParagraph(line) {
@@ -615,6 +623,26 @@ function buildBody(chapter, rawSection) {
       continue;
     }
 
+    if (line === '-' || line === '—') {
+      pendingBullet = true;
+      continue;
+    }
+
+    if (/^[a-z]\)$/i.test(line)) {
+      pendingAlpha = line.toLowerCase();
+      continue;
+    }
+
+    if (/^\d+\.$/.test(line)) {
+      pendingNumber = line;
+      continue;
+    }
+
+    if (inSampleSection && /^[SAMPLE]$/.test(line)) {
+      pendingSampleLabel = line.toUpperCase();
+      continue;
+    }
+
     if (!emittedContent) {
       const inlineAuthor = extractInlineAuthor(line);
       if (inlineAuthor) {
@@ -644,6 +672,7 @@ function buildBody(chapter, rawSection) {
       }
       const marker = headingDepth(line) >= 4 ? '###' : '##';
       if (heading && !isRunningTitle(heading, chapter)) {
+        clearPendingMarkers();
         pushHeading(marker, heading);
         inSampleSection = false;
       }
@@ -652,6 +681,7 @@ function buildBody(chapter, rawSection) {
 
     if (isAirwayHeading(line)) {
       const heading = normalizeInline(line.replace(/:$/, ''));
+      clearPendingMarkers();
       pushHeading('###', heading);
       inSampleSection = /^SAMPLE$/i.test(heading);
       continue;
@@ -663,6 +693,7 @@ function buildBody(chapter, rawSection) {
         heading = `${heading} ${normalizeInline(rawLines[i + 1].trim())}`;
         i += 1;
       }
+      clearPendingMarkers();
       pushHeading('###', heading);
       inSampleSection = false;
       continue;
@@ -674,6 +705,7 @@ function buildBody(chapter, rawSection) {
         heading = `${heading} ${normalizeInline(rawLines[i + 1].trim())}`;
         i += 1;
       }
+      clearPendingMarkers();
       pushHeading('###', heading);
       inSampleSection = false;
       continue;
@@ -705,11 +737,47 @@ function buildBody(chapter, rawSection) {
     if (inSampleSection) {
       const sampleItem = parseSampleItem(rawLine);
       if (sampleItem) {
+        clearPendingMarkers();
         flushCurrent();
         pushListItem(`- **${sampleItem.label}** ${sampleItem.text}`);
         emittedContent = true;
         continue;
       }
+    }
+
+    if (pendingSampleLabel) {
+      const label = pendingSampleLabel;
+      clearPendingMarkers();
+      flushCurrent();
+      pushListItem(`- **${label}** ${line}`);
+      emittedContent = true;
+      continue;
+    }
+
+    if (pendingAlpha) {
+      const label = pendingAlpha;
+      clearPendingMarkers();
+      flushCurrent();
+      current = {type: 'bullet', text: `**${label}** ${line}`};
+      emittedContent = true;
+      continue;
+    }
+
+    if (pendingNumber) {
+      const marker = pendingNumber;
+      clearPendingMarkers();
+      flushCurrent();
+      current = {type: 'numbered', marker, text: line};
+      emittedContent = true;
+      continue;
+    }
+
+    if (pendingBullet) {
+      pendingBullet = false;
+      flushCurrent();
+      current = {type: 'bullet', text: line};
+      emittedContent = true;
+      continue;
     }
 
     if (/^[—-]\s+/.test(line)) {
@@ -782,4 +850,8 @@ async function main() {
   );
 }
 
-await main();
+export {buildBody, chapters, readHandbookSource};
+
+if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
+  await main();
+}
