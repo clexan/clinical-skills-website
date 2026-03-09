@@ -8,9 +8,12 @@ import remarkGfm from "remark-gfm";
 
 export default defineConfig({
   plugins: [
-    mdx({
-      remarkPlugins: [remarkFrontmatter, remarkGfm],
-    }),
+    {
+      enforce: "pre",
+      ...mdx({
+        remarkPlugins: [remarkFrontmatter, remarkGfm],
+      }),
+    },
     react({
       include: /\.(mdx|js|jsx|ts|tsx)$/,
     }),
