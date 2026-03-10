@@ -122,6 +122,8 @@ export function ChapterPage() {
   const part = getPartById(chapter.partId);
   const { previous, next } = getAdjacentChapters(chapter);
   const statusLabel = getEditorialStatusLabel(chapter.status);
+  const hasKeyPoints = Boolean(keyPoints?.length);
+  const hasToc = headings.length > 0;
 
   return (
     <HandbookLayout
@@ -152,19 +154,37 @@ export function ChapterPage() {
         <Badge color={getEditorialStatusColor(chapter.status)} label={statusLabel} />
       </header>
 
-      {keyPoints?.length ? (
-        <section className={`${styles.keyPoints} surface`} aria-labelledby="chapter-key-points">
-          <h2 className={styles.keyPointsHeading} id="chapter-key-points">
-            Key Points
-          </h2>
-          <ul className={styles.keyPointsList}>
-            {keyPoints.map((item) => (
-              <li className={styles.keyPointsItem} key={item}>
-                {item}
-              </li>
-            ))}
-          </ul>
-        </section>
+      {hasKeyPoints ? (
+        <>
+          <section
+            className={`${styles.keyPoints} ${styles.keyPointsDesktop} surface`}
+            aria-labelledby="chapter-key-points"
+          >
+            <h2 className={styles.keyPointsHeading} id="chapter-key-points">
+              Key Points
+            </h2>
+            <ul className={styles.keyPointsList}>
+              {keyPoints?.map((item) => (
+                <li className={styles.keyPointsItem} key={item}>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <details className={styles.keyPointsDisclosure}>
+            <summary className={`${styles.disclosureSummary} ${styles.keyPointsSummary}`}>Key Points</summary>
+            <div className={styles.disclosureBody}>
+              <ul className={styles.keyPointsList}>
+                {keyPoints?.map((item) => (
+                  <li className={styles.keyPointsItem} key={item}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </details>
+        </>
       ) : null}
 
       {error ? <p className={`${styles.message} ${styles.error}`}>{error}</p> : null}
@@ -172,19 +192,34 @@ export function ChapterPage() {
 
       {Content ? (
         <>
-          {headings.length ? (
-            <nav className={styles.toc} aria-label="In this chapter">
-              <p className={styles.tocLabel}>In this chapter</p>
-              <ul className={styles.tocList}>
-                {headings.map((heading) => (
-                  <li key={heading.id}>
-                    <a className={styles.tocLink} href={`#${heading.id}`}>
-                      {heading.text}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
+          {hasToc ? (
+            <>
+              <nav className={`${styles.toc} ${styles.tocDesktop}`} aria-label="In this chapter">
+                <p className={styles.tocLabel}>In this chapter</p>
+                <ul className={styles.tocList}>
+                  {headings.map((heading) => (
+                    <li key={heading.id}>
+                      <a className={styles.tocLink} href={`#${heading.id}`}>
+                        {heading.text}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+
+              <details className={styles.tocDisclosure}>
+                <summary className={`${styles.disclosureSummary} ${styles.tocSummary}`}>In this chapter</summary>
+                <ul className={`${styles.tocList} ${styles.tocDisclosureList}`}>
+                  {headings.map((heading) => (
+                    <li key={heading.id}>
+                      <a className={styles.tocLink} href={`#${heading.id}`}>
+                        {heading.text}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </>
           ) : null}
 
           <div className={`${styles.proseBody} prose`} ref={proseRef}>
