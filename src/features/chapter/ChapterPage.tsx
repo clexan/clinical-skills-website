@@ -5,7 +5,6 @@ import { Link, useParams } from "react-router-dom";
 import { HandbookLayout } from "@/app/layouts/HandbookLayout";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { Badge } from "@/components/ui/Badge";
-import buttonStyles from "@/components/ui/Button.module.css";
 import {
   getAdjacentChapters,
   getChapterBySlug,
@@ -133,6 +132,7 @@ export function ChapterPage() {
       backLabel={part ? `Back to ${part.title}` : "Back to handbook"}
     >
       <Breadcrumb
+        compact
         crumbs={
           part
             ? [
@@ -151,7 +151,9 @@ export function ChapterPage() {
         <p className={styles.number}>{chapter.number}</p>
         <h1 className={styles.title}>{chapter.title}</h1>
         <p className={styles.description}>{chapter.description}</p>
-        <Badge color={getEditorialStatusColor(chapter.status)} label={statusLabel} />
+        <div className={styles.status}>
+          <Badge color={getEditorialStatusColor(chapter.status)} label={statusLabel} />
+        </div>
       </header>
 
       {hasKeyPoints ? (
@@ -231,22 +233,26 @@ export function ChapterPage() {
       {previous || next ? (
         <nav className={styles.pagination} aria-label="Chapter navigation">
           {previous ? (
-            <Link
-              className={`${buttonStyles.button} ${buttonStyles.ghost} ${styles.paginationLink}`}
-              to={`/chapter/${previous.slug}`}
-            >
-              <span className={styles.paginationLabel}>← Previous</span>
-              <span className={styles.paginationTitle}>{previous.title}</span>
+            <Link className={styles.paginationLink} to={`/chapter/${previous.slug}`}>
+              <span aria-hidden="true" className={styles.paginationArrow}>
+                ←
+              </span>
+              <span className={styles.paginationCopy}>
+                <span className={styles.paginationLabel}>Previous</span>
+                <span className={styles.paginationTitle}>{previous.title}</span>
+              </span>
             </Link>
           ) : null}
 
           {next ? (
-            <Link
-              className={`${buttonStyles.button} ${buttonStyles.ghost} ${styles.paginationLink} ${styles.paginationLinkNext}`}
-              to={`/chapter/${next.slug}`}
-            >
-              <span className={styles.paginationLabel}>Next →</span>
-              <span className={styles.paginationTitle}>{next.title}</span>
+            <Link className={`${styles.paginationLink} ${styles.paginationLinkNext}`} to={`/chapter/${next.slug}`}>
+              <span className={styles.paginationCopy}>
+                <span className={styles.paginationLabel}>Next</span>
+                <span className={styles.paginationTitle}>{next.title}</span>
+              </span>
+              <span aria-hidden="true" className={styles.paginationArrow}>
+                →
+              </span>
             </Link>
           ) : null}
         </nav>

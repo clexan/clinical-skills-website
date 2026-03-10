@@ -1,20 +1,18 @@
 .titleBlock {
-  display: grid;
-  gap: var(--space-3);
   margin-bottom: var(--space-5);
   padding-bottom: var(--space-5);
   border-bottom: 1px solid var(--border-soft);
 }
 
 .number {
-  margin: 0;
+  margin: 0 0 var(--space-1);
   color: var(--text-muted);
   font-size: 0.85rem;
   font-weight: 600;
 }
 
 .title {
-  margin: 0;
+  margin: 0 0 var(--space-3);
   color: var(--text-strong);
   font-size: 1.75rem;
   font-weight: 700;
@@ -22,11 +20,15 @@
 }
 
 .description {
-  margin: 0;
+  margin: 0 0 var(--space-4);
   max-width: 72ch;
   color: var(--text-muted);
   font-size: 1rem;
   line-height: 1.6;
+}
+
+.status {
+  margin-bottom: 0;
 }
 
 .keyPoints {
@@ -95,6 +97,7 @@
 }
 
 .toc {
+  position: static;
   margin-bottom: var(--space-5);
   max-width: 72ch;
   padding: var(--space-4) 0;
@@ -155,31 +158,100 @@
 }
 
 .paginationLink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
   width: 100%;
   min-width: 0;
-  align-items: flex-start;
+  min-height: 64px;
+  padding: var(--space-4);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  color: inherit;
   justify-content: flex-start;
-  gap: 0;
+  text-decoration: none;
   text-align: left;
 }
 
 .paginationLinkNext {
-  margin-left: auto;
-  align-items: flex-end;
-  text-align: right;
+  justify-content: space-between;
 }
 
 .paginationLabel {
   display: block;
   color: var(--text-muted);
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-size: 0.75rem;
 }
 
 .paginationTitle {
   display: block;
+  color: var(--text-strong);
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.35;
   white-space: normal;
+}
+
+.paginationCopy {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.paginationArrow {
+  flex: none;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+.paginationLink:hover,
+.paginationLink:focus-visible {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+}
+
+.paginationLink:focus-visible {
+  outline: none;
+  border-color: var(--accent-sky);
+  box-shadow: 0 0 0 3px var(--accent-sky-soft), var(--shadow-sm);
+}
+
+@media (max-width: 767px) {
+  .titleBlock {
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-3);
+  }
+
+  .number {
+    font-size: 0.8rem;
+  }
+
+  .title {
+    margin-bottom: var(--space-2);
+    font-size: clamp(1.25rem, 5vw, 1.75rem);
+  }
+
+  .description {
+    margin-bottom: var(--space-3);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .status {
+    margin-bottom: var(--space-3);
+  }
+
+  .keyPoints {
+    margin-bottom: var(--space-4);
+    padding: var(--space-4);
+  }
+
+  .tocLabel {
+    margin-bottom: var(--space-2);
+    font-size: 0.7rem;
+  }
 }
 
 @media (max-width: 767px) {
@@ -232,5 +304,28 @@
 
   .tocDisclosureList li:last-child .tocLink {
     border-bottom: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .titleBlock {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .number,
+  .title,
+  .description,
+  .status {
+    margin: 0;
+  }
+
+  .pagination {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .paginationLink {
+    flex: 1 1 0;
   }
 }
