@@ -19,10 +19,10 @@ export function RootLayout() {
               Home
             </NavLink>
             <NavLink to="/part/deteriorating-patient" className={getNavLinkClassName}>
-              Pilot Part
+              Deteriorating Patient
             </NavLink>
             <NavLink to="/chapter/1-1-abcde-sample" className={getNavLinkClassName}>
-              Pilot Chapter
+              Initial Assessment
             </NavLink>
             <NavLink to="/credits" className={getNavLinkClassName}>
               Credits
@@ -39,7 +39,7 @@ export function RootLayout() {
 
       <footer className={styles.footer}>
         <div className={`container ${styles.footerInner}`}>
-          <p className={styles.footerCopy}>Clinical Skills Handbook beta</p>
+          <p className={styles.footerCopy}>Clinical Skills Handbook</p>
         </div>
       </footer>
     </div>

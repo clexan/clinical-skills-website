@@ -14,6 +14,8 @@ export function ChapterPage() {
   const chapter = getChapterBySlug(chapterSlug);
   const [Content, setContent] = useState<ComponentType | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const showDevMetadata =
+    import.meta.env.DEV && import.meta.env.VITE_SHOW_CHAPTER_METADATA === "true";
 
   useEffect(() => {
     if (!chapter) {
@@ -33,7 +35,11 @@ export function ChapterPage() {
       })
       .catch((loadError) => {
         if (isActive) {
-          setError(loadError instanceof Error ? loadError.message : "Failed to load chapter.");
+          setError(
+            showDevMetadata && loadError instanceof Error
+              ? loadError.message
+              : "This chapter could not be loaded.",
+          );
         }
       });
 
@@ -46,8 +52,8 @@ export function ChapterPage() {
     return (
       <section className="page-shell">
         <div className="page-shell__header">
-          <p className="page-shell__eyebrow">Chapter not found</p>
-          <h1>Unknown chapter slug</h1>
+          <p className="page-shell__eyebrow">Chapter unavailable</p>
+          <h1>This chapter could not be found</h1>
         </div>
       </section>
     );
@@ -63,13 +69,15 @@ export function ChapterPage() {
       backTo={part ? `/part/${part.slug}` : "/"}
       backLabel={part ? `Back to ${part.title}` : "Back to handbook"}
     >
-      <div className={styles.status}>
-        <span>Status: {chapter.status}</span>
-        <span>Source: {chapter.sourcePath}</span>
-      </div>
+      {showDevMetadata ? (
+        <div className={styles.status}>
+          <span>Status: {chapter.status}</span>
+          <span>Source: {chapter.sourcePath}</span>
+        </div>
+      ) : null}
 
       {error ? <p className={`${styles.message} ${styles.error}`}>{error}</p> : null}
-      {!Content && !error ? <p className={styles.message}>Loading chapter content…</p> : null}
+      {!Content && !error ? <p className={styles.message}>Loading chapter…</p> : null}
 
       {Content ? (
         <article className="prose">

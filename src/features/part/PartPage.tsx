@@ -11,8 +11,8 @@ export function PartPage() {
     return (
       <section className="page-shell">
         <div className="page-shell__header">
-          <p className="page-shell__eyebrow">Part not found</p>
-          <h1>Unknown part slug</h1>
+          <p className="page-shell__eyebrow">Part unavailable</p>
+          <h1>This section could not be found</h1>
         </div>
       </section>
     );
@@ -35,11 +35,10 @@ export function PartPage() {
               <p className="list-row__eyebrow">{chapter.kind === "review" ? "Review" : "Chapter"}</p>
               <h2>{chapter.title}</h2>
               <p>{chapter.description}</p>
-              <p className="list-row__meta">{chapter.sourcePath}</p>
             </div>
 
             <Link className="button-link" to={`/chapter/${chapter.slug}`}>
-              Read chapter
+              Open chapter
             </Link>
           </article>
         ))}

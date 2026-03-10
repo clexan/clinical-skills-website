@@ -21,15 +21,20 @@ export function HandbookLayout({
 }: HandbookLayoutProps) {
   return (
     <section className={styles.layout}>
-      <div className={`surface ${styles.mainContent}`}>{children}</div>
+      <div className={`surface ${styles.mainContent}`}>
+        <header className={styles.contentHeader}>
+          <h1 className={styles.contentTitle}>{title}</h1>
+          {description ? <p className={styles.contentDescription}>{description}</p> : null}
+        </header>
+
+        {children}
+      </div>
 
       <aside className={styles.sidebar}>
         <Link className={styles.backLink} to={backTo}>
           {backLabel}
         </Link>
         <p className={styles.eyebrow}>{eyebrow}</p>
-        <h1 className={styles.title}>{title}</h1>
-        {description ? <p className={styles.description}>{description}</p> : null}
       </aside>
     </section>
   );
