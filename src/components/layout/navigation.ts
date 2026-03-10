@@ -12,8 +12,4 @@ export const primaryNavItems = [
     label: "Search",
     to: "/search",
   },
-  {
-    label: "Credits",
-    to: "/credits",
-  },
 ] as const;

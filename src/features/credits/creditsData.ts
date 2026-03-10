@@ -1,5 +1,9 @@
-import { Link } from "react-router-dom";
-import { ArrowLeft, GraduationCap, Building2, Shield } from "lucide-react";
+export type Author = {
+  name: string;
+  credentials: string;
+  role: string;
+  departments: string[];
+};
 
 const DEPT_ANAESTHESIOLOGY_FACULTY =
   "Department of Anaesthesiology, Resuscitation, Emergency and Intensive Care Medicine — Faculty of Medicine, University of Rijeka";
@@ -12,20 +16,12 @@ const DEPT_INTERNAL_CARDIOLOGY =
 
 const DEPT_EMERGENCY_KBC = "Emergency Department — Clinical Hospital Centre Rijeka";
 
-// ─── Author data ──────────────────────────────────────────────────────────────
-// Role abbreviations from source:
-//   "teaching assistant (nominal title)" = nominal TA
-//   "teaching assistant" = full TA
-//   EDRA / DESAIC = European specialist credentials
+export const AFFILIATIONS = [
+  "Faculty of Medicine, University of Rijeka",
+  "Clinical Hospital Centre Rijeka",
+] as const;
 
-interface Author {
-  name: string;
-  credentials: string;
-  role: string;
-  departments: string[];
-}
-
-const AUTHORS: Author[] = [
+export const AUTHORS: Author[] = [
   {
     name: "Gordana Bašić",
     credentials: "MD",
@@ -84,7 +80,6 @@ const AUTHORS: Author[] = [
     name: "Mate Matešić",
     credentials: "MD",
     role: "Specialist in emergency medicine",
-    // Source lists no faculty affiliation for Matešić — KBC only implied
     departments: [DEPT_EMERGENCY_KBC],
   },
   {
@@ -142,74 +137,3 @@ const AUTHORS: Author[] = [
     departments: [DEPT_ANAESTHESIOLOGY_FACULTY, DEPT_ANAESTHESIOLOGY_KBC],
   },
 ];
-
-export function CreditsPage() {
-  return (
-    <section className="page-shell credits-page">
-      <header className="page-shell__header credits-hero">
-        <Link to="/" className="page-shell__back credits-hero__back">
-          <ArrowLeft aria-hidden="true" size={16} />
-          Back to Handbook
-        </Link>
-
-        <p className="page-shell__eyebrow">Institutional Credits</p>
-        <h1>Kabinet Vještina</h1>
-        <p className="credits-hero__subtitle">Clinical Skills Handbook</p>
-
-        <div className="credits-hero__affiliations" aria-label="Institutional affiliations">
-          <span className="credits-affiliation">
-            <GraduationCap aria-hidden="true" size={16} />
-            Faculty of Medicine, University of Rijeka
-          </span>
-          <span className="credits-affiliation">
-            <Building2 aria-hidden="true" size={16} />
-            Clinical Hospital Centre Rijeka
-          </span>
-        </div>
-      </header>
-
-      <section className="page-shell__body credits-panel">
-        <div className="credits-panel__header">
-          <p className="page-shell__eyebrow">Published Attribution</p>
-          <h2>Authors &amp; Contributors</h2>
-          <p className="page-shell__description">
-            Affiliations as listed in the published handbook. Each author holds dual appointments
-            at the Faculty of Medicine and Clinical Hospital Centre Rijeka.
-          </p>
-        </div>
-
-        <ul className="credits-authors">
-          {AUTHORS.map((author) => (
-            <li key={author.name} className="credits-author">
-              <div className="credits-author__identity">
-                <h3>{author.name}</h3>
-                <p className="credits-author__credentials">{author.credentials}</p>
-              </div>
-
-              <p className="credits-author__role">{author.role}</p>
-
-              <ul className="credits-author__departments">
-                {author.departments.map((dept) => (
-                  <li key={dept}>{dept}</li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <footer className="page-shell__body credits-footer">
-        <div className="credits-footer__mark" aria-hidden="true">
-          <Shield size={20} />
-        </div>
-        <p className="credits-footer__copy">
-          This digital application reproduces the contents of the official Clinical Skills Handbook
-          for internal academic use by medical students and staff at the University of Rijeka.
-        </p>
-        <p className="credits-footer__legal">
-          &copy; {new Date().getFullYear()} Faculty of Medicine, University of Rijeka. All rights reserved.
-        </p>
-      </footer>
-    </section>
-  );
-}
