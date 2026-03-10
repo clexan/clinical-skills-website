@@ -5,6 +5,9 @@ import { useParams } from "react-router-dom";
 import { HandbookLayout } from "@/app/layouts/HandbookLayout";
 import { getChapterBySlug, loadChapterModule } from "@/content/chapter-index";
 import { getPartById } from "@/content/parts";
+import "@/styles/prose.css";
+
+import styles from "./ChapterPage.module.css";
 
 export function ChapterPage() {
   const { chapterSlug = "" } = useParams();
@@ -60,13 +63,13 @@ export function ChapterPage() {
       backTo={part ? `/part/${part.slug}` : "/"}
       backLabel={part ? `Back to ${part.title}` : "Back to handbook"}
     >
-      <div className="chapter-status">
+      <div className={styles.status}>
         <span>Status: {chapter.status}</span>
         <span>Source: {chapter.sourcePath}</span>
       </div>
 
-      {error ? <p className="chapter-message chapter-message--error">{error}</p> : null}
-      {!Content && !error ? <p className="chapter-message">Loading chapter content…</p> : null}
+      {error ? <p className={`${styles.message} ${styles.error}`}>{error}</p> : null}
+      {!Content && !error ? <p className={styles.message}>Loading chapter content…</p> : null}
 
       {Content ? (
         <article className="prose">

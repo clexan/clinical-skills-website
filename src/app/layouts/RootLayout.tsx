@@ -1,47 +1,47 @@
 import { NavLink, Outlet } from "react-router-dom";
 
+import styles from "./RootLayout.module.css";
+
 export function RootLayout() {
+  const getNavLinkClassName = ({ isActive }: { isActive: boolean }) =>
+    isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink;
+
   return (
-    <div className="app-shell">
-      <header className="site-header">
-        <div className="site-header__inner">
-          <NavLink to="/" className="site-brand">
+    <div className={styles.shell}>
+      <header className={styles.header}>
+        <div className={`container ${styles.headerInner}`}>
+          <NavLink to="/" className={styles.brand}>
             Clinical Skills Handbook
           </NavLink>
 
-          <nav className="site-nav" aria-label="Primary">
-            <NavLink
-              to="/"
-              className={({ isActive }) => (isActive ? "site-nav__link is-active" : "site-nav__link")}
-              end
-            >
+          <nav className={styles.nav} aria-label="Primary">
+            <NavLink to="/" className={getNavLinkClassName} end>
               Home
             </NavLink>
-            <NavLink
-              to="/part/deteriorating-patient"
-              className={({ isActive }) => (isActive ? "site-nav__link is-active" : "site-nav__link")}
-            >
+            <NavLink to="/part/deteriorating-patient" className={getNavLinkClassName}>
               Pilot Part
             </NavLink>
-            <NavLink
-              to="/chapter/1-1-abcde-sample"
-              className={({ isActive }) => (isActive ? "site-nav__link is-active" : "site-nav__link")}
-            >
+            <NavLink to="/chapter/1-1-abcde-sample" className={getNavLinkClassName}>
               Pilot Chapter
             </NavLink>
-            <NavLink
-              to="/credits"
-              className={({ isActive }) => (isActive ? "site-nav__link is-active" : "site-nav__link")}
-            >
+            <NavLink to="/credits" className={getNavLinkClassName}>
               Credits
             </NavLink>
           </nav>
         </div>
       </header>
 
-      <div className="app-frame">
-        <Outlet />
-      </div>
+      <main className={styles.main}>
+        <div className="container">
+          <Outlet />
+        </div>
+      </main>
+
+      <footer className={styles.footer}>
+        <div className={`container ${styles.footerInner}`}>
+          <p className={styles.footerCopy}>Clinical Skills Handbook beta</p>
+        </div>
+      </footer>
     </div>
   );
 }

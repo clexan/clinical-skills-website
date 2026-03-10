@@ -1,6 +1,8 @@
 import type { PropsWithChildren } from "react";
 import { Link } from "react-router-dom";
 
+import styles from "./HandbookLayout.module.css";
+
 type HandbookLayoutProps = PropsWithChildren<{
   eyebrow: string;
   title: string;
@@ -18,17 +20,17 @@ export function HandbookLayout({
   children,
 }: HandbookLayoutProps) {
   return (
-    <section className="page-shell">
-      <div className="page-shell__header">
-        <Link className="page-shell__back" to={backTo}>
+    <section className={styles.layout}>
+      <div className={`surface ${styles.mainContent}`}>{children}</div>
+
+      <aside className={styles.sidebar}>
+        <Link className={styles.backLink} to={backTo}>
           {backLabel}
         </Link>
-        <p className="page-shell__eyebrow">{eyebrow}</p>
-        <h1>{title}</h1>
-        {description ? <p className="page-shell__description">{description}</p> : null}
-      </div>
-
-      <div className="page-shell__body">{children}</div>
+        <p className={styles.eyebrow}>{eyebrow}</p>
+        <h1 className={styles.title}>{title}</h1>
+        {description ? <p className={styles.description}>{description}</p> : null}
+      </aside>
     </section>
   );
 }

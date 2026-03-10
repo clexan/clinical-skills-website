@@ -1,0 +1,8 @@
+.card {
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+}
+
+.elevated {
+  box-shadow: var(--shadow-md);
+}

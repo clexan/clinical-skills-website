@@ -1,0 +1,25 @@
+.root {
+  margin: 0 0 var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--accent-teal-soft);
+}
+
+.label {
+  margin: 0 0 var(--space-3);
+  color: var(--accent-teal);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.list {
+  margin: 0;
+  padding-left: var(--space-5);
+}
+
+.item {
+  color: var(--text-body);
+}

@@ -1,3 +1,5 @@
+import styles from "./FigurePlaceholder.module.css";
+
 type FigurePlaceholderProps = {
   number: string;
   caption: string;
@@ -7,9 +9,9 @@ type FigurePlaceholderProps = {
 export default function FigurePlaceholder({ number, caption, src }: FigurePlaceholderProps) {
   if (src) {
     return (
-      <figure className="kv-figure">
-        <img src={src} alt={caption} />
-        <figcaption>
+      <figure className={styles.figure}>
+        <img className={styles.image} src={src} alt={caption} />
+        <figcaption className={styles.caption}>
           Figure {number}. {caption}
         </figcaption>
       </figure>
@@ -17,10 +19,10 @@ export default function FigurePlaceholder({ number, caption, src }: FigurePlaceh
   }
 
   return (
-    <div className="kv-figure-placeholder">
-      <div className="kv-figure-placeholder__inner">
-        <span className="kv-figure-placeholder__label">Figure {number}</span>
-        <span className="kv-figure-placeholder__caption">{caption}</span>
+    <div className={styles.placeholder}>
+      <div className={styles.placeholderInner}>
+        <span className={styles.label}>Figure {number}</span>
+        <span className={styles.caption}>{caption}</span>
       </div>
     </div>
   );

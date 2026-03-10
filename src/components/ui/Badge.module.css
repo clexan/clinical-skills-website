@@ -1,0 +1,37 @@
+.badge {
+  display: inline-block;
+  padding: 0.2em 0.7em;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.sky {
+  background: var(--accent-sky-soft);
+  color: var(--accent-sky);
+}
+
+.teal {
+  background: var(--accent-teal-soft);
+  color: var(--accent-teal);
+}
+
+.rose {
+  background: var(--accent-rose-soft);
+  color: var(--accent-rose);
+}
+
+.violet {
+  background: var(--accent-violet-soft);
+  color: var(--accent-violet);
+}
+
+.amber {
+  background: var(--accent-amber-soft);
+  color: var(--accent-amber);
+}
+
+.slate {
+  background: var(--accent-slate-soft);
+  color: var(--accent-slate);
+}

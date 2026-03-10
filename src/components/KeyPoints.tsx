@@ -1,14 +1,18 @@
+import styles from "./KeyPoints.module.css";
+
 type KeyPointsProps = {
   items: string[];
 };
 
 export default function KeyPoints({ items }: KeyPointsProps) {
   return (
-    <div className="kv-keypoints">
-      <p className="kv-keypoints__label">Key Points</p>
-      <ul>
+    <div className={styles.root}>
+      <p className={styles.label}>Key Points</p>
+      <ul className={styles.list}>
         {items.map((item) => (
-          <li key={item}>{item}</li>
+          <li className={styles.item} key={item}>
+            {item}
+          </li>
         ))}
       </ul>
     </div>
