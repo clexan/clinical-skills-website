@@ -22,10 +22,12 @@ export function HandbookLayout({
   return (
     <section className={styles.layout}>
       <div className={`surface ${styles.mainContent}`}>
-        <header className={styles.contentHeader}>
-          <h1 className={styles.contentTitle}>{title}</h1>
-          {description ? <p className={styles.contentDescription}>{description}</p> : null}
-        </header>
+        {title || description ? (
+          <header className={styles.contentHeader}>
+            {title ? <h1 className={styles.contentTitle}>{title}</h1> : null}
+            {description ? <p className={styles.contentDescription}>{description}</p> : null}
+          </header>
+        ) : null}
 
         {children}
       </div>

@@ -26,6 +26,8 @@ export interface ChapterRecord {
   id: string;
   slug: string;
   partId: PartId;
+  number: string;
+  order: number;
   title: string;
   description: string;
   kind: ChapterKind;
@@ -35,4 +37,7 @@ export interface ChapterRecord {
 
 export interface ChapterModule {
   default: ComponentType;
+  keyPoints?: string[];
 }
+
+export type ChapterLoader = () => Promise<ChapterModule>;

@@ -1,7 +1,11 @@
 import { Link, useParams } from "react-router-dom";
 
+import { Badge } from "@/components/ui/Badge";
 import { getChaptersForPart } from "@/content/chapter-index";
 import { getPartBySlug } from "@/content/parts";
+import { getEditorialStatusColor, getEditorialStatusLabel } from "@/types/editorial";
+
+import styles from "./PartPage.module.css";
 
 export function PartPage() {
   const { partSlug = "" } = useParams();
@@ -21,26 +25,34 @@ export function PartPage() {
   const chapters = getChaptersForPart(part.id);
 
   return (
-    <section className="page-shell">
-      <div className="page-shell__header">
-        <p className="page-shell__eyebrow">Part {part.position}</p>
-        <h1>{part.title}</h1>
-        <p className="page-shell__description">{part.description}</p>
-      </div>
+    <section className={styles.page}>
+      <Link className={styles.backLink} to="/">
+        ← All Parts
+      </Link>
 
-      <div className="list-panel">
+      <header className={`${styles.header} surface`}>
+        <h1 className={styles.title}>
+          Part {part.position} · {part.title}
+        </h1>
+        <p className={styles.description}>{part.description}</p>
+      </header>
+
+      <div className={`${styles.list} surface`}>
         {chapters.map((chapter) => (
-          <article className="list-row" key={chapter.id}>
-            <div>
-              <p className="list-row__eyebrow">{chapter.kind === "review" ? "Review" : "Chapter"}</p>
-              <h2>{chapter.title}</h2>
-              <p>{chapter.description}</p>
+          <Link className={styles.row} key={chapter.id} to={`/chapter/${chapter.slug}`}>
+            <div className={styles.rowCopy}>
+              <p className={styles.number}>{chapter.number}</p>
+              <div className={styles.rowBody}>
+                <h2 className={styles.rowTitle}>{chapter.title}</h2>
+                <p className={styles.rowDescription}>{chapter.description}</p>
+              </div>
             </div>
 
-            <Link className="button-link" to={`/chapter/${chapter.slug}`}>
-              Open chapter
-            </Link>
-          </article>
+            <Badge
+              color={getEditorialStatusColor(chapter.status)}
+              label={getEditorialStatusLabel(chapter.status)}
+            />
+          </Link>
         ))}
       </div>
     </section>

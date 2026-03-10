@@ -1,42 +1,40 @@
 import { Link } from "react-router-dom";
 
-import { chapterIndex } from "@/content/chapter-index";
+import { Badge } from "@/components/ui/Badge";
+import { Card } from "@/components/ui/Card";
+import { getChaptersForPart } from "@/content/chapter-index";
 import { parts } from "@/content/parts";
 
-function getChapterCount(partId: string) {
-  return chapterIndex.filter((chapter) => chapter.partId === partId).length;
-}
+import styles from "./HomePage.module.css";
 
 export function HomePage() {
   return (
-    <section className="page-shell">
-      <div className="page-shell__header">
-        <p className="page-shell__eyebrow">Clinical Skills Handbook</p>
-        <h1>Core topics in acute and emergency care</h1>
-        <p className="page-shell__description">
-          Browse the handbook by part to review structured assessment, common emergencies, and
-          concise review material.
+    <section className={styles.page}>
+      <header className={`${styles.hero} surface`}>
+        <h1 className={styles.title}>Clinical Skills Handbook</h1>
+        <p className={styles.description}>
+          A structured reference for simulation course students at the University of Rijeka
+          Faculty of Medicine
         </p>
-      </div>
+      </header>
 
-      <div className="card-grid">
+      <div className={styles.grid}>
         {parts.map((part) => {
-          const chapterCount = getChapterCount(part.id);
+          const chapterCount = getChaptersForPart(part.id).length;
 
           return (
-            <article className="card" key={part.id}>
-              <p className="card__eyebrow">Part {part.position}</p>
-              <h2>{part.title}</h2>
-              <p>{part.description}</p>
-              <p className="card__meta">
-                {chapterCount} {chapterCount === 1 ? "section" : "sections"}
-              </p>
-              <div className="card__actions">
-                <Link className="button-link" to={`/part/${part.slug}`}>
-                  Open part
-                </Link>
-              </div>
-            </article>
+            <Link className={styles.cardLink} key={part.id} to={`/part/${part.slug}`}>
+              <Card elevated>
+                <div className={styles.cardContent}>
+                  <Badge color="slate" label={`Part ${part.position}`} />
+                  <h2 className={styles.cardTitle}>{part.title}</h2>
+                  <p className={styles.cardDescription}>{part.description}</p>
+                  <p className={styles.cardMeta}>
+                    {chapterCount} {chapterCount === 1 ? "chapter" : "chapters"}
+                  </p>
+                </div>
+              </Card>
+            </Link>
           );
         })}
       </div>

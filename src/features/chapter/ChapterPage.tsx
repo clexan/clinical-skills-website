@@ -1,21 +1,39 @@
 import type { ComponentType } from "react";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 import { HandbookLayout } from "@/app/layouts/HandbookLayout";
-import { getChapterBySlug, loadChapterModule } from "@/content/chapter-index";
+import { Badge } from "@/components/ui/Badge";
+import buttonStyles from "@/components/ui/Button.module.css";
+import {
+  getAdjacentChapters,
+  getChapterBySlug,
+  getChapterLoader,
+} from "@/content/chapter-index";
 import { getPartById } from "@/content/parts";
+import { getEditorialStatusColor, getEditorialStatusLabel } from "@/types/editorial";
 import "@/styles/prose.css";
 
 import styles from "./ChapterPage.module.css";
+
+function slugifyHeading(text: string) {
+  const slug = text
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  return slug || "section";
+}
 
 export function ChapterPage() {
   const { chapterSlug = "" } = useParams();
   const chapter = getChapterBySlug(chapterSlug);
   const [Content, setContent] = useState<ComponentType | null>(null);
+  const [keyPoints, setKeyPoints] = useState<string[] | null>(null);
+  const [headings, setHeadings] = useState<Array<{ id: string; text: string }>>([]);
   const [error, setError] = useState<string | null>(null);
-  const showDevMetadata =
-    import.meta.env.DEV && import.meta.env.VITE_SHOW_CHAPTER_METADATA === "true";
+  const proseRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!chapter) {
@@ -25,21 +43,24 @@ export function ChapterPage() {
     let isActive = true;
 
     setContent(null);
+    setKeyPoints(null);
+    setHeadings([]);
     setError(null);
 
-    loadChapterModule(chapter.sourcePath)
+    const chapterLoader = getChapterLoader(chapter.sourcePath);
+
+    chapterLoader()
       .then((module) => {
         if (isActive) {
-          setContent(() => module.default);
+          const { default: MDXContent, keyPoints: moduleKeyPoints } = module;
+
+          setContent(() => MDXContent);
+          setKeyPoints(Array.isArray(moduleKeyPoints) ? moduleKeyPoints : null);
         }
       })
-      .catch((loadError) => {
+      .catch(() => {
         if (isActive) {
-          setError(
-            showDevMetadata && loadError instanceof Error
-              ? loadError.message
-              : "This chapter could not be loaded.",
-          );
+          setError("This chapter could not be loaded.");
         }
       });
 
@@ -47,6 +68,44 @@ export function ChapterPage() {
       isActive = false;
     };
   }, [chapter]);
+
+  useEffect(() => {
+    if (!Content || !proseRef.current) {
+      setHeadings([]);
+      return;
+    }
+
+    const usedIds = new Set<string>();
+    const nextHeadings = Array.from(proseRef.current.querySelectorAll("h2"))
+      .map((heading, index) => {
+        const text = heading.textContent?.trim();
+
+        if (!text) {
+          return null;
+        }
+
+        const baseId = slugifyHeading(text);
+        let id = heading.id || baseId;
+
+        if (usedIds.has(id)) {
+          let suffix = index + 1;
+
+          while (usedIds.has(`${baseId}-${suffix}`)) {
+            suffix += 1;
+          }
+
+          id = `${baseId}-${suffix}`;
+        }
+
+        heading.id = id;
+        usedIds.add(id);
+
+        return { id, text };
+      })
+      .filter((heading): heading is { id: string; text: string } => heading !== null);
+
+    setHeadings(nextHeadings.length >= 3 ? nextHeadings : []);
+  }, [Content]);
 
   if (!chapter) {
     return (
@@ -60,29 +119,86 @@ export function ChapterPage() {
   }
 
   const part = getPartById(chapter.partId);
+  const { previous, next } = getAdjacentChapters(chapter);
+  const statusLabel = getEditorialStatusLabel(chapter.status);
 
   return (
     <HandbookLayout
       eyebrow={part ? `Part ${part.position} · ${part.title}` : chapter.partId}
-      title={chapter.title}
-      description={chapter.description}
+      title=""
       backTo={part ? `/part/${part.slug}` : "/"}
       backLabel={part ? `Back to ${part.title}` : "Back to handbook"}
     >
-      {showDevMetadata ? (
-        <div className={styles.status}>
-          <span>Status: {chapter.status}</span>
-          <span>Source: {chapter.sourcePath}</span>
-        </div>
+      <header className={styles.titleBlock}>
+        <p className={styles.number}>{chapter.number}</p>
+        <h1 className={styles.title}>{chapter.title}</h1>
+        <p className={styles.description}>{chapter.description}</p>
+        <Badge color={getEditorialStatusColor(chapter.status)} label={statusLabel} />
+      </header>
+
+      {keyPoints?.length ? (
+        <section className={`${styles.keyPoints} surface`} aria-labelledby="chapter-key-points">
+          <h2 className={styles.keyPointsHeading} id="chapter-key-points">
+            Key Points
+          </h2>
+          <ul className={styles.keyPointsList}>
+            {keyPoints.map((item) => (
+              <li className={styles.keyPointsItem} key={item}>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </section>
       ) : null}
 
       {error ? <p className={`${styles.message} ${styles.error}`}>{error}</p> : null}
       {!Content && !error ? <p className={styles.message}>Loading chapter…</p> : null}
 
       {Content ? (
-        <article className="prose">
-          <Content />
-        </article>
+        <>
+          {headings.length ? (
+            <nav className={styles.toc} aria-label="In this chapter">
+              <p className={styles.tocLabel}>In this chapter</p>
+              <ul className={styles.tocList}>
+                {headings.map((heading) => (
+                  <li key={heading.id}>
+                    <a className={styles.tocLink} href={`#${heading.id}`}>
+                      {heading.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ) : null}
+
+          <div className={`${styles.proseBody} prose`} ref={proseRef}>
+            <Content />
+          </div>
+        </>
+      ) : null}
+
+      {previous || next ? (
+        <nav className={styles.pagination} aria-label="Chapter navigation">
+          {previous ? (
+            <Link
+              className={`${buttonStyles.button} ${buttonStyles.ghost} ${styles.paginationLink}`}
+              to={`/chapter/${previous.slug}`}
+            >
+              <span className={styles.paginationLabel}>← Previous</span>
+              <span className={styles.paginationTitle}>{previous.title}</span>
+            </Link>
+          ) : null}
+
+          {next ? (
+            <Link
+              className={`${buttonStyles.button} ${buttonStyles.ghost} ${styles.paginationLink} ${styles.paginationLinkNext}`}
+              to={`/chapter/${next.slug}`}
+            >
+              <span className={styles.paginationLabel}>Next →</span>
+              <span className={styles.paginationTitle}>{next.title}</span>
+            </Link>
+          ) : null}
+        </nav>
       ) : null}
     </HandbookLayout>
   );
