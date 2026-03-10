@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 
+import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { Badge } from "@/components/ui/Badge";
 import { getChaptersForPart } from "@/content/chapter-index";
 import { getPartBySlug } from "@/content/parts";
@@ -26,11 +27,13 @@ export function PartPage() {
 
   return (
     <section className={styles.page}>
-      <Link className={styles.backLink} to="/">
-        ← All Parts
-      </Link>
-
       <header className={`${styles.header} surface`}>
+        <Breadcrumb
+          crumbs={[
+            { label: "Home", to: "/" },
+            { label: part.title },
+          ]}
+        />
         <h1 className={styles.title}>
           Part {part.position} · {part.title}
         </h1>

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { HandbookLayout } from "@/app/layouts/HandbookLayout";
+import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { Badge } from "@/components/ui/Badge";
 import buttonStyles from "@/components/ui/Button.module.css";
 import {
@@ -129,6 +130,21 @@ export function ChapterPage() {
       backTo={part ? `/part/${part.slug}` : "/"}
       backLabel={part ? `Back to ${part.title}` : "Back to handbook"}
     >
+      <Breadcrumb
+        crumbs={
+          part
+            ? [
+                { label: "Home", to: "/" },
+                { label: part.title, to: `/part/${part.slug}` },
+                { label: `${chapter.number} ${chapter.title}` },
+              ]
+            : [
+                { label: "Home", to: "/" },
+                { label: `${chapter.number} ${chapter.title}` },
+              ]
+        }
+      />
+
       <header className={styles.titleBlock}>
         <p className={styles.number}>{chapter.number}</p>
         <h1 className={styles.title}>{chapter.title}</h1>

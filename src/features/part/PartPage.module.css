@@ -3,16 +3,6 @@
   gap: var(--space-4);
 }
 
-.backLink {
-  width: fit-content;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-.backLink:hover {
-  text-decoration: none;
-}
-
 .header {
   padding: var(--space-6);
 }

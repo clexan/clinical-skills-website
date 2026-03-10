@@ -1,47 +1,74 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Outlet, matchPath, useLocation } from "react-router-dom";
+
+import { Header } from "@/components/layout/Header";
+import { MobileMenu } from "@/components/layout/MobileMenu";
+import { chapterIndex } from "@/content/chapter-index";
+import { getPartById } from "@/content/parts";
 
 import styles from "./RootLayout.module.css";
 
 export function RootLayout() {
-  const getNavLinkClassName = ({ isActive }: { isActive: boolean }) =>
-    isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink;
+  const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
+  const shellRef = useRef<HTMLDivElement | null>(null);
+
+  const partMatch = matchPath("/part/:partSlug", location.pathname);
+  const chapterMatch = matchPath("/chapter/:chapterSlug", location.pathname);
+  const matchedChapter = chapterMatch
+    ? chapterIndex.find((chapter) => chapter.slug === chapterMatch.params.chapterSlug)
+    : undefined;
+  const parentPartSlug = matchedChapter ? getPartById(matchedChapter.partId)?.slug : undefined;
+  const currentPartSlug = partMatch?.params.partSlug ?? parentPartSlug ?? undefined;
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const shell = shellRef.current;
+
+    if (!shell) {
+      return;
+    }
+
+    if (menuOpen) {
+      shell.setAttribute("inert", "");
+      shell.setAttribute("aria-hidden", "true");
+    } else {
+      shell.removeAttribute("inert");
+      shell.removeAttribute("aria-hidden");
+    }
+
+    return () => {
+      shell.removeAttribute("inert");
+      shell.removeAttribute("aria-hidden");
+    };
+  }, [menuOpen]);
 
   return (
-    <div className={styles.shell}>
-      <header className={styles.header}>
-        <div className={`container ${styles.headerInner}`}>
-          <NavLink to="/" className={styles.brand}>
-            Clinical Skills Handbook
-          </NavLink>
+    <>
+      <div className={styles.shell} ref={shellRef}>
+        <Header menuOpen={menuOpen} onMenuOpen={() => setMenuOpen(true)} />
 
-          <nav className={styles.nav} aria-label="Primary">
-            <NavLink to="/" className={getNavLinkClassName} end>
-              Home
-            </NavLink>
-            <NavLink to="/part/deteriorating-patient" className={getNavLinkClassName}>
-              Deteriorating Patient
-            </NavLink>
-            <NavLink to="/chapter/1-1-abcde-sample" className={getNavLinkClassName}>
-              Initial Assessment
-            </NavLink>
-            <NavLink to="/credits" className={getNavLinkClassName}>
-              Credits
-            </NavLink>
-          </nav>
-        </div>
-      </header>
+        <main className={styles.main}>
+          <div className="container">
+            <Outlet />
+          </div>
+        </main>
 
-      <main className={styles.main}>
-        <div className="container">
-          <Outlet />
-        </div>
-      </main>
+        <footer className={styles.footer}>
+          <div className={`container ${styles.footerInner}`}>
+            <p className={styles.footerCopy}>Clinical Skills Handbook</p>
+          </div>
+        </footer>
+      </div>
 
-      <footer className={styles.footer}>
-        <div className={`container ${styles.footerInner}`}>
-          <p className={styles.footerCopy}>Clinical Skills Handbook</p>
-        </div>
-      </footer>
-    </div>
+      <MobileMenu
+        currentPartSlug={currentPartSlug}
+        isOpen={menuOpen}
+        onClose={() => setMenuOpen(false)}
+      />
+    </>
   );
 }
