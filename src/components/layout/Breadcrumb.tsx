@@ -4,11 +4,12 @@ import styles from "./Breadcrumb.module.css";
 
 type BreadcrumbProps = {
   crumbs: Array<{ label: string; to?: string }>;
+  compact?: boolean;
 };
 
-export function Breadcrumb({ crumbs }: BreadcrumbProps) {
+export function Breadcrumb({ crumbs, compact = false }: BreadcrumbProps) {
   return (
-    <nav aria-label="Breadcrumb" className={styles.root}>
+    <nav aria-label="Breadcrumb" className={`${styles.root}${compact ? ` ${styles.compact}` : ""}`}>
       <ol className={styles.list}>
         {crumbs.map((crumb, index) => {
           const isLast = index === crumbs.length - 1;

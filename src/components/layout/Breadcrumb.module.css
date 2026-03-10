@@ -2,6 +2,10 @@
   margin-bottom: var(--space-4);
 }
 
+.compact {
+  margin-bottom: var(--space-4);
+}
+
 .list {
   display: flex;
   flex-wrap: wrap;
@@ -37,4 +41,16 @@
 .separator {
   color: var(--text-muted);
   font-size: 0.85rem;
+}
+
+@media (max-width: 767px) {
+  .compact {
+    margin-bottom: var(--space-3);
+  }
+
+  .compact .link,
+  .compact .current,
+  .compact .separator {
+    font-size: 0.8rem;
+  }
 }

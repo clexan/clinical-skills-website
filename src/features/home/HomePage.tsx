@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { getChaptersForPart } from "@/content/chapter-index";
+import { CreditsSection } from "@/features/credits/CreditsSection";
 import { parts } from "@/content/parts";
 
 import styles from "./HomePage.module.css";
@@ -38,6 +39,8 @@ export function HomePage() {
           );
         })}
       </div>
+
+      <CreditsSection />
     </section>
   );
 }
