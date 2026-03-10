@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, BookOpen, GraduationCap, Building2, Shield } from "lucide-react";
+import { ArrowLeft, GraduationCap, Building2, Shield } from "lucide-react";
 
 const DEPT_ANAESTHESIOLOGY_FACULTY =
   "Department of Anaesthesiology, Resuscitation, Emergency and Intensive Care Medicine — Faculty of Medicine, University of Rijeka";
@@ -151,10 +151,6 @@ export function CreditsPage() {
           <ArrowLeft aria-hidden="true" size={16} />
           Back to Handbook
         </Link>
-
-        <div className="credits-hero__mark" aria-hidden="true">
-          <BookOpen size={34} />
-        </div>
 
         <p className="page-shell__eyebrow">Institutional Credits</p>
         <h1>Kabinet Vještina</h1>
