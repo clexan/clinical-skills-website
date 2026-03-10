@@ -5,7 +5,6 @@ import { ChapterPage } from "@/features/chapter/ChapterPage";
 import { CreditsPage } from "@/features/credits/CreditsPage";
 import { HomePage } from "@/features/home/HomePage";
 import { PartPage } from "@/features/part/PartPage";
-import { PartsIndexPage } from "@/features/parts/PartsIndexPage";
 import { SearchPage } from "@/features/search/SearchPage";
 
 export const router = createBrowserRouter([
@@ -20,10 +19,6 @@ export const router = createBrowserRouter([
       {
         path: "part/:partSlug",
         element: <PartPage />,
-      },
-      {
-        path: "parts",
-        element: <PartsIndexPage />,
       },
       {
         path: "chapter/:chapterSlug",
