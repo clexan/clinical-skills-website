@@ -1,3 +1,38 @@
+.contentColumn {
+  width: 100%;
+  max-width: 72ch;
+  margin: 0 auto;
+}
+
+.chapterMeta {
+  display: grid;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: fit-content;
+  color: var(--accent-teal);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.backLink:hover {
+  text-decoration: none;
+}
+
+.partEyebrow {
+  margin: 0;
+  color: var(--accent-teal);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .titleBlock {
   margin-bottom: var(--space-5);
   padding-bottom: var(--space-5);
@@ -130,6 +165,7 @@
 }
 
 .proseBody {
+  width: 100%;
   max-width: 72ch;
 }
 
@@ -223,6 +259,18 @@
 }
 
 @media (max-width: 767px) {
+  .chapterMeta {
+    margin-bottom: var(--space-3);
+  }
+
+  .backLink {
+    font-size: 0.9rem;
+  }
+
+  .partEyebrow {
+    font-size: 0.7rem;
+  }
+
   .titleBlock {
     margin-bottom: var(--space-3);
     padding-bottom: var(--space-3);

@@ -165,58 +165,49 @@ export function ChapterPage() {
   const hasToc = headings.length > 0;
 
   return (
-    <HandbookLayout
-      eyebrow={part ? `Part ${part.position} · ${part.title}` : chapter.partId}
-      title=""
-      backTo={part ? `/part/${part.slug}` : "/"}
-      backLabel={part ? `Back to ${part.title}` : "Back to handbook"}
-    >
-      <Breadcrumb
-        compact
-        crumbs={
-          part
-            ? [
-                { label: "Home", to: "/" },
-                { label: part.title, to: `/part/${part.slug}` },
-                { label: `${chapter.number} ${chapter.title}` },
-              ]
-            : [
-                { label: "Home", to: "/" },
-                { label: `${chapter.number} ${chapter.title}` },
-              ]
-        }
-      />
-
-      <header className={styles.titleBlock}>
-        <p className={styles.number}>{chapter.number}</p>
-        <h1 className={styles.title}>{chapter.title}</h1>
-        <p className={styles.description}>{chapter.description}</p>
-        <div className={styles.status}>
-          <Badge color={getEditorialStatusColor(chapter.status)} label={statusLabel} />
+    <HandbookLayout title="">
+      <div className={styles.contentColumn}>
+        <div className={styles.chapterMeta}>
+          <Link className={styles.backLink} to={part ? `/part/${part.slug}` : "/"}>
+            {part ? `Back to ${part.title}` : "Back to handbook"}
+          </Link>
+          <p className={styles.partEyebrow}>{part ? `Part ${part.position} · ${part.title}` : chapter.partId}</p>
         </div>
-      </header>
 
-      {hasKeyPoints ? (
-        <>
-          <section
-            className={`${styles.keyPoints} ${styles.keyPointsDesktop} surface`}
-            aria-labelledby="chapter-key-points"
-          >
-            <h2 className={styles.keyPointsHeading} id="chapter-key-points">
-              Key Points
-            </h2>
-            <ul className={styles.keyPointsList}>
-              {keyPoints?.map((item) => (
-                <li className={styles.keyPointsItem} key={item}>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </section>
+        <Breadcrumb
+          compact
+          crumbs={
+            part
+              ? [
+                  { label: "Home", to: "/" },
+                  { label: part.title, to: `/part/${part.slug}` },
+                  { label: `${chapter.number} ${chapter.title}` },
+                ]
+              : [
+                  { label: "Home", to: "/" },
+                  { label: `${chapter.number} ${chapter.title}` },
+                ]
+          }
+        />
 
-          <details className={styles.keyPointsDisclosure}>
-            <summary className={`${styles.disclosureSummary} ${styles.keyPointsSummary}`}>Key Points</summary>
-            <div className={styles.disclosureBody}>
+        <header className={styles.titleBlock}>
+          <p className={styles.number}>{chapter.number}</p>
+          <h1 className={styles.title}>{chapter.title}</h1>
+          <p className={styles.description}>{chapter.description}</p>
+          <div className={styles.status}>
+            <Badge color={getEditorialStatusColor(chapter.status)} label={statusLabel} />
+          </div>
+        </header>
+
+        {hasKeyPoints ? (
+          <>
+            <section
+              className={`${styles.keyPoints} ${styles.keyPointsDesktop} surface`}
+              aria-labelledby="chapter-key-points"
+            >
+              <h2 className={styles.keyPointsHeading} id="chapter-key-points">
+                Key Points
+              </h2>
               <ul className={styles.keyPointsList}>
                 {keyPoints?.map((item) => (
                   <li className={styles.keyPointsItem} key={item}>
@@ -224,75 +215,88 @@ export function ChapterPage() {
                   </li>
                 ))}
               </ul>
+            </section>
+
+            <details className={styles.keyPointsDisclosure}>
+              <summary className={`${styles.disclosureSummary} ${styles.keyPointsSummary}`}>Key Points</summary>
+              <div className={styles.disclosureBody}>
+                <ul className={styles.keyPointsList}>
+                  {keyPoints?.map((item) => (
+                    <li className={styles.keyPointsItem} key={item}>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </details>
+          </>
+        ) : null}
+
+        {error ? <p className={`${styles.message} ${styles.error}`}>{error}</p> : null}
+        {!Content && !error ? <p className={styles.message}>Loading chapter…</p> : null}
+
+        {Content ? (
+          <>
+            {hasToc ? (
+              <>
+                <nav className={`${styles.toc} ${styles.tocDesktop}`} aria-label="In this chapter">
+                  <p className={styles.tocLabel}>In this chapter</p>
+                  <ul className={styles.tocList}>
+                    {headings.map((heading) => (
+                      <li key={heading.id}>
+                        <a className={styles.tocLink} href={`#${heading.id}`}>
+                          {heading.text}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+
+                <details className={styles.tocDisclosure}>
+                  <summary className={`${styles.disclosureSummary} ${styles.tocSummary}`}>In this chapter</summary>
+                  <ul className={`${styles.tocList} ${styles.tocDisclosureList}`}>
+                    {headings.map((heading) => (
+                      <li key={heading.id}>
+                        <a className={styles.tocLink} href={`#${heading.id}`}>
+                          {heading.text}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              </>
+            ) : null}
+
+            <div className={`${styles.proseBody} prose`} ref={proseRef}>
+              <Content
+                components={{
+                  AsthmaSeverityTable,
+                  BasicMechanismsOfInjuryTable,
+                  BleedingCycleFigure,
+                  ChestInjuryLifeThreatsFigure,
+                  CopdDifferentialTable,
+                  DiagramBlock,
+                  FigureBlock,
+                  FormulaCallout,
+                  GlasgowComaScaleTable,
+                  HaemorrhagicShockPresentationCallout,
+                  IntubationIndicationsList,
+                  IvFluidBasalRequirementsTable,
+                  IvFluidClassificationTable,
+                  IvFluidComparisonTable,
+                  ItlsFlowchartFigure,
+                  NivCriteriaTable,
+                  PotentialInjuriesByMechanismTable,
+                  PoisoningAntidotesTable,
+                  SepsisQsofaTable,
+                  SepsisSofaScoreTable,
+                  WheezingDifferentialTable,
+                }}
+              />
             </div>
-          </details>
-        </>
-      ) : null}
-
-      {error ? <p className={`${styles.message} ${styles.error}`}>{error}</p> : null}
-      {!Content && !error ? <p className={styles.message}>Loading chapter…</p> : null}
-
-      {Content ? (
-        <>
-          {hasToc ? (
-            <>
-              <nav className={`${styles.toc} ${styles.tocDesktop}`} aria-label="In this chapter">
-                <p className={styles.tocLabel}>In this chapter</p>
-                <ul className={styles.tocList}>
-                  {headings.map((heading) => (
-                    <li key={heading.id}>
-                      <a className={styles.tocLink} href={`#${heading.id}`}>
-                        {heading.text}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-
-              <details className={styles.tocDisclosure}>
-                <summary className={`${styles.disclosureSummary} ${styles.tocSummary}`}>In this chapter</summary>
-                <ul className={`${styles.tocList} ${styles.tocDisclosureList}`}>
-                  {headings.map((heading) => (
-                    <li key={heading.id}>
-                      <a className={styles.tocLink} href={`#${heading.id}`}>
-                        {heading.text}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </details>
-            </>
-          ) : null}
-
-          <div className={`${styles.proseBody} prose`} ref={proseRef}>
-            <Content
-              components={{
-                AsthmaSeverityTable,
-                BasicMechanismsOfInjuryTable,
-                BleedingCycleFigure,
-                ChestInjuryLifeThreatsFigure,
-                CopdDifferentialTable,
-                DiagramBlock,
-                FigureBlock,
-                FormulaCallout,
-                GlasgowComaScaleTable,
-                HaemorrhagicShockPresentationCallout,
-                IntubationIndicationsList,
-                IvFluidBasalRequirementsTable,
-                IvFluidClassificationTable,
-                IvFluidComparisonTable,
-                ItlsFlowchartFigure,
-                NivCriteriaTable,
-                PotentialInjuriesByMechanismTable,
-                PoisoningAntidotesTable,
-                SepsisQsofaTable,
-                SepsisSofaScoreTable,
-                WheezingDifferentialTable,
-              }}
-            />
-          </div>
-        </>
-      ) : null}
+          </>
+        ) : null}
+      </div>
 
       {previous || next ? (
         <nav className={styles.pagination} aria-label="Chapter navigation">
