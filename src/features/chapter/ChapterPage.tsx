@@ -3,7 +3,12 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 
 import { HandbookLayout } from "@/app/layouts/HandbookLayout";
+import { AsthmaSeverityTable } from "@/components/handbook/AsthmaSeverityTable";
+import { CopdDifferentialTable } from "@/components/handbook/CopdDifferentialTable";
 import { FigureBlock } from "@/components/handbook/FigureBlock";
+import { IntubationIndicationsList } from "@/components/handbook/IntubationIndicationsList";
+import { NivCriteriaTable } from "@/components/handbook/NivCriteriaTable";
+import { WheezingDifferentialTable } from "@/components/handbook/WheezingDifferentialTable";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { Badge } from "@/components/ui/Badge";
 import {
@@ -241,7 +246,16 @@ export function ChapterPage() {
           ) : null}
 
           <div className={`${styles.proseBody} prose`} ref={proseRef}>
-            <Content components={{ FigureBlock }} />
+            <Content
+              components={{
+                AsthmaSeverityTable,
+                CopdDifferentialTable,
+                FigureBlock,
+                IntubationIndicationsList,
+                NivCriteriaTable,
+                WheezingDifferentialTable,
+              }}
+            />
           </div>
         </>
       ) : null}

@@ -1,0 +1,278 @@
+.tableCard,
+.listCard {
+  margin: var(--space-5) 0;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.captionBand {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--border-soft);
+  background: var(--bg-subtle);
+}
+
+.captionTitle {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.captionSource {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.head {
+  background: var(--bg-elevated);
+}
+
+.headCell,
+.rowHeader,
+.subHeader,
+.cell {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  vertical-align: top;
+}
+
+.headCell {
+  color: var(--text-strong);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.table tbody tr > * {
+  border-top: 1px solid var(--border-soft);
+}
+
+.table tbody:first-of-type tr:first-child > * {
+  border-top: none;
+}
+
+.rowHeader {
+  width: 24%;
+  color: var(--text-strong);
+  font-weight: 600;
+  background: var(--bg-subtle);
+}
+
+.rowHeaderSky {
+  background: var(--accent-sky-soft);
+}
+
+.rowHeaderTeal {
+  background: var(--accent-teal-soft);
+}
+
+.rowHeaderSlate {
+  background: var(--accent-slate-soft);
+}
+
+.rowHeaderAmber {
+  background: var(--accent-amber-soft);
+}
+
+.rowHeaderRose {
+  background: var(--accent-rose-soft);
+}
+
+.rowHeaderInner {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.rowHeaderTitle {
+  display: block;
+  color: var(--text-strong);
+}
+
+.rowHeaderNote {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+.subHeader {
+  width: 18%;
+  color: var(--text-strong);
+  font-size: 0.84rem;
+  font-weight: 600;
+  background: var(--bg-elevated);
+}
+
+.cell {
+  color: var(--text-body);
+  line-height: 1.7;
+}
+
+.dash {
+  color: var(--text-muted);
+}
+
+.bulletList {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.bulletList li {
+  margin-bottom: var(--space-2);
+}
+
+.bulletList li:last-child {
+  margin-bottom: 0;
+}
+
+.note,
+.abbreviations {
+  margin: 0;
+  padding: var(--space-3) var(--space-5) var(--space-4);
+  border-top: 1px solid var(--border-soft);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.abbreviations strong {
+  color: var(--text-strong);
+}
+
+.listBody {
+  padding: var(--space-2) var(--space-5) var(--space-3);
+}
+
+.indicationsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.indicationItem {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-3);
+  align-items: start;
+  padding: var(--space-4) 0;
+  border-top: 1px solid var(--border-soft);
+}
+
+.indicationItem:first-child {
+  border-top: none;
+}
+
+.indicationMarker {
+  color: var(--accent-teal);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.indicationText {
+  color: var(--text-body);
+  line-height: 1.7;
+}
+
+@media (max-width: 639px) {
+  .captionBand {
+    padding: var(--space-4);
+  }
+
+  .table,
+  .table tbody,
+  .table tr,
+  .table th,
+  .table td {
+    display: block;
+    width: 100%;
+  }
+
+  .head {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .bodyGroup {
+    display: block;
+    margin-top: var(--space-3);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    background: var(--bg-surface);
+    overflow: hidden;
+  }
+
+  .bodyGroup:first-of-type {
+    margin-top: 0;
+  }
+
+  .table tbody tr > * {
+    border-top: none;
+  }
+
+  .row + .row {
+    border-top: 1px solid var(--border-soft);
+  }
+
+  .rowHeader,
+  .subHeader,
+  .cell {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .rowHeader {
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .subHeader {
+    border-bottom: 1px solid var(--border-soft);
+    width: 100%;
+  }
+
+  .cell::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: var(--space-1);
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .cellNoLabel::before {
+    content: none;
+  }
+
+  .note,
+  .abbreviations,
+  .listBody {
+    padding-inline: var(--space-4);
+  }
+
+  .indicationItem {
+    gap: var(--space-2);
+    padding: var(--space-3) 0;
+  }
+}
