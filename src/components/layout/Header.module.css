@@ -65,7 +65,79 @@
   gap: var(--space-2);
 }
 
-.searchButton,
+.searchTrigger,
+.menuButton {
+  background: transparent;
+  color: var(--text-body);
+}
+
+.searchTrigger {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 2.75rem;
+  min-width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    width 220ms ease,
+    border-color 220ms ease,
+    background-color 220ms ease,
+    padding 220ms ease,
+    color 220ms ease;
+}
+
+.searchIconWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  min-width: 2.75rem;
+  height: 100%;
+  flex: none;
+}
+
+.searchTrigger:hover,
+.menuButton:hover {
+  color: var(--text-strong);
+  text-decoration: none;
+}
+
+.brand:focus-visible,
+.searchTrigger:focus-visible,
+.menuButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-sky-soft);
+}
+
+.searchTriggerLabel {
+  min-width: 0;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  line-height: 1;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease 60ms;
+}
+
+.shortcutBadge {
+  margin-left: auto;
+  padding-left: var(--space-3);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease 60ms;
+}
+
 .menuButton {
   display: inline-flex;
   align-items: center;
@@ -74,36 +146,8 @@
   min-width: 2.75rem;
   height: 2.75rem;
   padding: 0;
-  background: transparent;
   border: none;
   border-radius: var(--radius-sm);
-  color: var(--text-body);
-}
-
-.searchButton:hover,
-.menuButton:hover {
-  color: var(--text-strong);
-  text-decoration: none;
-}
-
-.brand:focus-visible,
-.searchButton:focus-visible,
-.menuButton:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px var(--accent-sky-soft);
-}
-
-.searchShortcut {
-  display: none;
-  margin: 0;
-  padding: 0 var(--space-2);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-sm);
-  color: var(--text-muted);
-  font-size: 0.75rem;
-  font-weight: 600;
-  line-height: 1.9;
-  white-space: nowrap;
 }
 
 .icon {
@@ -131,11 +175,19 @@
   .menuButton {
     display: none;
   }
-}
 
-@media (min-width: 1200px) {
-  .searchShortcut {
-    display: inline-flex;
-    align-items: center;
+  .searchTrigger:hover,
+  .searchTrigger:focus-visible {
+    width: 11rem;
+    padding-right: 0.75rem;
+    border-color: var(--border-soft);
+    background: var(--bg-subtle);
+  }
+
+  .searchTrigger:hover .searchTriggerLabel,
+  .searchTrigger:focus-visible .searchTriggerLabel,
+  .searchTrigger:hover .shortcutBadge,
+  .searchTrigger:focus-visible .shortcutBadge {
+    opacity: 1;
   }
 }

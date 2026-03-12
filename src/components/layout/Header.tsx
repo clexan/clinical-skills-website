@@ -35,27 +35,29 @@ export function Header({ menuOpen, onMenuOpen, onSearchOpen }: HeaderProps) {
 
         <div className={styles.actions}>
           <button
-            aria-label="Open search"
-            className={styles.searchButton}
+            aria-label="Search handbook"
+            className={styles.searchTrigger}
             data-search-trigger="header"
             onClick={onSearchOpen}
             type="button"
           >
-            <svg
-              aria-hidden="true"
-              className={styles.icon}
-              fill="none"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <circle cx="11" cy="11" r="6.5" stroke="currentColor" strokeWidth="1.8" />
-              <path d="M16 16l4.5 4.5" stroke="currentColor" strokeLinecap="round" strokeWidth="1.8" />
-            </svg>
+            <span aria-hidden="true" className={styles.searchIconWrap}>
+              <svg
+                aria-hidden="true"
+                className={styles.icon}
+                fill="none"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <circle cx="11" cy="11" r="6.5" stroke="currentColor" strokeWidth="1.8" />
+                <path d="M16 16l4.5 4.5" stroke="currentColor" strokeLinecap="round" strokeWidth="1.8" />
+              </svg>
+            </span>
+            <span className={styles.searchTriggerLabel}>Search...</span>
+            <span aria-hidden="true" className={styles.shortcutBadge}>
+              ⌘K
+            </span>
           </button>
-
-          <kbd aria-hidden="true" className={styles.searchShortcut}>
-            ⌘K
-          </kbd>
 
           <button
             aria-controls="mobile-menu"
