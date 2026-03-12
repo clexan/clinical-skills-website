@@ -6,9 +6,10 @@ import styles from "./Header.module.css";
 type HeaderProps = {
   menuOpen: boolean;
   onMenuOpen: () => void;
+  onSearchOpen: () => void;
 };
 
-export function Header({ menuOpen, onMenuOpen }: HeaderProps) {
+export function Header({ menuOpen, onMenuOpen, onSearchOpen }: HeaderProps) {
   const getNavLinkClassName = ({ isActive }: { isActive: boolean }) =>
     isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink;
 
@@ -32,8 +33,13 @@ export function Header({ menuOpen, onMenuOpen }: HeaderProps) {
           ))}
         </nav>
 
-        <div className={styles.mobileActions}>
-          <Link aria-label="Search" className={styles.iconLink} to="/search">
+        <div className={styles.actions}>
+          <button
+            aria-label="Open search"
+            className={styles.searchButton}
+            onClick={onSearchOpen}
+            type="button"
+          >
             <svg
               aria-hidden="true"
               className={styles.icon}
@@ -44,7 +50,11 @@ export function Header({ menuOpen, onMenuOpen }: HeaderProps) {
               <circle cx="11" cy="11" r="6.5" stroke="currentColor" strokeWidth="1.8" />
               <path d="M16 16l4.5 4.5" stroke="currentColor" strokeLinecap="round" strokeWidth="1.8" />
             </svg>
-          </Link>
+          </button>
+
+          <kbd aria-hidden="true" className={styles.searchShortcut}>
+            ⌘K
+          </kbd>
 
           <button
             aria-controls="mobile-menu"

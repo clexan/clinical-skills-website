@@ -1,6 +1,6 @@
 import type { ComponentType } from "react";
 import { useEffect, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 import { HandbookLayout } from "@/app/layouts/HandbookLayout";
 import { FigureBlock } from "@/components/handbook/FigureBlock";
@@ -12,24 +12,16 @@ import {
   getChapterLoader,
 } from "@/content/chapter-index";
 import { getPartById } from "@/content/parts";
+import { getUniqueHeadingId } from "@/lib/headings";
 import type { MDXContentProps } from "@/types/content";
 import { getEditorialStatusColor, getEditorialStatusLabel } from "@/types/editorial";
 import "@/styles/prose.css";
 
 import styles from "./ChapterPage.module.css";
 
-function slugifyHeading(text: string) {
-  const slug = text
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-
-  return slug || "section";
-}
-
 export function ChapterPage() {
   const { chapterSlug = "" } = useParams();
+  const location = useLocation();
   const chapter = getChapterBySlug(chapterSlug);
   const [Content, setContent] = useState<ComponentType<MDXContentProps> | null>(null);
   const [keyPoints, setKeyPoints] = useState<string[] | null>(null);
@@ -79,28 +71,26 @@ export function ChapterPage() {
 
     const usedIds = new Set<string>();
     const nextHeadings = Array.from(proseRef.current.querySelectorAll("h2"))
-      .map((heading, index) => {
+      .map((heading) => {
         const text = heading.textContent?.trim();
 
         if (!text) {
           return null;
         }
 
-        const baseId = slugifyHeading(text);
-        let id = heading.id || baseId;
+        let id = heading.id;
 
-        if (usedIds.has(id)) {
-          let suffix = index + 1;
-
-          while (usedIds.has(`${baseId}-${suffix}`)) {
-            suffix += 1;
+        if (id) {
+          if (usedIds.has(id)) {
+            id = getUniqueHeadingId(text, usedIds);
+          } else {
+            usedIds.add(id);
           }
-
-          id = `${baseId}-${suffix}`;
+        } else {
+          id = getUniqueHeadingId(text, usedIds);
         }
 
         heading.id = id;
-        usedIds.add(id);
 
         return { id, text };
       })
@@ -108,6 +98,28 @@ export function ChapterPage() {
 
     setHeadings(nextHeadings.length >= 3 ? nextHeadings : []);
   }, [Content]);
+
+  useEffect(() => {
+    if (!Content || !location.hash) {
+      return;
+    }
+
+    const targetId = decodeURIComponent(location.hash.slice(1));
+
+    if (!targetId) {
+      return;
+    }
+
+    const frame = window.requestAnimationFrame(() => {
+      const target = document.getElementById(targetId);
+
+      target?.scrollIntoView({ block: "start" });
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+    };
+  }, [Content, location.hash]);
 
   if (!chapter) {
     return (

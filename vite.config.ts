@@ -6,15 +6,19 @@ import { defineConfig } from "vite";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
 
+const rawMdxRequestPattern = /\.mdx\?raw(?:$|[&?])/;
+
 export default defineConfig({
   plugins: [
     {
       enforce: "pre",
       ...mdx({
+        exclude: rawMdxRequestPattern,
         remarkPlugins: [remarkFrontmatter, remarkGfm],
       }),
     },
     react({
+      exclude: rawMdxRequestPattern,
       include: /\.(mdx|js|jsx|ts|tsx)$/,
     }),
   ],

@@ -4,8 +4,4 @@ export const primaryNavItems = [
     to: "/",
     end: true,
   },
-  {
-    label: "Search",
-    to: "/search",
-  },
 ] as const;

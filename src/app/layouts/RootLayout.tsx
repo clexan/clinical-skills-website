@@ -5,13 +5,24 @@ import { Header } from "@/components/layout/Header";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { chapterIndex } from "@/content/chapter-index";
 import { getPartById } from "@/content/parts";
+import { SearchModal } from "@/features/search/SearchModal";
+import { SearchModalProvider, useSearchModal, useSearchShortcut } from "@/features/search/SearchModalContext";
 
 import styles from "./RootLayout.module.css";
 
 export function RootLayout() {
+  return (
+    <SearchModalProvider>
+      <RootLayoutShell />
+    </SearchModalProvider>
+  );
+}
+
+function RootLayoutShell() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const shellRef = useRef<HTMLDivElement | null>(null);
+  const { isOpen: searchOpen, openSearch, toggleSearch } = useSearchModal();
 
   const partMatch = matchPath("/part/:partSlug", location.pathname);
   const chapterMatch = matchPath("/chapter/:chapterSlug", location.pathname);
@@ -20,6 +31,9 @@ export function RootLayout() {
     : undefined;
   const parentPartSlug = matchedChapter ? getPartById(matchedChapter.partId)?.slug : undefined;
   const currentPartSlug = partMatch?.params.partSlug ?? parentPartSlug ?? undefined;
+  const shellBlocked = menuOpen || searchOpen;
+
+  useSearchShortcut(toggleSearch);
 
   useEffect(() => {
     setMenuOpen(false);
@@ -32,7 +46,7 @@ export function RootLayout() {
       return;
     }
 
-    if (menuOpen) {
+    if (shellBlocked) {
       shell.setAttribute("inert", "");
       shell.setAttribute("aria-hidden", "true");
     } else {
@@ -44,12 +58,12 @@ export function RootLayout() {
       shell.removeAttribute("inert");
       shell.removeAttribute("aria-hidden");
     };
-  }, [menuOpen]);
+  }, [shellBlocked]);
 
   return (
     <>
       <div className={styles.shell} ref={shellRef}>
-        <Header menuOpen={menuOpen} onMenuOpen={() => setMenuOpen(true)} />
+        <Header menuOpen={menuOpen} onMenuOpen={() => setMenuOpen(true)} onSearchOpen={openSearch} />
 
         <main className={styles.main}>
           <div className="container">
@@ -69,6 +83,7 @@ export function RootLayout() {
         isOpen={menuOpen}
         onClose={() => setMenuOpen(false)}
       />
+      <SearchModal />
     </>
   );
 }
