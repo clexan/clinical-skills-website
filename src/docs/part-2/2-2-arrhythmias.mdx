@@ -3,6 +3,10 @@ title: "2.2 Initial assessment and management of a patient with cardiac arrhythm
 description: "Initial assessment, classification, and treatment of cardiac arrhythmias."
 ---
 
+import FigurePlaceholder from "@site/src/components/FigurePlaceholder";
+import tachyarrhythmiaAlgorithmSrc from "@/assets/algorithms/AdultTachyarrhythmiaAlgorithm2025-1.png";
+import bradyarrhythmiaAlgorithmSrc from "@/assets/algorithms/erc_brady_algorithm2025.jpg";
+
 ## Introduction
 
 Cardiac rhythm disorder, or arrhythmia, refers to any abnormality in the generation and/or conduction of a cardiac impulse. Arrhythmias include a spectrum of disorders, from harmless and haemodynamically insignificant to those leading to haemodynamic collapse and cardiac arrest. We often encounter patients with various cardiac rhythm disorders in daily clinical practice, especially in outpatient emergency services and emergency hospital admissions. Therefore, it is essential to know how to approach such a patient and assess whether their condition is life-threatening and requires urgent treatment. For this to be possible, it is necessary to be familiar with the most common arrhythmias and their potential complications.
@@ -47,7 +51,11 @@ If conversion does not occur after the third shock, administer amiodarone 300 mg
 
 If the patient has no adverse symptoms, treatment will depend on the type of arrhythmia. Therefore, the 12-lead ECG should be analysed in detail, and a differential diagnosis should be made to detect the disorder. In that sense, the classification of tachycardias according to QRS complex broadness and RR interval regularity is useful.
 
-> **Figure 1.** Tachycardia algorithm (retrieved from www.crpguidelines.eu, under permission from the European Resuscitation Council, 2021).
+<FigurePlaceholder
+  number="1"
+  caption="Tachycardia algorithm (retrieved from www.crpguidelines.eu, under permission from the European Resuscitation Council, 2021)."
+  src={tachyarrhythmiaAlgorithmSrc}
+/>
 
 ### Regular broad QRS complex tachycardia
 
@@ -98,7 +106,11 @@ Immediate treatment is unnecessary in patients who do not have adverse symptoms.
 - Second-degree Mobitz type II AV block and third-degree AV block: high risk of progression and mortality and represent an indication for implantation of a permanent pacemaker, except in the case of a clear reversible cause.
 - Sinus bradycardia: indication for implantation of a permanent pacemaker only when it is symptomatic and after reversible causes are excluded (sick sinus syndrome).
 
-> **Figure 2.** Bradycardia algorithm (retrieved from www.crpguidelines.eu, under permission from the European Resuscitation Council, 2021).
+<FigurePlaceholder
+  number="2"
+  caption="Bradycardia algorithm (retrieved from www.crpguidelines.eu, under permission from the European Resuscitation Council, 2025)."
+  src={bradyarrhythmiaAlgorithmSrc}
+/>
 
 ## Sources
 
