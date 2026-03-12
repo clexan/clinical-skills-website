@@ -52,9 +52,11 @@ export function ChapterPage() {
           setKeyPoints(Array.isArray(moduleKeyPoints) ? moduleKeyPoints : null);
         }
       })
-      .catch(() => {
+      .catch((caughtError) => {
+        console.error(`Failed to load chapter module for "${chapter.slug}".`, caughtError);
+
         if (isActive) {
-          setError("This chapter could not be loaded.");
+          setError("This chapter could not be loaded. Try refreshing the page.");
         }
       });
 
