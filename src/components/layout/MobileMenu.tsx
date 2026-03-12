@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 import { Link, NavLink } from "react-router-dom";
 
-import { getChaptersForPart } from "@/content/chapter-index";
+import { getEntriesForPart } from "@/content/chapter-index";
 import { getPartBySlug } from "@/content/parts";
 
 import { primaryNavItems } from "./navigation";
@@ -29,7 +29,7 @@ export function MobileMenu({ isOpen, onClose, currentPartSlug }: MobileMenuProps
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const [chaptersOpen, setChaptersOpen] = useState(false);
   const currentPart = currentPartSlug ? getPartBySlug(currentPartSlug) : null;
-  const chapters = currentPart ? getChaptersForPart(currentPart.id) : [];
+  const chapters = currentPart ? getEntriesForPart(currentPart.id) : [];
 
   useEffect(() => {
     if (!isOpen) {
