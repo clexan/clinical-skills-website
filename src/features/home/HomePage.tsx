@@ -40,7 +40,7 @@ export function HomePage() {
         })}
       </div>
 
-      <CreditsSection />
+      <CreditsSection includeAuthors={false} />
     </section>
   );
 }

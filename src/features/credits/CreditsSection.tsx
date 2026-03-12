@@ -1,16 +1,60 @@
+import type { ElementType } from "react";
+import { Link } from "react-router-dom";
 import { Building2, GraduationCap, Shield } from "lucide-react";
 
 import { AFFILIATIONS, AUTHORS } from "./creditsData";
 import styles from "./CreditsSection.module.css";
 
-export function CreditsSection() {
+type CreditsSectionProps = {
+  includeAuthors?: boolean;
+  titleTag?: ElementType;
+  authorsTitleTag?: ElementType;
+};
+
+export function CreditsSection({
+  includeAuthors = true,
+  titleTag: TitleTag = "h2",
+  authorsTitleTag: AuthorsTitleTag = "h3",
+}: CreditsSectionProps) {
+  if (!includeAuthors) {
+    return (
+      <section aria-labelledby="credits-title" className={styles.section} id="credits">
+        <div className={`surface ${styles.summaryBlock}`}>
+          <p className={`${styles.eyebrow} ${styles.summaryEyebrow}`}>Institutional Credits</p>
+          <TitleTag className={styles.title} id="credits-title">
+            Kabinet Vještina
+          </TitleTag>
+
+          <div aria-label="Institutional affiliations" className={styles.summaryAffiliations}>
+            <p className={styles.summaryAffiliation}>
+              <GraduationCap aria-hidden="true" size={16} />
+              {AFFILIATIONS[0]}
+            </p>
+            <p className={styles.summaryAffiliation}>
+              <Building2 aria-hidden="true" size={16} />
+              {AFFILIATIONS[1]}
+            </p>
+          </div>
+
+          <p className={styles.summaryLegal}>
+            &copy; {new Date().getFullYear()} Faculty of Medicine, University of Rijeka. All rights
+            reserved.
+          </p>
+          <Link className={styles.summaryLink} to="/credits">
+            View contributors and authors
+          </Link>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section aria-labelledby="credits-title" className={styles.section} id="credits">
       <header className={`surface ${styles.hero}`}>
         <p className={styles.eyebrow}>Institutional Credits</p>
-        <h2 className={styles.title} id="credits-title">
+        <TitleTag className={styles.title} id="credits-title">
           Kabinet Vještina
-        </h2>
+        </TitleTag>
         <p className={styles.subtitle}>Clinical Skills Handbook</p>
 
         <div aria-label="Institutional affiliations" className={styles.affiliations}>
@@ -28,9 +72,9 @@ export function CreditsSection() {
       <section aria-labelledby="credits-authors-title" className={`surface ${styles.panel}`}>
         <div className={styles.panelHeader}>
           <p className={styles.eyebrow}>Published Attribution</p>
-          <h3 className={styles.panelTitle} id="credits-authors-title">
+          <AuthorsTitleTag className={styles.panelTitle} id="credits-authors-title">
             Authors &amp; Contributors
-          </h3>
+          </AuthorsTitleTag>
           <p className={styles.panelDescription}>
             Affiliations as listed in the published handbook. Each author holds dual appointments
             at the Faculty of Medicine and Clinical Hospital Centre Rijeka.
