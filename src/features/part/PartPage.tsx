@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom";
 
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { Badge } from "@/components/ui/Badge";
-import { getEntriesForPart } from "@/content/chapter-index";
+import { getChaptersForPart } from "@/content/chapter-index";
 import { getPartBySlug } from "@/content/parts";
 import { getEditorialStatusColor, getEditorialStatusLabel } from "@/types/editorial";
 
@@ -23,7 +23,7 @@ export function PartPage() {
     );
   }
 
-  const chapters = getEntriesForPart(part.id);
+  const chapters = getChaptersForPart(part.id);
 
   return (
     <section className={styles.page}>
