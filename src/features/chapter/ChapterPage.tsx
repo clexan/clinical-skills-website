@@ -4,10 +4,29 @@ import { Link, useLocation, useParams } from "react-router-dom";
 
 import { HandbookLayout } from "@/app/layouts/HandbookLayout";
 import { AsthmaSeverityTable } from "@/components/handbook/AsthmaSeverityTable";
+import { BleedingCycleFigure } from "@/components/handbook/BleedingCycleFigure";
+import { ChestInjuryLifeThreatsFigure } from "@/components/handbook/ChestInjuryLifeThreatsFigure";
+import { DiagramBlock } from "@/components/handbook/DiagramBlock";
 import { CopdDifferentialTable } from "@/components/handbook/CopdDifferentialTable";
 import { FigureBlock } from "@/components/handbook/FigureBlock";
+import { FormulaCallout } from "@/components/handbook/FormulaCallout";
+import { GlasgowComaScaleTable } from "@/components/handbook/GlasgowComaScaleTable";
+import { HaemorrhagicShockPresentationCallout } from "@/components/handbook/HaemorrhagicShockPresentationCallout";
 import { IntubationIndicationsList } from "@/components/handbook/IntubationIndicationsList";
+import {
+  IvFluidBasalRequirementsTable,
+  IvFluidClassificationTable,
+  IvFluidComparisonTable,
+} from "@/components/handbook/IvFluidsTables";
+import { ItlsFlowchartFigure } from "@/components/handbook/ItlsFlowchartFigure";
 import { NivCriteriaTable } from "@/components/handbook/NivCriteriaTable";
+import { PoisoningAntidotesTable } from "@/components/handbook/PoisoningAntidotesTable";
+import { SepsisQsofaTable } from "@/components/handbook/SepsisQsofaTable";
+import { SepsisSofaScoreTable } from "@/components/handbook/SepsisSofaScoreTable";
+import {
+  BasicMechanismsOfInjuryTable,
+  PotentialInjuriesByMechanismTable,
+} from "@/components/handbook/TraumaMechanismTables";
 import { WheezingDifferentialTable } from "@/components/handbook/WheezingDifferentialTable";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { Badge } from "@/components/ui/Badge";
@@ -249,10 +268,25 @@ export function ChapterPage() {
             <Content
               components={{
                 AsthmaSeverityTable,
+                BasicMechanismsOfInjuryTable,
+                BleedingCycleFigure,
+                ChestInjuryLifeThreatsFigure,
                 CopdDifferentialTable,
+                DiagramBlock,
                 FigureBlock,
+                FormulaCallout,
+                GlasgowComaScaleTable,
+                HaemorrhagicShockPresentationCallout,
                 IntubationIndicationsList,
+                IvFluidBasalRequirementsTable,
+                IvFluidClassificationTable,
+                IvFluidComparisonTable,
+                ItlsFlowchartFigure,
                 NivCriteriaTable,
+                PotentialInjuriesByMechanismTable,
+                PoisoningAntidotesTable,
+                SepsisQsofaTable,
+                SepsisSofaScoreTable,
                 WheezingDifferentialTable,
               }}
             />

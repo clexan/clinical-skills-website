@@ -1,0 +1,86 @@
+.callout {
+  margin: var(--space-4) 0;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--accent-amber);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+}
+
+.label {
+  display: none;
+}
+
+.title {
+  margin: 0 0 var(--space-2);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.formulaBox {
+  width: 100%;
+  margin-bottom: var(--space-2);
+  overflow-x: auto;
+}
+
+.expression {
+  margin: 0;
+  font-family: var(--font-serif), Georgia, 'Times New Roman', serif;
+  font-size: 1.22rem;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-strong);
+  white-space: nowrap;
+  text-align: center;
+}
+
+.variables {
+  margin: var(--space-3) 0 0;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-soft);
+  display: grid;
+  gap: var(--space-1);
+}
+
+.variableRow {
+  display: flex;
+  gap: var(--space-3);
+  align-items: baseline;
+}
+
+.symbol {
+  flex-shrink: 0;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--text-strong);
+  min-width: 4ch;
+}
+
+.definition {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.note {
+  margin: var(--space-3) 0 0;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-soft);
+  font-size: 0.95rem;
+  color: var(--text-body);
+  line-height: 1.7;
+}
+
+@media (max-width: 639px) {
+  .expression {
+    font-size: 1.12rem;
+    text-align: left;
+    white-space: normal;
+  }
+}

@@ -6,8 +6,6 @@ description: Recognition, classification, and early management of haemorrhage an
 tags: [haemorrhage, shock, trauma, resuscitation, transfusion, tranexamic-acid]
 ---
 
-import FigurePlaceholder from "@site/src/components/FigurePlaceholder";
-
 # 6.3 Haemorrhage and haemorrhagic shock
 
 *Danijel Knežević, Janja Tarčuković*
@@ -21,9 +19,16 @@ Oxygen delivery to cells (`DO2`) depends on two major factors:
 
 The source chapter summarises arterial oxygen content with the following formula:
 
-```text
-Oxygen content in arterial blood = (1.38 × Hb × SaO2) + (0.0031 × PaO2)
-```
+<FormulaCallout
+  expression="Oxygen content in arterial blood = (1.38 × Hb × SaO2) + (0.0031 × PaO2)"
+  label="Equation"
+  title="Arterial oxygen content"
+  variables={[
+    { symbol: "Hb", definition: "Haemoglobin concentration" },
+    { symbol: "SaO2", definition: "Arterial oxygen saturation" },
+    { symbol: "PaO2", definition: "Arterial oxygen partial pressure" },
+  ]}
+/>
 
 You are not expected to memorise the formula. The important point is that oxygen delivery, together with cardiac output, depends mainly on haemoglobin concentration, and haemoglobin is lost during bleeding.
 
@@ -34,7 +39,7 @@ In summary, the absolute priority in haemorrhagic shock is to **stop the bleedin
 - **Adults:** `70 mL/kg` ideal body weight
 - **Children:** `80 mL/kg` ideal body weight
 
-<FigurePlaceholder number="1" caption="Overview of the pathophysiological course and the vicious circle that occurs in bleeding." />
+<BleedingCycleFigure />
 
 ## 6.3.1 Classification of bleeding
 
@@ -82,7 +87,7 @@ In summary, the absolute priority in haemorrhagic shock is to **stop the bleedin
 - check breathing and pulse
 - if severe external bleeding is present, attempt to limit or stop it with pressure and bandages
 
-<FigurePlaceholder number="2" caption="Clinical presentation of haemorrhagic shock." />
+<HaemorrhagicShockPresentationCallout />
 
 ### A (Airway) / B (Breathing)
 
@@ -145,18 +150,6 @@ Consider commercially available clotting factors such as:
 #### Vasoconstrictors
 
 - In traumatic brain injury and spinal cord injury, vasoconstrictors may be used **in addition to fluids** to maintain an adequate MAP.
-
-### Clinical presentation of haemorrhagic shock
-
-Typical features include:
-
-- tachycardia due to catecholamine effect
-- tachypnoea
-- flat jugular veins
-- circulatory centralisation with vasoconstriction in less vital tissues
-- cold, mottled skin
-- reduced urine output
-- impaired consciousness
 
 ### Vital signs to repeat every few minutes
 

@@ -30,9 +30,11 @@ Small changes in pH reflect major changes in hydrogen ion concentration. Body en
 
 Carbon dioxide is a by-product of cellular metabolism. To reach the lungs and leave the body, it is transported in the blood either dissolved in plasma or bound to haemoglobin and proteins. Normal values are `4.7–6.0 kPa (35–45 mmHg)`.
 
-```text
-CO2 + H2O ⇌ H+ + HCO3−
-```
+<FormulaCallout
+  expression="CO2 + H2O ⇌ H+ + HCO3−"
+  label="Reaction"
+  title="Carbon dioxide hydration reaction"
+/>
 
 Carbon dioxide acts as an acid. An increase in CO2 increases hydrogen ion concentration and promotes acidaemia. Reduction of alveolar ventilation is the leading cause of increased CO2 when metabolic production remains constant. This is **respiratory acidosis**. An increase in alveolar ventilation lowers CO2 and promotes alkalaemia. This is **respiratory alkalosis**. In healthy individuals, brain respiratory centres react rapidly to changes in hydrogen ion concentration and increase alveolar ventilation when needed.
 
@@ -40,9 +42,11 @@ Carbon dioxide acts as an acid. An increase in CO2 increases hydrogen ion concen
 
 The most common way to interpret acid-base disturbances in a blood sample is to analyse bicarbonate as the main buffering mechanism. Bicarbonate values are regulated in the kidney and oppose acids. They act as bases and neutralise hydrogen ions:
 
-```text
-H+ + HCO3− ⇌ H2CO3
-```
+<FormulaCallout
+  expression="H+ + HCO3− ⇌ H2CO3"
+  label="Reaction"
+  title="Bicarbonate buffering reaction"
+/>
 
 Normal bicarbonate values are `22–26 mmol/L`. A decrease in bicarbonate occurs when it buffers excess hydrogen ions and reflects **metabolic acidosis**. An increase in bicarbonate causes excess buffering of hydrogen ions and reflects **metabolic alkalosis**.
 
@@ -60,9 +64,16 @@ Hydrogen ion and bicarbonate concentrations behave as dependent variables.
 
 Standard base excess is a calculated value defined by the SID change needed to bring the pH back to 7.4 with a steady-state CO2 value of `5.4 kPa (40 mmHg)` at normal body temperature.
 
-```text
-SID = ([Na+] + [K+] + [Ca2+] + [Mg2+]) − ([Cl−] + [lactate])
-```
+<FormulaCallout
+  expression="SID = ([Na+] + [K+] + [Ca2+] + [Mg2+]) − ([Cl−] + [lactate])"
+  label="Equation"
+  title="Strong ion difference"
+  variables={[
+    { symbol: "SID", definition: "Strong ion difference" },
+    { symbol: "Na+, K+, Ca2+, Mg2+", definition: "Strong cations included in the calculation" },
+    { symbol: "Cl−, lactate", definition: "Strong anions subtracted from the total cation concentration" },
+  ]}
+/>
 
 Metabolic acidosis is a product of decreased SID, which leads to chemical reactions that increase hydrogen ion concentration. SID is reduced when the body loses sodium bicarbonate, as in diarrhoea, or when there is an abundance of exogenous anions, as in intoxication. Metabolic alkalosis is a product of increased SID, which occurs when strong anion concentration falls or strong cation concentration rises, for example with vomiting or diuretic therapy.
 

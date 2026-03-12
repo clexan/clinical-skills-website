@@ -172,11 +172,17 @@ Record the volume of fluid already given. Excessive fluid resuscitation can wors
 
 Once the patient reaches hospital, ongoing fluid replacement during the first 24 hours is commonly estimated using the **Parkland formula**:
 
-```text
-2–4 mL × %TBSA burned × body weight (kg)
-```
+<FormulaCallout
+  expression="2-4 mL × %TBSA burned × body weight (kg)"
+  label="Formula"
+  title="Parkland formula"
+  variables={[
+    { symbol: "%TBSA", definition: "Percent total body surface area burned" },
+    { symbol: "kg", definition: "Body weight in kilograms" },
+  ]}
+/>
 
-The first half of the calculated volume is given in the **first 8 hours** after injury, and the second half over the **next 16 hours**.
+The total calculated volume is then split: half in the first 8 hours after injury, and the remainder over the next 16 hours.
 
 Inform the receiving hospital early, because severe burns require major resources and multidisciplinary care.
 

@@ -7,7 +7,6 @@ tags: [blood-fluids-electrolytes, intravenous-fluids, crystalloids, colloids]
 ---
 
 import KeyPoints from "@site/src/components/KeyPoints";
-import FigurePlaceholder from "@site/src/components/FigurePlaceholder";
 
 # Intravenous fluids
 
@@ -35,7 +34,7 @@ Total body water is located intracellularly and extracellularly. Extracellular f
 - transcellular fluid, including gastrointestinal fluid, bile, urine, vitreous body, joint fluid, and pleural, peritoneal, and pericardial fluid
 - fluid in bones and dense connective tissue, which is anatomically significant but does not form functional extracellular fluid because flow between this and other compartments is slow
 
-<FigurePlaceholder number="1" caption="Total body water distribution" />
+<DiagramBlock diagramId="chao6,1" />
 
 ## Basal metabolism
 
@@ -43,13 +42,16 @@ Urine, gastrointestinal fluid production, perspiration, and invisible losses fro
 
 The **4-2-1 formula** is used to calculate hourly basal metabolic needs. In some conditions, retrograde deficit should also be included, for example in a patient with prolonged fasting, and calculated extra losses should be added. Some losses are impossible to determine precisely, such as vomiting or diarrhoea. Clinical presentation and ABCDE assessment findings guide fluid optimisation, including but not limited to heart rate, blood pressure, capillary refill time, and urine output.
 
+<FormulaCallout
+  expression="4 mL/kg/h × first 10 kg + 2 mL/kg/h × next 10 kg + 1 mL/kg/h × each kg above 20 kg"
+  label="Calculation Rule"
+  note="Use this to estimate hourly basal metabolic fluid requirements when oral intake is not possible."
+  title="4-2-1 basal fluid rule"
+/>
+
 ### Basal metabolic requirements
 
-| Ideal body weight | Requirement |
-|---|---|
-| First 10 kg | 4 mL/kg/h |
-| Next 10 kg | Add 2 mL/kg/h |
-| Each kg above 20 kg | Add 1 mL/kg/h |
+<IvFluidBasalRequirementsTable />
 
 For a person weighing **70 kg**, the first 10 kg accounts for **40 mL/h**, the next 10 kg for **20 mL/h**, and the remaining 50 kg for **50 mL/h**, giving a total of **110 mL/h**.
 
@@ -59,14 +61,7 @@ IV fluids are broadly divided into **crystalloids** and **colloids**. The main d
 
 ### Classification of IV fluids
 
-| Type | Subtype | Example | Characteristics |
-|---|---|---|---|
-| Crystalloids | Unbalanced solutions | 0.9% NaCl (saline) | Isotonic; contains higher chloride concentration than plasma |
-| Crystalloids | Unbalanced solutions | Hypertonic saline (1.8%, 3%, 7.5%) | Used for correction of hypoosmolar hyponatraemia and elevated ICP |
-| Crystalloids | Balanced solutions | Ringer lactate | Hypotonic; contains buffer (lactate) |
-| Crystalloids | Balanced solutions | Plasma-Lyte 148 | Isotonic; contains buffers (acetate and gluconate) |
-| Colloids | Hydroxyethyl starch (HES) | HES 6% | Plasma volume expansion; numerous adverse effects |
-| Colloids | Plasma derivatives | Human albumin 20%, freshly frozen plasma | Plasma volume expansion in selected indications |
+<IvFluidClassificationTable />
 
 ## Crystalloids
 
@@ -82,20 +77,7 @@ Acetate is metabolised throughout the body, is not dependent on liver metabolism
 
 ### Characteristics of commonly used IV fluids compared with human plasma
 
-| Parameter | Plasma | 0.9% NaCl | Ringer lactate | Plasma-Lyte 148 |
-|---|---:|---:|---:|---:|
-| Sodium (mmol/L) | 136–145 | 154 | 130 | 140 |
-| Potassium (mmol/L) | 3.5–5.0 | — | 4 | 5 |
-| Magnesium (mmol/L) | 0.8–1.0 | — | — | 1.5 |
-| Calcium (mmol/L) | 2.2–2.6 | — | 3 | — |
-| Chloride (mmol/L) | 98–106 | 154 | 109 | 98 |
-| Acetate (mmol/L) | — | — | — | 27 |
-| Gluconate (mmol/L) | — | — | — | 23 |
-| Lactate (mmol/L) | — | — | 28 | — |
-| eSID (mEq/L) | 42 | 0 | 28 | 50 |
-| Osmolarity | 291 | 308 | 273 | 295 |
-| Osmolality | 287 | 286 | 256 | 271 |
-| pH | 7.35–7.45 | 4.5–7.0 | 5.0–7.0 | 4–8 |
+<IvFluidComparisonTable />
 
 ## Colloids
 

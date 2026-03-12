@@ -25,19 +25,23 @@ Oxygen is transported via haemoglobin (oxyhaemoglobin), and a smaller fraction i
 
 Oxygen delivery (DO2) is described by the following equation:
 
-```text
-DO2 = CO × ((1.39 × [Hb] × SaO2) + (PaO2 × 0.03))
-```
-
-Where:
-
-- `DO2` = oxygen delivery (mL/min)
-- `CO` = cardiac output (L/min)
-- `1.39 mL/g` = oxygen-binding capacity of haemoglobin
-- `[Hb]` = haemoglobin concentration (g/L)
-- `SaO2` = blood oxygen saturation of haemoglobin, expressed as a fraction (e.g., 0.97 instead of 97%)
-- `PaO2` = oxygen partial pressure in arterial blood (mmHg)
-- `0.03` = amount of dissolved oxygen in the blood (mL/L/mmHg) at 37 °C
+<FormulaCallout
+  expression="DO2 = CO × ((1.39 × [Hb] × SaO2) + (PaO2 × 0.03))"
+  label="Equation"
+  title="Oxygen delivery"
+  variables={[
+    { symbol: "DO2", definition: "Oxygen delivery (mL/min)" },
+    { symbol: "CO", definition: "Cardiac output (L/min)" },
+    { symbol: "[Hb]", definition: "Haemoglobin concentration (g/L)" },
+    {
+      symbol: "SaO2",
+      definition: "Blood oxygen saturation of haemoglobin, expressed as a fraction (for example 0.97 instead of 97%)",
+    },
+    { symbol: "PaO2", definition: "Oxygen partial pressure in arterial blood (mmHg)" },
+    { symbol: "1.39", definition: "Oxygen-binding capacity of haemoglobin (mL/g)" },
+    { symbol: "0.03", definition: "Amount of dissolved oxygen in blood at 37 C (mL/L/mmHg)" },
+  ]}
+/>
 
 Under normal circumstances, oxygen delivery is abundant compared to oxygen consumption. When something pathological occurs, there is an imbalance between oxygen delivery and oxygen consumption. This is not exclusive to breathing difficulties. When a patient bleeds, the haemoglobin content decreases, which also alters the oxygen delivery capacity.
 
@@ -59,9 +63,11 @@ The curve shifts left or right depending on certain conditions. A leftward shift
 
 Unlike oxygen transport, in which most oxygen is bound to haemoglobin and only a small fraction is dissolved in the blood, carbon dioxide transport is different. About 10% is dissolved in the blood, 10–20% is conjugated as carbamates on deoxyhaemoglobin, and the majority, about 70–90%, is transported as bicarbonate after the following reaction occurs in the erythrocyte:
 
-```text
-CO2 + H2O ⇌ H2CO3 ⇌ HCO3− + H+
-```
+<FormulaCallout
+  expression="CO2 + H2O ⇌ H2CO3 ⇌ HCO3− + H+"
+  label="Reaction"
+  title="Carbon dioxide transport reaction"
+/>
 
 Deoxyhaemoglobin has approximately 3.5 times greater affinity for CO2. This is clinically important in chronic obstructive pulmonary disease (COPD), where patients may have difficulty exhaling effectively, which increases total body CO2 content. Usually, this CO2 binds to deoxyhaemoglobin. When such a patient receives oxygen therapy, this can lead to a further increase in PaCO2 levels, which can be fatal.
 
