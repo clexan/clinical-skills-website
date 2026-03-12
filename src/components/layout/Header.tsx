@@ -37,6 +37,7 @@ export function Header({ menuOpen, onMenuOpen, onSearchOpen }: HeaderProps) {
           <button
             aria-label="Open search"
             className={styles.searchButton}
+            data-search-trigger="header"
             onClick={onSearchOpen}
             type="button"
           >

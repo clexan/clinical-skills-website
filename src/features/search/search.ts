@@ -27,6 +27,25 @@ const SECTION_CHAPTER_TITLE_MATCH_SCORE = 18;
 const EXCERPT_LENGTH = 160;
 const MAX_EXCERPT_PREFIX = 60;
 const MAX_RESULTS = 20;
+const ALIAS_QUERY_WEIGHT = 0.62;
+
+const QUERY_ALIASES: Record<string, string[]> = {
+  abg: ["arterial blood gas"],
+  acs: ["acute coronary syndrome"],
+  als: ["advanced life support"],
+  copd: ["chronic obstructive pulmonary disease"],
+  io: ["intraosseous"],
+  iv: ["intravenous"],
+  pea: ["pulseless electrical activity"],
+  pvt: ["pulseless ventricular tachycardia"],
+  vf: ["ventricular fibrillation"],
+  vt: ["ventricular tachycardia"],
+};
+
+interface QueryVariant {
+  term: string;
+  weight: number;
+}
 
 function normalizeQuery(query: string) {
   return query.trim().replace(/\s+/g, " ").toLowerCase();
@@ -75,6 +94,33 @@ function buildExcerpt(source: string, matchIndex: number) {
   return `${prefix}${excerpt}${suffix}`;
 }
 
+function getQueryVariants(query: string) {
+  const normalizedQuery = normalizeQuery(query);
+
+  if (!normalizedQuery) {
+    return [] as QueryVariant[];
+  }
+
+  const variants: QueryVariant[] = [{ term: normalizedQuery, weight: 1 }];
+  const seenTerms = new Set([normalizedQuery]);
+
+  for (const alias of QUERY_ALIASES[normalizedQuery] ?? []) {
+    const normalizedAlias = normalizeQuery(alias);
+
+    if (!normalizedAlias || seenTerms.has(normalizedAlias)) {
+      continue;
+    }
+
+    seenTerms.add(normalizedAlias);
+    variants.push({
+      term: normalizedAlias,
+      weight: ALIAS_QUERY_WEIGHT,
+    });
+  }
+
+  return variants;
+}
+
 let searchDocuments: IndexedSearchDocument[] = [];
 
 export async function prepareHandbookSearch() {
@@ -103,7 +149,7 @@ function getDocumentScore(document: IndexedSearchDocument, query: string) {
   }
 
   if (document.kind === "section") {
-    const normalizedHeading = document.headingText?.toLowerCase() ?? "";
+    const normalizedHeading = document.normalizedHeadingText;
 
     if (normalizedHeading.includes(query)) {
       score += SECTION_HEADING_MATCH_SCORE;
@@ -127,21 +173,38 @@ function getDocumentScore(document: IndexedSearchDocument, query: string) {
 }
 
 export function searchHandbook(query: string): SearchResult[] {
-  const normalizedQuery = normalizeQuery(query);
+  const queryVariants = getQueryVariants(query);
 
-  if (!normalizedQuery) {
+  if (!queryVariants.length) {
     return [];
   }
 
   const rankedResults = searchDocuments
     .map((document) => {
-      const score = getDocumentScore(document, normalizedQuery);
+      let score = 0;
+      let bestMatchedTerm = queryVariants[0]?.term ?? "";
+      let bestWeightedScore = 0;
+
+      for (const variant of queryVariants) {
+        const weightedScore = getDocumentScore(document, variant.term) * variant.weight;
+
+        if (weightedScore <= 0) {
+          continue;
+        }
+
+        score += weightedScore;
+
+        if (weightedScore > bestWeightedScore) {
+          bestWeightedScore = weightedScore;
+          bestMatchedTerm = variant.term;
+        }
+      }
 
       if (score === 0) {
         return null;
       }
 
-      const matchIndex = document.bodyText.indexOf(normalizedQuery);
+      const matchIndex = document.bodyText.indexOf(bestMatchedTerm);
       const excerpt =
         matchIndex >= 0
           ? buildExcerpt(document.excerptSource, matchIndex)

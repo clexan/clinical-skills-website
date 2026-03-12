@@ -20,6 +20,7 @@ export interface IndexedSearchDocument extends SearchDocument {
   excerptSource: string;
   normalizedChapterTitle: string;
   normalizedChapterDescription: string;
+  normalizedHeadingText: string;
   normalizedPartTitle: string;
   order: number;
   targetUrl: string;
@@ -221,6 +222,7 @@ async function buildSearchIndex() {
       kind: "chapter",
       normalizedChapterTitle: normalizeSearchText(chapter.title),
       normalizedChapterDescription: normalizeSearchText(chapter.description),
+      normalizedHeadingText: "",
       normalizedPartTitle: normalizeSearchText(partTitle),
       order,
       targetUrl: `/chapter/${chapter.slug}`,
@@ -244,6 +246,7 @@ async function buildSearchIndex() {
         kind: "section",
         normalizedChapterTitle: normalizeSearchText(chapter.title),
         normalizedChapterDescription: normalizeSearchText(chapter.description),
+        normalizedHeadingText: normalizeSearchText(section.headingText),
         normalizedPartTitle: normalizeSearchText(partTitle),
         order,
         targetUrl: `/chapter/${chapter.slug}#${section.headingId}`,

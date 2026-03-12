@@ -14,6 +14,7 @@
   width: 100%;
   max-width: 640px;
   max-height: 70vh;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -24,6 +25,7 @@
 }
 
 .inputArea {
+  min-width: 0;
   padding: var(--space-3) var(--space-4);
   border-bottom: 1px solid var(--border-soft);
 }
@@ -51,10 +53,13 @@
 
 .results {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
   overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
   padding: var(--space-2);
 }
 
@@ -67,6 +72,7 @@
 .resultLink {
   display: grid;
   gap: var(--space-2);
+  min-width: 0;
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-md);
   color: inherit;
@@ -87,18 +93,47 @@
 .resultMeta {
   display: grid;
   gap: var(--space-1);
+  min-width: 0;
 }
 
 .partTitle,
-.sectionLabel,
+.sectionHeading,
 .excerpt {
   margin: 0;
 }
 
-.partTitle,
-.sectionLabel {
+.partTitle {
   color: var(--text-muted);
   font-size: 0.85rem;
+}
+
+.sectionMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  min-width: 0;
+}
+
+.sectionBadge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.5rem;
+  padding: 0 var(--space-2);
+  background: var(--bg-hover);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.sectionHeading {
+  color: var(--text-strong);
+  font-size: 0.9rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
 }
 
 .resultTitle {
@@ -106,10 +141,12 @@
   flex-wrap: wrap;
   gap: var(--space-2);
   align-items: baseline;
+  min-width: 0;
   margin: 0;
   color: var(--text-strong);
   font-size: 1rem;
   line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
 .resultNumber {

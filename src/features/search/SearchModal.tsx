@@ -9,6 +9,7 @@ import styles from "./SearchModal.module.css";
 
 let searchModulePromise: Promise<typeof import("./search")> | null = null;
 let searchPreparationPromise: Promise<typeof import("./search")> | null = null;
+const SEARCH_TRIGGER_SELECTOR = '[data-search-trigger="header"]';
 
 function loadSearchModule() {
   searchModulePromise ??= import("./search");
@@ -38,6 +39,24 @@ function getFocusableElements(container: HTMLElement | null) {
   );
 }
 
+function getFallbackTriggerElement() {
+  return document.querySelector<HTMLElement>(SEARCH_TRIGGER_SELECTOR);
+}
+
+function getMeaningfulActiveElement() {
+  const activeElement = document.activeElement;
+
+  if (!(activeElement instanceof HTMLElement)) {
+    return null;
+  }
+
+  if (activeElement === document.body || activeElement === document.documentElement) {
+    return null;
+  }
+
+  return activeElement;
+}
+
 export function SearchModal() {
   const { isOpen, closeSearch } = useSearchModal();
   const [query, setQuery] = useState("");
@@ -59,9 +78,15 @@ export function SearchModal() {
       return;
     }
 
-    previousFocusRef.current =
-      document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    inputRef.current?.focus();
+    previousFocusRef.current = getMeaningfulActiveElement() ?? getFallbackTriggerElement();
+
+    const frame = window.requestAnimationFrame(() => {
+      inputRef.current?.focus();
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+    };
   }, [isOpen]);
 
   useEffect(() => {
@@ -106,7 +131,12 @@ export function SearchModal() {
 
       if (shouldRestoreFocusRef.current) {
         window.requestAnimationFrame(() => {
-          previousFocusRef.current?.focus();
+          const restoreTarget =
+            previousFocusRef.current && previousFocusRef.current.isConnected
+              ? previousFocusRef.current
+              : getFallbackTriggerElement();
+
+          restoreTarget?.focus();
         });
       }
     };
@@ -118,16 +148,67 @@ export function SearchModal() {
     }
 
     const handleKeyDown = (event: KeyboardEvent) => {
+      const panel = panelRef.current;
+
+      if (!panel) {
+        return;
+      }
+
       if (event.key === "Escape") {
         event.preventDefault();
         closeSearch();
+        return;
+      }
+
+      if (event.key !== "Tab") {
+        return;
+      }
+
+      const focusableElements = getFocusableElements(panel);
+
+      if (!focusableElements.length) {
+        event.preventDefault();
+        panel.focus();
+        return;
+      }
+
+      const firstFocusable = focusableElements[0];
+      const lastFocusable = focusableElements[focusableElements.length - 1];
+      const activeElement = document.activeElement;
+
+      if (!(activeElement instanceof HTMLElement) || !panel.contains(activeElement)) {
+        event.preventDefault();
+        (event.shiftKey ? lastFocusable : firstFocusable).focus();
+        return;
+      }
+
+      if (event.shiftKey && activeElement === firstFocusable) {
+        event.preventDefault();
+        lastFocusable.focus();
+      } else if (!event.shiftKey && activeElement === lastFocusable) {
+        event.preventDefault();
+        firstFocusable.focus();
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    const handleFocusIn = (event: FocusEvent) => {
+      const panel = panelRef.current;
+
+      if (!panel || !(event.target instanceof Node) || panel.contains(event.target)) {
+        return;
+      }
+
+      const [firstFocusable] = getFocusableElements(panel);
+
+      (firstFocusable ?? panel).focus();
+    };
+
+    document.addEventListener("keydown", handleKeyDown, true);
+    document.addEventListener("focusin", handleFocusIn);
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown, true);
+      document.removeEventListener("focusin", handleFocusIn);
     };
   }, [closeSearch, isOpen]);
 
@@ -195,33 +276,6 @@ export function SearchModal() {
       }
     };
 
-  const handlePanelKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
-    if (event.key !== "Tab") {
-      return;
-    }
-
-    const focusableElements = getFocusableElements(panelRef.current);
-
-    if (!focusableElements.length) {
-      event.preventDefault();
-      return;
-    }
-
-    const firstFocusable = focusableElements[0];
-    const lastFocusable = focusableElements[focusableElements.length - 1];
-    const activeElement = document.activeElement;
-
-    if (event.shiftKey && activeElement === firstFocusable) {
-      event.preventDefault();
-      lastFocusable.focus();
-    }
-
-    if (!event.shiftKey && activeElement === lastFocusable) {
-      event.preventDefault();
-      firstFocusable.focus();
-    }
-  };
-
   const handleResultSelect = () => {
     shouldRestoreFocusRef.current = false;
     closeSearch();
@@ -234,17 +288,17 @@ export function SearchModal() {
   return (
     <div className={styles.backdrop} onClick={() => closeSearch()}>
       <div
-        aria-label="Search the handbook"
+        aria-label="Search handbook"
         aria-modal="true"
         className={styles.panel}
         onClick={(event) => event.stopPropagation()}
-        onKeyDown={handlePanelKeyDown}
         ref={panelRef}
         role="dialog"
+        tabIndex={-1}
       >
         <div className={styles.inputArea}>
           <input
-            aria-label="Search the handbook"
+            aria-label="Search handbook"
             className={styles.input}
             onChange={(event) => setQuery(event.target.value)}
             onKeyDown={handleInputKeyDown}
@@ -286,7 +340,10 @@ export function SearchModal() {
                     <div className={styles.resultMeta}>
                       <p className={styles.partTitle}>{result.partTitle}</p>
                       {result.kind === "section" && result.headingText ? (
-                        <p className={styles.sectionLabel}>Section · {result.headingText}</p>
+                        <div className={styles.sectionMeta}>
+                          <span className={styles.sectionBadge}>Section</span>
+                          <p className={styles.sectionHeading}>{result.headingText}</p>
+                        </div>
                       ) : null}
                     </div>
 
