@@ -7,6 +7,20 @@ tags: [ecg, electrocardiography, stemi, arrhythmia, cardiac-emergencies]
 ---
 
 import FigurePlaceholder from "@site/src/components/FigurePlaceholder";
+import figure1CardiacCycleSrc from "@/assets/figures/1-2-fig-1-normal-cardiac-cycle-ecg.png";
+import figure2PrecordialLeadsSrc from "@/assets/figures/1-2-fig-2-precordial-and-posterior-leads.png";
+import atrialFibrillationExampleSrc from "@/assets/figures/1-2-rhythm-af.png";
+import atrialUndulationExampleSrc from "@/assets/figures/1-2-rhythm-atrial-undulation.png";
+import thirdDegreeAvBlockExampleSrc from "@/assets/figures/1-2-rhythm-third-degree-av-block.png";
+import figure4SinusRhythmSrc from "@/assets/figures/1-2-fig-4-normal-ecg-sinus-rhythm.png";
+import figure5CkdExampleSrc from "@/assets/figures/1-2-fig-5-hyperkalaemia-ecg.png";
+import figure6NstemiSrc from "@/assets/figures/1-2-fig-6-nstemi-ecg.png";
+import figure7HeartLeadsSrc from "@/assets/figures/1-2-fig-7-heart-and-leads.png";
+import figure8AnteroseptolateralStemiSrc from "@/assets/figures/1-2-fig-8-anteroseptolateral-stemi.png";
+import figure9InferoposteriorStemiSrc from "@/assets/figures/1-2-fig-9-inferoposterior-stemi-examples.png";
+import figure10TripleVesselCadSrc from "@/assets/figures/1-2-fig-10-triple-vessel-coronary-disease.png";
+import tachycardiaExampleSrc from "@/assets/figures/1-2-rhythm-vt.png";
+import ventricularFibrillationExampleSrc from "@/assets/figures/1-2-rhythm-vf.png";
 
 # 1.2 Essentials for ECG interpretation in medical emergencies
 
@@ -27,7 +41,11 @@ In order to better understand the ECG recording, it is necessary to note that ea
 
 “Translation” of the mentioned process into one cardiac cycle on the ECG (Figure 1): atrial depolarisation is represented by the P wave, conduction through the atria and the AV node is represented by the PR interval (from the beginning of the P wave to the beginning of the QRS complex; normally 0.12–0.20 s), where deceleration through the AV node is the PR segment (from the end of P to the beginning of the QRS), ventricular depolarisation is represented by the QRS complex (normally up to 0.12 s), while ventricular repolarisation is represented by the T wave.
 
-<FigurePlaceholder number="1" caption="Normal cardiac cycle on ECG (courtesy of Josip Eljuga, MD)" />
+<FigurePlaceholder
+  number="1"
+  caption="Normal cardiac cycle on ECG (courtesy of Josip Eljuga, MD)"
+  src={figure1CardiacCycleSrc}
+/>
 
 ## 1.2.2 ECG monitoring
 
@@ -54,16 +72,59 @@ The most precise answer is obtained by analysing a longer printout. Conduction b
 ### Rhythm analysis (examples)
 
 1. **Ventricular fibrillation (VF):** VF is incompatible with life, and the patient has no pulse. Since it is a “shockable” resuscitation rhythm, the priority in CPR is defibrillation as early as possible.
+
+   <img
+     alt="ECG example of ventricular fibrillation."
+     className="inline-rhythm-image"
+     loading="lazy"
+     src={ventricularFibrillationExampleSrc}
+   />
+
 2. **Atrial fibrillation (AF) with an average ventricular rate of around 130/min:** P waves are not visible, and absolute ventricular arrhythmia is present. If we see this recording on the monitor and the patient has no pulse, this rhythm is called PEA, and it is necessary to start CPR without delay. PEA can look like any other rhythm (except for the remaining “resuscitation rhythms”, which can be asystole, ventricular fibrillation, and pulseless ventricular tachycardia).
+
+   <img
+     alt="ECG example of atrial fibrillation."
+     className="inline-rhythm-image"
+     loading="lazy"
+     src={atrialFibrillationExampleSrc}
+   />
+
 3. **Broad-complex tachycardia — in this case, ventricular tachycardia (VT) with a rate of about 150/min:** VT is a rhythm compatible with life, and the patient’s pulse should be palpated. If there is no pulse, it is pulseless VT, so CPR with defibrillation as early as possible is a priority. In case the patient has a pulse, we follow the tachycardia algorithm.
+
+   <img
+     alt="ECG example of ventricular tachycardia."
+     className="inline-rhythm-image"
+     loading="lazy"
+     src={tachycardiaExampleSrc}
+   />
+
 4. **Atrial undulation with a ventricular rate of about 80/min.**
+
+   <img
+     alt="ECG example of atrial undulation."
+     className="inline-rhythm-image"
+     loading="lazy"
+     src={atrialUndulationExampleSrc}
+   />
+
 5. **Third-degree AV block with a ventricular rate of 32/min:** The ventricles have “their own rhythm”, which is slower and independent of the atria. There is no QRS after each P wave, no P wave before each QRS, and the PR interval, if present, is variable.
+
+   <img
+     alt="ECG example of third-degree AV block."
+     className="inline-rhythm-image"
+     loading="lazy"
+     src={thirdDegreeAvBlockExampleSrc}
+   />
 
 ## 1.2.3 Interpretation of 12-lead ECG
 
 A more detailed analysis of the heart’s electrical activity is not possible without a 12-lead ECG, and there are numerous causes of changes in the ECG (ischaemia, pericarditis, arrhythmias, pulmonary embolism, electrolyte disorders, drugs, implanted pacemaker, etc.). A standard 12-lead ECG is usually recorded by placing 10 electrodes, which results in a recording of six peripheral (I, II, III, aVR, aVL, aVF) and six precordial leads (V1–V6). Peripheral leads are projected in the vertical plane and the precordial leads are projected in the horizontal plane, which enables a three-dimensional analysis (see Figure 7). In addition to the standard ones, recording can be supplemented by placing additional leads (Figure 2), for example, posterior leads (to confirm posterior myocardial infarction) or right leads (to confirm right ventricular infarction).
 
-<FigurePlaceholder number="2" caption="A) Standard precordial leads (the right leads, V3R–V6R, would be recorded by switching electrodes V3–V6 to the right side of the chest at the same level) B) Posterior leads — recorded from the posterior of the chest at the same level as V6 (V7 in the left posterior axillary line, V8 on top of the left scapula, V9 to the left paravertebrally) (courtesy of Josip Eljuga, MD)" />
+<FigurePlaceholder
+  number="2"
+  caption="A) Standard precordial leads (the right leads, V3R–V6R, would be recorded by switching electrodes V3–V6 to the right side of the chest at the same level) B) Posterior leads — recorded from the posterior of the chest at the same level as V6 (V7 in the left posterior axillary line, V8 on top of the left scapula, V9 to the left paravertebrally) (courtesy of Josip Eljuga, MD)"
+  src={figure2PrecordialLeadsSrc}
+/>
 
 The basic analysis consists of four parts:
 
@@ -72,11 +133,23 @@ The basic analysis consists of four parts:
 3. **Electrical axis** — represents the direction of depolarisation of the ventricles and is normally between −30° and +90°. Axis deviation can indicate pathology (left axis deviation is from −30° to −90°, right axis deviation is from +90° to +180°, and extreme axis deviation is from +180° to +270°). The simplest method is to determine the axis by quadrants. We observe the QRS complexes in leads I and aVF and determine whether they are predominantly positive or negative. A positive QRS in lead I means that the electrical axis is going to the left, and a negative QRS means that the axis is going to the right. Likewise, a positive QRS in aVF means that the axis is going down, and a negative QRS means that the axis is going up. By combining these values in the coordinate system, we determine the electrical axis of the heart. In the case of a positive QRS in lead I and a negative QRS in lead aVF, to confirm whether it is a left axis deviation or a physiological axis, look at lead II — a negative QRS in the same lead indicates axis deviation.
 4. **Analysis of the ST segment and T wave** — normally, the ST segment is in the isoelectric line (the J point — the beginning of the ST segment is compared with the TP interval, which represents the isoelectric line) (Figure 1), and the T waves are positive (except in aVR and V1). Changes that suggest myocardial ischaemia are inverted (negative) T waves (Figure 6) and ST-segment depression. ST-segment elevation can be a sign of acute myocardial infarction and some other conditions (pericarditis, vasospastic angina, benign early repolarisation, left bundle branch block, etc.). It is necessary to look at all 12 leads and analyse these segments, and it is also useful to monitor the dynamics of these changes over time by periodically repeating the ECG recording.
 
-<FigurePlaceholder number="4" caption="Normal ECG: sinus rhythm, rate 60/min, normal electrical axis, without ischaemic changes." />
+<FigurePlaceholder
+  number="4"
+  caption="Normal ECG: sinus rhythm, rate 60/min, normal electrical axis, without ischaemic changes."
+  src={figure4SinusRhythmSrc}
+/>
 
-<FigurePlaceholder number="5" caption="Rhythm disorder in a chronic kidney disease patient with potassium levels over 8 mmol/L. The ECG shows absent P waves (‘atrial standstill’) with an additional broad QRS complex rhythm with a rate of 30/min. Hyperkalaemia can also cause other arrhythmias (asystole, VF, VT, AV blocks, bundle branch blocks, etc.)." />
+<FigurePlaceholder
+  number="5"
+  caption="Rhythm disorder in a chronic kidney disease patient with potassium levels over 8 mmol/L. The ECG shows absent P waves (‘atrial standstill’) with an additional broad QRS complex rhythm with a rate of 30/min. Hyperkalaemia can also cause other arrhythmias (asystole, VF, VT, AV blocks, bundle branch blocks, etc.)."
+  src={figure5CkdExampleSrc}
+/>
 
-<FigurePlaceholder number="6" caption="ECG performed in a patient with chest pain. The ECG shows sinus rhythm, rate 60/min, normal electrical axis, negative T waves in leads I, aVL, V2–V6. Further assessment verified non-ST-segment-elevation myocardial infarction (NSTEMI); percutaneous coronary intervention (PCI) was performed with placement of stents in the anterior descending and circumflex branches of the left coronary artery (LAD and LCx)." />
+<FigurePlaceholder
+  number="6"
+  caption="ECG performed in a patient with chest pain. The ECG shows sinus rhythm, rate 60/min, normal electrical axis, negative T waves in leads I, aVL, V2–V6. Further assessment verified non-ST-segment-elevation myocardial infarction (NSTEMI); percutaneous coronary intervention (PCI) was performed with placement of stents in the anterior descending and circumflex branches of the left coronary artery (LAD and LCx)."
+  src={figure6NstemiSrc}
+/>
 
 ## 1.2.4 ST-segment-elevation myocardial infarction (STEMI) on ECG
 
@@ -93,13 +166,29 @@ Figure 7 represents the largest coronary arteries: the left anterior descending 
 - **Inferior STEMI (RCA occlusion):** ST elevation in II, III, aVF, reciprocal ST elevation in lateral leads (right leads V3R–V6R should also be recorded to confirm/exclude right ventricular infarction).
 - **Combinations of the previously mentioned** are also possible, e.g., anteroseptolateral STEMI (also called “extensive anterior infarction”, ST elevation in V1–V6, I + aVL) and inferoposterior STEMI (ST elevation in II, III, aVF, and V7–V9, reciprocal ST depression in V1–V3).
 
-<FigurePlaceholder number="7" caption="Simplified representation of the heart and leads (courtesy of Josip Eljuga, MD)" />
+<FigurePlaceholder
+  number="7"
+  caption="Simplified representation of the heart and leads (courtesy of Josip Eljuga, MD)"
+  src={figure7HeartLeadsSrc}
+/>
 
-<FigurePlaceholder number="8" caption="Anteroseptolateral STEMI — ST elevations in I, aVL, V1–V6. The patient underwent primary PCI with stent placement in the anterior descending branch of the left coronary artery (LAD)." />
+<FigurePlaceholder
+  number="8"
+  caption="Anteroseptolateral STEMI — ST elevations in I, aVL, V1–V6. The patient underwent primary PCI with stent placement in the anterior descending branch of the left coronary artery (LAD)."
+  src={figure8AnteroseptolateralStemiSrc}
+/>
 
-<FigurePlaceholder number="9" caption="a) Inferoposterior STEMI of the right ventricle (the result of right coronary artery occlusion), b) Due to ST elevation in the inferior leads (II, III, aVF), the right leads were recorded, which confirmed right ventricular infarction, c) ST depression in V1–V3 suggests a reciprocal change, so the recording of the posterior leads confirmed the infarction of the posterior wall; noticeable reciprocal ST depressions in I, aVL, and aVR and ST elevation in V6." />
+<FigurePlaceholder
+  number="9"
+  caption="a) Inferoposterior STEMI of the right ventricle (the result of right coronary artery occlusion), b) Due to ST elevation in the inferior leads (II, III, aVF), the right leads were recorded, which confirmed right ventricular infarction, c) ST depression in V1–V3 suggests a reciprocal change, so the recording of the posterior leads confirmed the infarction of the posterior wall; noticeable reciprocal ST depressions in I, aVL, and aVR and ST elevation in V6."
+  src={figure9InferoposteriorStemiSrc}
+/>
 
-<FigurePlaceholder number="10" caption="Triple vessel coronary artery disease. Diffuse ST depression with ST elevation in aVR and V1. The rhythm shows atrial fibrillation." />
+<FigurePlaceholder
+  number="10"
+  caption="Triple vessel coronary artery disease. Diffuse ST depression with ST elevation in aVR and V1. The rhythm shows atrial fibrillation."
+  src={figure10TripleVesselCadSrc}
+/>
 
 ## Sources
 

@@ -30,7 +30,7 @@ export const chapterIndex = [
     title: "Essentials for ECG interpretation in medical emergencies",
     description: "Basic electrocardiography, ECG monitoring, 12-lead ECG interpretation, and STEMI localisation in medical emergencies.",
     kind: "chapter",
-    status: "missing-figures",
+    status: "ocr-cleaned",
     sourcePath: "/src/docs/part-1/1-2-ecg-interpretation.mdx",
   },
   {
@@ -78,7 +78,7 @@ export const chapterIndex = [
     title: "Initial assessment and management of a patient with acute coronary syndrome",
     description: "Recognition, diagnosis, and initial treatment of acute coronary syndrome.",
     kind: "chapter",
-    status: "missing-figures",
+    status: "ocr-cleaned",
     sourcePath: "/src/docs/part-2/2-1-acs.mdx",
   },
   {
@@ -114,7 +114,7 @@ export const chapterIndex = [
     title: "Acute respiratory failure",
     description: "Physiology, oxygen and carbon dioxide transport, oxygen dissociation curve, and clinical types of acute respiratory failure.",
     kind: "chapter",
-    status: "missing-figures",
+    status: "ocr-cleaned",
     sourcePath: "/src/docs/part-3/3-1-resp-failure.mdx",
   },
   {

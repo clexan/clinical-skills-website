@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { HandbookLayout } from "@/app/layouts/HandbookLayout";
+import { FigureBlock } from "@/components/handbook/FigureBlock";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { Badge } from "@/components/ui/Badge";
 import {
@@ -11,6 +12,7 @@ import {
   getChapterLoader,
 } from "@/content/chapter-index";
 import { getPartById } from "@/content/parts";
+import type { MDXContentProps } from "@/types/content";
 import { getEditorialStatusColor, getEditorialStatusLabel } from "@/types/editorial";
 import "@/styles/prose.css";
 
@@ -29,7 +31,7 @@ function slugifyHeading(text: string) {
 export function ChapterPage() {
   const { chapterSlug = "" } = useParams();
   const chapter = getChapterBySlug(chapterSlug);
-  const [Content, setContent] = useState<ComponentType | null>(null);
+  const [Content, setContent] = useState<ComponentType<MDXContentProps> | null>(null);
   const [keyPoints, setKeyPoints] = useState<string[] | null>(null);
   const [headings, setHeadings] = useState<Array<{ id: string; text: string }>>([]);
   const [error, setError] = useState<string | null>(null);
@@ -225,7 +227,7 @@ export function ChapterPage() {
           ) : null}
 
           <div className={`${styles.proseBody} prose`} ref={proseRef}>
-            <Content />
+            <Content components={{ FigureBlock }} />
           </div>
         </>
       ) : null}

@@ -1,13 +1,20 @@
-.figure {
+.figureShell {
   display: flex;
   align-items: center;
   justify-content: center;
   aspect-ratio: 16 / 9;
   margin: var(--space-5) 0;
   padding: var(--space-4);
-  border: 1px dashed var(--border-strong);
   border-radius: var(--radius-sm);
   background: var(--bg-subtle);
+}
+
+.pending {
+  border: 1px dashed var(--border-strong);
+}
+
+.unavailable {
+  border: 1px solid var(--border-soft);
 }
 
 .content {
@@ -29,8 +36,39 @@
   font-size: 0.75rem;
 }
 
-.caption {
+.unavailableCaption {
   max-width: 36ch;
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+}
+
+.figure {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-block: var(--space-5);
+  max-width: 100%;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+}
+
+.caption {
+  color: var(--text-muted);
+  font-size: 0.825rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.source {
+  display: block;
+  margin-top: var(--space-1);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-style: italic;
 }

@@ -14,6 +14,10 @@ export type PartId =
 export type ChapterKind = "chapter" | "review";
 export type ChapterSourcePath = `/src/docs/${string}.mdx`;
 
+export interface MDXContentProps {
+  components?: Record<string, ComponentType<any>>;
+}
+
 export interface PartRecord {
   id: PartId;
   slug: string;
@@ -36,7 +40,7 @@ export interface ChapterRecord {
 }
 
 export interface ChapterModule {
-  default: ComponentType;
+  default: ComponentType<MDXContentProps>;
   keyPoints?: string[];
 }
 

@@ -82,3 +82,11 @@
   padding: 0.1em 0.3em;
   border-radius: 4px;
 }
+
+.prose .inline-rhythm-image {
+  width: min(100%, 32rem);
+  margin-top: var(--space-3);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+}
