@@ -1,6 +1,6 @@
 import type { ComponentType } from "react";
 import { useEffect, useRef, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 import { HandbookLayout } from "@/app/layouts/HandbookLayout";
 import { AsthmaSeverityTable } from "@/components/handbook/AsthmaSeverityTable";
