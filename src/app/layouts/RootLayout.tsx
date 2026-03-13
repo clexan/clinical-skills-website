@@ -6,6 +6,7 @@ import { MobileMenu } from "@/components/layout/MobileMenu";
 import { chapterIndex } from "@/content/chapter-index";
 import { getPartById } from "@/content/parts";
 import { SearchModal } from "@/features/search/SearchModal";
+import { preloadSearchExperience } from "@/features/search/search-loader";
 import { SearchModalProvider, useSearchModal, useSearchShortcut } from "@/features/search/SearchModalContext";
 
 import styles from "./RootLayout.module.css";
@@ -16,6 +17,25 @@ export function RootLayout() {
       <RootLayoutShell />
     </SearchModalProvider>
   );
+}
+
+function canWarmSearchInBackground() {
+  if (typeof navigator === "undefined") {
+    return false;
+  }
+
+  const connection = (navigator as Navigator & {
+    connection?: {
+      effectiveType?: string;
+      saveData?: boolean;
+    };
+  }).connection;
+
+  if (connection?.saveData) {
+    return false;
+  }
+
+  return connection?.effectiveType !== "2g" && connection?.effectiveType !== "slow-2g";
 }
 
 function RootLayoutShell() {
@@ -38,6 +58,20 @@ function RootLayoutShell() {
   useEffect(() => {
     setMenuOpen(false);
   }, [location.pathname]);
+
+  useEffect(() => {
+    if (!canWarmSearchInBackground()) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      void preloadSearchExperience();
+    }, 900);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, []);
 
   useEffect(() => {
     const shell = shellRef.current;
@@ -63,7 +97,14 @@ function RootLayoutShell() {
   return (
     <>
       <div className={styles.shell} ref={shellRef}>
-        <Header menuOpen={menuOpen} onMenuOpen={() => setMenuOpen(true)} onSearchOpen={openSearch} />
+        <Header
+          menuOpen={menuOpen}
+          onMenuOpen={() => setMenuOpen(true)}
+          onSearchOpen={openSearch}
+          onSearchWarmup={() => {
+            void preloadSearchExperience();
+          }}
+        />
 
         <main className={styles.main}>
           <div className="container">

@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 
+import { StatusPage } from "@/components/layout/StatusPage";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { Badge } from "@/components/ui/Badge";
 import { getChaptersForPart } from "@/content/chapter-index";
@@ -15,12 +16,11 @@ export function PartPage() {
 
   if (!part) {
     return (
-      <section className="page-shell">
-        <div className="page-shell__header">
-          <p className="page-shell__eyebrow">Part unavailable</p>
-          <h1>This section could not be found</h1>
-        </div>
-      </section>
+      <StatusPage
+        description="The requested part could not be found in this edition of the handbook."
+        eyebrow="Part unavailable"
+        title="This section could not be found"
+      />
     );
   }
 

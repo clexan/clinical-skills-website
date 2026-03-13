@@ -108,8 +108,8 @@ export function CreditsSection({
           <Shield size={20} />
         </div>
         <p className={styles.footerCopy}>
-          This digital application reproduces the contents of the official Clinical Skills Handbook
-          for internal academic use by medical students and staff at the University of Rijeka.
+          This digital edition presents the official Clinical Skills Handbook for teaching, study,
+          and clinical simulation use at the University of Rijeka Faculty of Medicine.
         </p>
         <p className={styles.footerLegal}>
           &copy; {new Date().getFullYear()} Faculty of Medicine, University of Rijeka. All rights reserved.

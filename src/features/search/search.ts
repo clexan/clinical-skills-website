@@ -122,9 +122,14 @@ function getQueryVariants(query: string) {
 }
 
 let searchDocuments: IndexedSearchDocument[] = [];
+let searchPreparationPromise: Promise<void> | null = null;
 
-export async function prepareHandbookSearch() {
-  searchDocuments = await loadSearchDocuments();
+export function prepareHandbookSearch() {
+  searchPreparationPromise ??= loadSearchDocuments().then((documents) => {
+    searchDocuments = documents;
+  });
+
+  return searchPreparationPromise;
 }
 
 function getDocumentScore(document: IndexedSearchDocument, query: string) {

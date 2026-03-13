@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 
+import { getSearchShortcutLabel } from "@/features/search/search-shortcut";
 import { primaryNavItems } from "./navigation";
 import styles from "./Header.module.css";
 
@@ -7,11 +8,13 @@ type HeaderProps = {
   menuOpen: boolean;
   onMenuOpen: () => void;
   onSearchOpen: () => void;
+  onSearchWarmup: () => void;
 };
 
-export function Header({ menuOpen, onMenuOpen, onSearchOpen }: HeaderProps) {
+export function Header({ menuOpen, onMenuOpen, onSearchOpen, onSearchWarmup }: HeaderProps) {
   const getNavLinkClassName = ({ isActive }: { isActive: boolean }) =>
     isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink;
+  const shortcutLabel = getSearchShortcutLabel();
 
   return (
     <header className={styles.header}>
@@ -38,6 +41,8 @@ export function Header({ menuOpen, onMenuOpen, onSearchOpen }: HeaderProps) {
             aria-label="Search handbook"
             className={styles.searchTrigger}
             data-search-trigger="header"
+            onFocus={onSearchWarmup}
+            onMouseEnter={onSearchWarmup}
             onClick={onSearchOpen}
             type="button"
           >
@@ -55,7 +60,7 @@ export function Header({ menuOpen, onMenuOpen, onSearchOpen }: HeaderProps) {
             </span>
             <span className={styles.searchTriggerLabel}>Search...</span>
             <span aria-hidden="true" className={styles.shortcutBadge}>
-              ⌘K
+              {shortcutLabel}
             </span>
           </button>
 

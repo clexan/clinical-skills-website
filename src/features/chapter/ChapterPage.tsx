@@ -23,6 +23,7 @@ import { NivCriteriaTable } from "@/components/handbook/NivCriteriaTable";
 import { PoisoningAntidotesTable } from "@/components/handbook/PoisoningAntidotesTable";
 import { SepsisQsofaTable } from "@/components/handbook/SepsisQsofaTable";
 import { SepsisSofaScoreTable } from "@/components/handbook/SepsisSofaScoreTable";
+import { StatusPage } from "@/components/layout/StatusPage";
 import {
   BasicMechanismsOfInjuryTable,
   PotentialInjuriesByMechanismTable,
@@ -150,12 +151,11 @@ export function ChapterPage() {
 
   if (!chapter) {
     return (
-      <section className="page-shell">
-        <div className="page-shell__header">
-          <p className="page-shell__eyebrow">Chapter unavailable</p>
-          <h1>This chapter could not be found</h1>
-        </div>
-      </section>
+      <StatusPage
+        description="The requested chapter could not be found in this edition of the handbook."
+        eyebrow="Chapter unavailable"
+        title="This chapter could not be found"
+      />
     );
   }
 

@@ -1,32 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import { startTransition, useDeferredValue, useEffect, useRef, useState } from "react";
 import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 import { Link } from "react-router-dom";
 
 import { hasDistinctChapterNumber } from "@/lib/chapter-display";
 import type { SearchResult } from "./search";
 import { useSearchModal } from "./SearchModalContext";
+import { loadSearchModule, preloadSearchExperience } from "./search-loader";
+import { getSearchShortcutLabel } from "./search-shortcut";
 
 import styles from "./SearchModal.module.css";
 
-let searchModulePromise: Promise<typeof import("./search")> | null = null;
-let searchPreparationPromise: Promise<typeof import("./search")> | null = null;
 const SEARCH_TRIGGER_SELECTOR = '[data-search-trigger="header"]';
-
-function loadSearchModule() {
-  searchModulePromise ??= import("./search");
-
-  return searchModulePromise;
-}
-
-function prepareSearchModule() {
-  searchPreparationPromise ??= loadSearchModule().then(async (module) => {
-    await module.prepareHandbookSearch();
-
-    return module;
-  });
-
-  return searchPreparationPromise;
-}
 
 function getFocusableElements(container: HTMLElement | null) {
   if (!container) {
@@ -69,7 +53,9 @@ export function SearchModal() {
   const resultRefs = useRef<Array<HTMLAnchorElement | null>>([]);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const shouldRestoreFocusRef = useRef(true);
+  const deferredQuery = useDeferredValue(query);
   const trimmedQuery = query.trim();
+  const shortcutLabel = getSearchShortcutLabel();
 
   useEffect(() => {
     if (!isOpen) {
@@ -97,7 +83,7 @@ export function SearchModal() {
 
     let cancelled = false;
 
-    prepareSearchModule()
+    preloadSearchExperience()
       .then((module) => {
         if (cancelled) {
           return;
@@ -219,8 +205,10 @@ export function SearchModal() {
       return;
     }
 
-    setResults(searchModule.searchHandbook(query));
-  }, [query, searchModule]);
+    startTransition(() => {
+      setResults(searchModule.searchHandbook(deferredQuery));
+    });
+  }, [deferredQuery, searchModule]);
 
   useEffect(() => {
     resultRefs.current = resultRefs.current.slice(0, results.length);
@@ -368,7 +356,7 @@ export function SearchModal() {
 
         <div className={styles.footer}>
           <span aria-hidden="true" className={styles.shortcutHint}>
-            ⌘K
+            {shortcutLabel}
           </span>
 
           <button className={styles.closeButton} onClick={() => closeSearch()} type="button">
