@@ -1,4 +1,7 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+
+import { formatDocumentTitle } from "@/lib/document-title";
 
 type StatusPageProps = {
   eyebrow: string;
@@ -12,9 +15,13 @@ export function StatusPage({
   eyebrow,
   title,
   description,
-  backLabel = "Return to contents",
+  backLabel = "Back to contents",
   backTo = "/",
 }: StatusPageProps) {
+  useEffect(() => {
+    document.title = formatDocumentTitle(eyebrow);
+  }, [eyebrow]);
+
   return (
     <section className="page-shell">
       <div className="page-shell__header">

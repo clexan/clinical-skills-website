@@ -32,11 +32,10 @@ function renderNode(node: DiagramNode, depth: number, key: string): ReactNode {
   );
 }
 
-function MissingDiagram({ diagramId }: DiagramBlockProps) {
+function MissingDiagram() {
   return (
     <div className={styles.missing} role="img" aria-label="Diagram unavailable">
       <span className={styles.missingLabel}>Diagram unavailable</span>
-      <span className={styles.missingId}>{diagramId}</span>
     </div>
   );
 }
@@ -45,7 +44,7 @@ export function DiagramBlock({ diagramId }: DiagramBlockProps) {
   const record = getDiagramById(diagramId);
 
   if (!record) {
-    return <MissingDiagram diagramId={diagramId} />;
+    return <MissingDiagram />;
   }
 
   const diagramDomId =

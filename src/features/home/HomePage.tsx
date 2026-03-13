@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { getChaptersForPart } from "@/content/chapter-index";
 import { CreditsSection } from "@/features/credits/CreditsSection";
+import { AFFILIATIONS } from "@/features/credits/creditsData";
 import { parts } from "@/content/parts";
 
 import styles from "./HomePage.module.css";
@@ -14,8 +15,7 @@ export function HomePage() {
       <header className={`${styles.hero} surface`}>
         <h1 className={styles.title}>Clinical Skills Handbook</h1>
         <p className={styles.description}>
-          A structured reference for simulation course students at the University of Rijeka
-          Faculty of Medicine
+          Handbook for the Simulation of Clinical Skills course at the {AFFILIATIONS[0]}.
         </p>
       </header>
 

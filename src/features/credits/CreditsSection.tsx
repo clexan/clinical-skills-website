@@ -41,7 +41,7 @@ export function CreditsSection({
             reserved.
           </p>
           <Link className={styles.summaryLink} to="/credits">
-            View contributors and authors
+            View authors and contributors
           </Link>
         </div>
       </section>

@@ -6,7 +6,7 @@ export function CreditsPage() {
   return (
     <section className="page-shell">
       <Link className="page-shell__back" to="/">
-        ← Home
+        ← Back to contents
       </Link>
 
       <CreditsSection authorsTitleTag="h2" titleTag="h1" />

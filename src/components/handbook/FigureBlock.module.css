@@ -30,12 +30,6 @@
   font-size: 0.85rem;
 }
 
-.figureId {
-  color: var(--text-muted);
-  font-family: monospace;
-  font-size: 0.75rem;
-}
-
 .unavailableCaption {
   max-width: 36ch;
   color: var(--text-muted);

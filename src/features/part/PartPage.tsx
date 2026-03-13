@@ -2,11 +2,9 @@ import { Link, useParams } from "react-router-dom";
 
 import { StatusPage } from "@/components/layout/StatusPage";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
-import { Badge } from "@/components/ui/Badge";
 import { getChaptersForPart } from "@/content/chapter-index";
 import { getPartBySlug } from "@/content/parts";
 import { hasDistinctChapterNumber } from "@/lib/chapter-display";
-import { getEditorialStatusColor, getEditorialStatusLabel } from "@/types/editorial";
 
 import styles from "./PartPage.module.css";
 
@@ -31,7 +29,7 @@ export function PartPage() {
       <header className={`${styles.header} surface`}>
         <Breadcrumb
           crumbs={[
-            { label: "Home", to: "/" },
+            { label: "Contents", to: "/" },
             { label: part.title },
           ]}
         />
@@ -51,11 +49,6 @@ export function PartPage() {
                 <p className={styles.rowDescription}>{chapter.description}</p>
               </div>
             </div>
-
-            <Badge
-              color={getEditorialStatusColor(chapter.status)}
-              label={getEditorialStatusLabel(chapter.status)}
-            />
           </Link>
         ))}
       </div>

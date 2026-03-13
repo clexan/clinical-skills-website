@@ -19,10 +19,10 @@ type FigureBlockProps = {
   figureId: string;
 };
 
-function PendingFigure({ figureId }: FigureBlockProps) {
+function PendingFigure() {
   return (
     <div
-      aria-label="Figure pending verification"
+      aria-label="Figure unavailable"
       className={`${styles.figureShell} ${styles.pending}`}
       role="img"
     >
@@ -55,8 +55,7 @@ function PendingFigure({ figureId }: FigureBlockProps) {
             y2="39"
           />
         </svg>
-        <span className={styles.label}>Figure pending verification</span>
-        <span className={styles.figureId}>{figureId}</span>
+        <span className={styles.label}>Figure unavailable</span>
       </div>
     </div>
   );
@@ -65,7 +64,7 @@ function PendingFigure({ figureId }: FigureBlockProps) {
 function UnavailableFigure({ caption }: { caption: string }) {
   return (
     <div
-      aria-label="Figure temporarily unavailable"
+      aria-label="Figure unavailable"
       className={`${styles.figureShell} ${styles.unavailable}`}
       role="img"
     >
@@ -92,7 +91,7 @@ function UnavailableFigure({ caption }: { caption: string }) {
             !
           </text>
         </svg>
-        <span className={styles.label}>Figure temporarily unavailable</span>
+        <span className={styles.label}>Figure unavailable</span>
         <span className={styles.unavailableCaption}>{caption}</span>
       </div>
     </div>
@@ -109,7 +108,7 @@ export function FigureBlock({ figureId }: FigureBlockProps) {
   }, [assetUrl, figureId]);
 
   if (!record) {
-    return <PendingFigure figureId={figureId} />;
+    return <PendingFigure />;
   }
 
   if (!assetUrl || failed) {

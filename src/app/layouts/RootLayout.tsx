@@ -4,10 +4,12 @@ import { Outlet, matchPath, useLocation } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { chapterIndex } from "@/content/chapter-index";
-import { getPartById } from "@/content/parts";
+import { getPartById, getPartBySlug } from "@/content/parts";
 import { SearchModal } from "@/features/search/SearchModal";
 import { preloadSearchExperience } from "@/features/search/search-loader";
 import { SearchModalProvider, useSearchModal, useSearchShortcut } from "@/features/search/SearchModalContext";
+import { getChapterDisplayLabel } from "@/lib/chapter-display";
+import { formatDocumentTitle } from "@/lib/document-title";
 
 import styles from "./RootLayout.module.css";
 
@@ -46,18 +48,60 @@ function RootLayoutShell() {
 
   const partMatch = matchPath("/part/:partSlug", location.pathname);
   const chapterMatch = matchPath("/chapter/:chapterSlug", location.pathname);
+  const matchedPart = partMatch?.params.partSlug ? getPartBySlug(partMatch.params.partSlug) : null;
   const matchedChapter = chapterMatch
     ? chapterIndex.find((chapter) => chapter.slug === chapterMatch.params.chapterSlug)
     : undefined;
   const parentPartSlug = matchedChapter ? getPartById(matchedChapter.partId)?.slug : undefined;
   const currentPartSlug = partMatch?.params.partSlug ?? parentPartSlug ?? undefined;
   const shellBlocked = menuOpen || searchOpen;
+  const routeTitle = (() => {
+    if (location.pathname === "/") {
+      return "Contents";
+    }
+
+    if (location.pathname === "/search") {
+      return "Search";
+    }
+
+    if (location.pathname === "/credits") {
+      return "Credits";
+    }
+
+    if (matchedChapter) {
+      const chapterPart = getPartById(matchedChapter.partId);
+
+      if (matchedChapter.kind === "review" && chapterPart) {
+        return `Part ${chapterPart.position} Review`;
+      }
+
+      return getChapterDisplayLabel(matchedChapter);
+    }
+
+    if (chapterMatch) {
+      return "Chapter unavailable";
+    }
+
+    if (matchedPart) {
+      return `Part ${matchedPart.position} · ${matchedPart.title}`;
+    }
+
+    if (partMatch) {
+      return "Part unavailable";
+    }
+
+    return "Page unavailable";
+  })();
 
   useSearchShortcut(toggleSearch);
 
   useEffect(() => {
     setMenuOpen(false);
   }, [location.pathname]);
+
+  useEffect(() => {
+    document.title = formatDocumentTitle(routeTitle);
+  }, [routeTitle]);
 
   useEffect(() => {
     if (!canWarmSearchInBackground()) {

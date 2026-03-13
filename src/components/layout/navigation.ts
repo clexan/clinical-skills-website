@@ -1,6 +1,6 @@
 export const primaryNavItems = [
   {
-    label: "Home",
+    label: "Contents",
     to: "/",
     end: true,
   },

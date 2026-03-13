@@ -150,11 +150,6 @@
   font-weight: 600;
 }
 
-.missingId {
-  color: var(--text-muted);
-  font-family: monospace;
-}
-
 .visuallyHidden {
   position: absolute;
   width: 1px;
