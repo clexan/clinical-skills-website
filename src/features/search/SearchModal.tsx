@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 import { Link } from "react-router-dom";
 
+import { hasDistinctChapterNumber } from "@/lib/chapter-display";
 import type { SearchResult } from "./search";
 import { useSearchModal } from "./SearchModalContext";
 
@@ -325,6 +326,10 @@ export function SearchModal() {
                 const target = result.headingId
                   ? `/chapter/${result.chapterSlug}#${result.headingId}`
                   : `/chapter/${result.chapterSlug}`;
+                const showChapterNumber = hasDistinctChapterNumber({
+                  number: result.chapterNumber,
+                  title: result.chapterTitle,
+                });
 
                 return (
                   <Link
@@ -348,7 +353,9 @@ export function SearchModal() {
                     </div>
 
                     <h2 className={styles.resultTitle}>
-                      <span className={styles.resultNumber}>{result.chapterNumber}</span>
+                      {showChapterNumber ? (
+                        <span className={styles.resultNumber}>{result.chapterNumber}</span>
+                      ) : null}
                       <span>{result.chapterTitle}</span>
                     </h2>
 

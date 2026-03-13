@@ -36,6 +36,7 @@ import {
   getChapterLoader,
 } from "@/content/chapter-index";
 import { getPartById } from "@/content/parts";
+import { getChapterDisplayLabel, hasDistinctChapterNumber } from "@/lib/chapter-display";
 import { getUniqueHeadingId } from "@/lib/headings";
 import type { MDXContentProps } from "@/types/content";
 import { getEditorialStatusColor, getEditorialStatusLabel } from "@/types/editorial";
@@ -181,17 +182,17 @@ export function ChapterPage() {
               ? [
                   { label: "Home", to: "/" },
                   { label: part.title, to: `/part/${part.slug}` },
-                  { label: `${chapter.number} ${chapter.title}` },
+                  { label: getChapterDisplayLabel(chapter) },
                 ]
               : [
                   { label: "Home", to: "/" },
-                  { label: `${chapter.number} ${chapter.title}` },
+                  { label: getChapterDisplayLabel(chapter) },
                 ]
           }
         />
 
         <header className={styles.titleBlock}>
-          <p className={styles.number}>{chapter.number}</p>
+          {hasDistinctChapterNumber(chapter) ? <p className={styles.number}>{chapter.number}</p> : null}
           <h1 className={styles.title}>{chapter.title}</h1>
           <p className={styles.description}>{chapter.description}</p>
           <div className={styles.status}>

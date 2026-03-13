@@ -203,7 +203,7 @@ async function buildSearchIndex() {
   let order = 0;
   const documents: IndexedSearchDocument[] = [];
 
-  for (const chapter of chapterIndex.filter((entry) => entry.kind === "chapter")) {
+  for (const chapter of chapterIndex) {
     const part = getPartById(chapter.partId);
     const partTitle = part?.title ?? chapter.partId;
     const sourceText = await resolveChapterSource(chapter.sourcePath);

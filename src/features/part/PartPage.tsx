@@ -4,6 +4,7 @@ import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { Badge } from "@/components/ui/Badge";
 import { getChaptersForPart } from "@/content/chapter-index";
 import { getPartBySlug } from "@/content/parts";
+import { hasDistinctChapterNumber } from "@/lib/chapter-display";
 import { getEditorialStatusColor, getEditorialStatusLabel } from "@/types/editorial";
 
 import styles from "./PartPage.module.css";
@@ -23,7 +24,7 @@ export function PartPage() {
     );
   }
 
-  const chapters = getChaptersForPart(part.id);
+  const chapters = getChaptersForPart(part.id, { includeReviews: true });
 
   return (
     <section className={styles.page}>
@@ -44,7 +45,7 @@ export function PartPage() {
         {chapters.map((chapter) => (
           <Link className={styles.row} key={chapter.id} to={`/chapter/${chapter.slug}`}>
             <div className={styles.rowCopy}>
-              <p className={styles.number}>{chapter.number}</p>
+              {hasDistinctChapterNumber(chapter) ? <p className={styles.number}>{chapter.number}</p> : null}
               <div className={styles.rowBody}>
                 <h2 className={styles.rowTitle}>{chapter.title}</h2>
                 <p className={styles.rowDescription}>{chapter.description}</p>

@@ -4,6 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 
 import { getChaptersForPart } from "@/content/chapter-index";
 import { getPartBySlug } from "@/content/parts";
+import { hasDistinctChapterNumber } from "@/lib/chapter-display";
 
 import { primaryNavItems } from "./navigation";
 import styles from "./MobileMenu.module.css";
@@ -29,7 +30,7 @@ export function MobileMenu({ isOpen, onClose, currentPartSlug }: MobileMenuProps
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const [chaptersOpen, setChaptersOpen] = useState(false);
   const currentPart = currentPartSlug ? getPartBySlug(currentPartSlug) : null;
-  const chapters = currentPart ? getChaptersForPart(currentPart.id) : [];
+  const chapters = currentPart ? getChaptersForPart(currentPart.id, { includeReviews: true }) : [];
 
   useEffect(() => {
     if (!isOpen) {
@@ -158,17 +159,23 @@ export function MobileMenu({ isOpen, onClose, currentPartSlug }: MobileMenuProps
               className={`${styles.chapterList} ${chaptersOpen ? styles.chapterListExpanded : ""}`}
               id="mobile-menu-current-part"
             >
-              {chapters.map((chapter) => (
-                <Link
-                  className={styles.chapterLink}
-                  key={chapter.id}
-                  onClick={onClose}
-                  to={`/chapter/${chapter.slug}`}
-                >
-                  <span className={styles.chapterNumber}>{chapter.number}</span>
-                  <span className={styles.chapterTitle}>{chapter.title}</span>
-                </Link>
-              ))}
+              {chapters.map((chapter) => {
+                const showNumber = hasDistinctChapterNumber(chapter);
+
+                return (
+                  <Link
+                    className={styles.chapterLink}
+                    key={chapter.id}
+                    onClick={onClose}
+                    to={`/chapter/${chapter.slug}`}
+                  >
+                    {showNumber ? <span className={styles.chapterNumber}>{chapter.number}</span> : null}
+                    <span className={showNumber ? styles.chapterTitle : styles.chapterTitleFull}>
+                      {chapter.title}
+                    </span>
+                  </Link>
+                );
+              })}
             </div>
           </section>
         ) : null}

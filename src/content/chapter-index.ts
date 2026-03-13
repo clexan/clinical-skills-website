@@ -363,9 +363,19 @@ export function getChapterBySlug(chapterSlug: string) {
   return chapterIndex.find((chapter) => chapter.slug === chapterSlug) ?? null;
 }
 
-export function getChaptersForPart(partId: PartId) {
+export function getChaptersForPart(partId: PartId, options?: { includeReviews?: boolean }) {
   return chapterIndex
-    .filter((chapter) => chapter.partId === partId && chapter.kind === "chapter")
+    .filter((chapter) => {
+      if (chapter.partId !== partId) {
+        return false;
+      }
+
+      if (options?.includeReviews) {
+        return true;
+      }
+
+      return chapter.kind === "chapter";
+    })
     .sort((left, right) => left.order - right.order);
 }
 
