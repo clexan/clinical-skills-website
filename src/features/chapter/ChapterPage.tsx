@@ -1,6 +1,6 @@
 import type { ComponentType } from "react";
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 import { HandbookLayout } from "@/app/layouts/HandbookLayout";
 import { AsthmaSeverityTable } from "@/components/handbook/AsthmaSeverityTable";
@@ -30,7 +30,6 @@ import {
 } from "@/components/handbook/TraumaMechanismTables";
 import { WheezingDifferentialTable } from "@/components/handbook/WheezingDifferentialTable";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
-import { Badge } from "@/components/ui/Badge";
 import {
   getAdjacentChapters,
   getChapterBySlug,
@@ -40,7 +39,6 @@ import { getPartById } from "@/content/parts";
 import { getChapterDisplayLabel, hasDistinctChapterNumber } from "@/lib/chapter-display";
 import { getUniqueHeadingId } from "@/lib/headings";
 import type { MDXContentProps } from "@/types/content";
-import { getEditorialStatusColor, getEditorialStatusLabel } from "@/types/editorial";
 import "@/styles/prose.css";
 
 import styles from "./ChapterPage.module.css";
@@ -82,7 +80,7 @@ export function ChapterPage() {
         console.error(`Failed to load chapter module for "${chapter.slug}".`, caughtError);
 
         if (isActive) {
-          setError("This chapter could not be loaded. Try refreshing the page.");
+          setError("This chapter is not available right now. Please try again.");
         }
       });
 
@@ -161,7 +159,6 @@ export function ChapterPage() {
 
   const part = getPartById(chapter.partId);
   const { previous, next } = getAdjacentChapters(chapter);
-  const statusLabel = getEditorialStatusLabel(chapter.status);
   const hasKeyPoints = Boolean(keyPoints?.length);
   const hasToc = headings.length > 0;
 
@@ -169,9 +166,6 @@ export function ChapterPage() {
     <HandbookLayout title="">
       <div className={styles.contentColumn}>
         <div className={styles.chapterMeta}>
-          <Link className={styles.backLink} to={part ? `/part/${part.slug}` : "/"}>
-            {part ? `Back to ${part.title}` : "Back to handbook"}
-          </Link>
           <p className={styles.partEyebrow}>{part ? `Part ${part.position} · ${part.title}` : chapter.partId}</p>
         </div>
 
@@ -180,12 +174,12 @@ export function ChapterPage() {
           crumbs={
             part
               ? [
-                  { label: "Home", to: "/" },
+                  { label: "Contents", to: "/" },
                   { label: part.title, to: `/part/${part.slug}` },
                   { label: getChapterDisplayLabel(chapter) },
                 ]
               : [
-                  { label: "Home", to: "/" },
+                  { label: "Contents", to: "/" },
                   { label: getChapterDisplayLabel(chapter) },
                 ]
           }
@@ -195,9 +189,6 @@ export function ChapterPage() {
           {hasDistinctChapterNumber(chapter) ? <p className={styles.number}>{chapter.number}</p> : null}
           <h1 className={styles.title}>{chapter.title}</h1>
           <p className={styles.description}>{chapter.description}</p>
-          <div className={styles.status}>
-            <Badge color={getEditorialStatusColor(chapter.status)} label={statusLabel} />
-          </div>
         </header>
 
         {hasKeyPoints ? (
