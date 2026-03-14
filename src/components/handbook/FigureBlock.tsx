@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 
 import { getFigureById } from "@/content/figure-manifest";
 
@@ -21,80 +21,109 @@ type FigureBlockProps = {
 
 function PendingFigure() {
   return (
-    <div
-      aria-label="Figure unavailable"
-      className={`${styles.figureShell} ${styles.pending}`}
-      role="img"
-    >
-      <div className={styles.content}>
-        <svg aria-hidden="true" height="40" viewBox="0 0 40 40" width="40">
-          <rect
-            fill="none"
-            height="38"
-            rx="4"
-            stroke="var(--border-strong)"
-            strokeWidth="1.5"
-            width="38"
-            x="1"
-            y="1"
-          />
-          <line
-            stroke="var(--border-strong)"
-            strokeWidth="1"
-            x1="1"
-            x2="39"
-            y1="1"
-            y2="39"
-          />
-          <line
-            stroke="var(--border-strong)"
-            strokeWidth="1"
-            x1="39"
-            x2="1"
-            y1="1"
-            y2="39"
-          />
-        </svg>
-        <span className={styles.label}>Figure unavailable</span>
+    <figure className={styles.figure}>
+      <div aria-label="Figure unavailable" className={`${styles.figureShell} ${styles.pending}`} role="img">
+        <div className={styles.content}>
+          <svg aria-hidden="true" height="40" viewBox="0 0 40 40" width="40">
+            <rect
+              fill="none"
+              height="38"
+              rx="4"
+              stroke="var(--border-strong)"
+              strokeWidth="1.5"
+              width="38"
+              x="1"
+              y="1"
+            />
+            <line
+              stroke="var(--border-strong)"
+              strokeWidth="1"
+              x1="1"
+              x2="39"
+              y1="1"
+              y2="39"
+            />
+            <line
+              stroke="var(--border-strong)"
+              strokeWidth="1"
+              x1="39"
+              x2="1"
+              y1="1"
+              y2="39"
+            />
+          </svg>
+          <span className={styles.label}>Figure unavailable</span>
+        </div>
       </div>
-    </div>
+    </figure>
   );
 }
 
-function UnavailableFigure({ caption }: { caption: string }) {
+function FigureCaption({
+  caption,
+  captionId,
+  source,
+}: {
+  caption: string;
+  captionId: string;
+  source?: string;
+}) {
   return (
-    <div
-      aria-label="Figure unavailable"
-      className={`${styles.figureShell} ${styles.unavailable}`}
-      role="img"
-    >
-      <div className={styles.content}>
-        <svg aria-hidden="true" height="40" viewBox="0 0 40 40" width="40">
-          <rect
-            fill="none"
-            height="38"
-            rx="4"
-            stroke="var(--accent-amber)"
-            strokeWidth="1.5"
-            width="38"
-            x="1"
-            y="1"
-          />
-          <text
-            fill="var(--accent-amber)"
-            fontSize="18"
-            fontWeight="bold"
-            textAnchor="middle"
-            x="20"
-            y="26"
-          >
-            !
-          </text>
-        </svg>
-        <span className={styles.label}>Figure unavailable</span>
-        <span className={styles.unavailableCaption}>{caption}</span>
+    <figcaption className={styles.caption} id={captionId}>
+      {caption}
+      {source ? <span className={styles.source}>{source}</span> : null}
+    </figcaption>
+  );
+}
+
+function UnavailableFigure({
+  caption,
+  captionId,
+  source,
+}: {
+  caption: string;
+  captionId: string;
+  source?: string;
+}) {
+  const statusId = `${captionId}-status`;
+
+  return (
+    <figure aria-labelledby={captionId} className={styles.figure}>
+      <div
+        aria-labelledby={`${captionId} ${statusId}`}
+        className={`${styles.figureShell} ${styles.unavailable}`}
+        role="img"
+      >
+        <div className={styles.content}>
+          <svg aria-hidden="true" height="40" viewBox="0 0 40 40" width="40">
+            <rect
+              fill="none"
+              height="38"
+              rx="4"
+              stroke="var(--accent-amber)"
+              strokeWidth="1.5"
+              width="38"
+              x="1"
+              y="1"
+            />
+            <text
+              fill="var(--accent-amber)"
+              fontSize="18"
+              fontWeight="bold"
+              textAnchor="middle"
+              x="20"
+              y="26"
+            >
+              !
+            </text>
+          </svg>
+          <span className={styles.label} id={statusId}>
+            Figure unavailable
+          </span>
+        </div>
       </div>
-    </div>
+      <FigureCaption caption={caption} captionId={captionId} source={source} />
+    </figure>
   );
 }
 
@@ -102,6 +131,7 @@ export function FigureBlock({ figureId }: FigureBlockProps) {
   const record = getFigureById(figureId);
   const assetUrl = record ? resolveAsset(record.assetFilename) : undefined;
   const [failed, setFailed] = useState(false);
+  const captionId = useId();
 
   useEffect(() => {
     setFailed(false);
@@ -112,22 +142,27 @@ export function FigureBlock({ figureId }: FigureBlockProps) {
   }
 
   if (!assetUrl || failed) {
-    return <UnavailableFigure caption={record.caption} />;
+    return <UnavailableFigure caption={record.caption} captionId={captionId} source={record.source} />;
   }
 
   return (
-    <figure className={styles.figure}>
+    <figure aria-labelledby={captionId} className={styles.figure}>
       <img
-        alt={record.altText}
         className={styles.image}
         loading="lazy"
         onError={() => setFailed(true)}
         src={assetUrl}
+        {...(record.accessibility.kind === "informative"
+          ? {
+              alt: record.accessibility.altText,
+              "aria-describedby": captionId,
+            }
+          : {
+              alt: "",
+              role: "presentation" as const,
+            })}
       />
-      <figcaption className={styles.caption}>
-        {record.caption}
-        {record.source ? <span className={styles.source}>{record.source}</span> : null}
-      </figcaption>
+      <FigureCaption caption={record.caption} captionId={captionId} source={record.source} />
     </figure>
   );
 }

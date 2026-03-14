@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useId } from "react";
 
 import { getDiagramById, type DiagramNode } from "@/content/diagram-manifest";
 
@@ -42,29 +43,47 @@ function MissingDiagram() {
 
 export function DiagramBlock({ diagramId }: DiagramBlockProps) {
   const record = getDiagramById(diagramId);
+  const baseId = useId();
 
   if (!record) {
     return <MissingDiagram />;
   }
 
-  const diagramDomId =
-    record.id.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "diagram";
-  const altTextId = `${diagramDomId}-alt-text`;
+  const captionId = `${baseId}-caption`;
+  const altTextId = `${baseId}-alt-text`;
+  const textEquivalentId = `${baseId}-text-equivalent`;
+  const isInformative = record.accessibility.kind === "informative";
 
   return (
-    <figure className={styles.figure}>
-      <p className={styles.visuallyHidden} id={altTextId}>
-        {record.altText}
-      </p>
-      <div className={styles.panel} aria-describedby={altTextId}>
+    <figure aria-labelledby={captionId} className={styles.figure}>
+      {isInformative ? (
+        <p className={styles.visuallyHidden} id={altTextId}>
+          {record.accessibility.altText}
+        </p>
+      ) : null}
+      <div
+        className={styles.panel}
+        {...(isInformative
+          ? {
+              "aria-describedby": `${altTextId} ${textEquivalentId}`,
+              "aria-labelledby": captionId,
+              role: "img" as const,
+            }
+          : {
+              "aria-hidden": true,
+            })}
+      >
         <ul className={styles.tree}>{renderNode(record.root, 0, record.id)}</ul>
       </div>
-      <figcaption className={styles.caption}>
+      <figcaption className={styles.caption} id={captionId}>
         Figure {record.number}. {record.caption}
       </figcaption>
-      <p className={styles.textEquivalent}>
-        <span className={styles.textEquivalentLabel}>Text version.</span> {record.textEquivalent}
-      </p>
+      {isInformative ? (
+        <p className={styles.textEquivalent} id={textEquivalentId}>
+          <span className={styles.textEquivalentLabel}>Text version.</span>{" "}
+          {record.accessibility.textEquivalent}
+        </p>
+      ) : null}
     </figure>
   );
 }

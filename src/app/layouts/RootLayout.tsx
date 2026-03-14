@@ -13,6 +13,8 @@ import { formatDocumentTitle } from "@/lib/document-title";
 
 import styles from "./RootLayout.module.css";
 
+const MAIN_CONTENT_ID = "main-content";
+
 export function RootLayout() {
   return (
     <SearchModalProvider>
@@ -138,9 +140,24 @@ function RootLayoutShell() {
     };
   }, [shellBlocked]);
 
+  const handleSkipToContent = () => {
+    const main = document.getElementById(MAIN_CONTENT_ID);
+
+    if (!(main instanceof HTMLElement)) {
+      return;
+    }
+
+    main.focus();
+    main.scrollIntoView({ block: "start" });
+  };
+
   return (
     <>
       <div className={styles.shell} ref={shellRef}>
+        <a className={styles.skipLink} href={`#${MAIN_CONTENT_ID}`} onClick={handleSkipToContent}>
+          Skip to content
+        </a>
+
         <Header
           menuOpen={menuOpen}
           onMenuOpen={() => setMenuOpen(true)}
@@ -150,7 +167,7 @@ function RootLayoutShell() {
           }}
         />
 
-        <main className={styles.main}>
+        <main className={styles.main} id={MAIN_CONTENT_ID} tabIndex={-1}>
           <div className="container">
             <Outlet />
           </div>

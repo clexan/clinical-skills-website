@@ -1,8 +1,10 @@
 import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
 
 import type { Plugin } from "vite";
 
 const CHAPTER_METADATA_QUERY = "chapter-metadata";
+const VIRTUAL_MODULE_PREFIX = "\0mdx-frontmatter:";
 
 type FrontmatterValue = boolean | number | string | string[];
 
@@ -119,8 +121,24 @@ export function mdxFrontmatterPlugin(): Plugin {
   return {
     name: "mdx-frontmatter",
     enforce: "pre",
+    resolveId(source, importer) {
+      const [filePath, query = ""] = source.split("?", 2);
+      const searchParams = new URLSearchParams(query);
+
+      if (!filePath.endsWith(".mdx") || !searchParams.has(CHAPTER_METADATA_QUERY)) {
+        return null;
+      }
+
+      const resolvedPath = importer ? resolve(dirname(importer), filePath) : filePath;
+
+      return `${VIRTUAL_MODULE_PREFIX}${resolvedPath}?${query}`;
+    },
     load(id) {
-      const [filePath, query = ""] = id.split("?", 2);
+      if (!id.startsWith(VIRTUAL_MODULE_PREFIX)) {
+        return null;
+      }
+
+      const [filePath, query = ""] = id.slice(VIRTUAL_MODULE_PREFIX.length).split("?", 2);
       const searchParams = new URLSearchParams(query);
 
       if (!searchParams.has(CHAPTER_METADATA_QUERY)) {

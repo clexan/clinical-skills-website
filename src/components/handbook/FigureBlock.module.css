@@ -3,7 +3,6 @@
   align-items: center;
   justify-content: center;
   aspect-ratio: 16 / 9;
-  margin: var(--space-6) 0;
   padding: var(--space-4);
   border-radius: var(--radius-sm);
   background: var(--bg-subtle);

@@ -4,9 +4,34 @@
   flex-direction: column;
 }
 
+.skipLink {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-5);
+  z-index: 30;
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-sm);
+  color: var(--text-strong);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.skipLink:focus-visible {
+  transform: translateY(0);
+}
+
 .main {
   flex: 1;
   padding-block: var(--space-6) var(--space-7);
+}
+
+.main:focus {
+  outline: 2px solid var(--accent-sky);
+  outline-offset: 4px;
 }
 
 .footer {

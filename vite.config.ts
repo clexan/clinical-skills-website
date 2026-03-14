@@ -8,7 +8,7 @@ import remarkGfm from "remark-gfm";
 
 import { mdxFrontmatterPlugin } from "./build/mdx-frontmatter";
 
-const ignoredMdxRequestPattern = /\.mdx\?(?:raw|chapter-metadata)(?:$|[&?])/;
+const ignoredMdxRequestPattern = /\.mdx\?(?:.*&)?(?:raw|chapter-metadata)(?:[=&]|$)/;
 
 export default defineConfig({
   plugins: [
