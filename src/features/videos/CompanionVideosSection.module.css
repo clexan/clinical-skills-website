@@ -1,6 +1,6 @@
 .section {
   display: grid;
-  gap: var(--space-5);
+  gap: var(--space-6);
   margin: 0 0 var(--space-6);
   padding: var(--space-5);
   border: 1px solid var(--border-soft);
@@ -61,33 +61,20 @@
   font-size: 1rem;
 }
 
-.grid {
+.primaryBlock {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-4);
 }
 
-.scroller {
+.referenceGrid {
   display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(18rem, 22rem);
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
   gap: var(--space-4);
-  overflow-x: auto;
-  padding-bottom: var(--space-2);
-  scroll-snap-type: x proximity;
-}
-
-.scrollerItem {
-  scroll-snap-align: start;
 }
 
 @media (max-width: 1023px) {
   .section {
     padding: var(--space-4);
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
   }
 }
 

@@ -21,7 +21,7 @@ const categoryOptions: Array<{ key: VideoCategory | "all"; label: string }> = [
 
 const priorityOptions: Array<{ key: VideoPriority | "all"; label: string }> = [
   { key: "all", label: "All videos" },
-  { key: "primary", label: "Primary" },
+  { key: "primary", label: "Core" },
   { key: "reference", label: "Reference" },
 ];
 
@@ -68,9 +68,7 @@ export function VideoIndexPage() {
           <div>
             <p className={styles.eyebrow}>Companion video library</p>
             <h1 className={styles.title}>Clinical Skills Videos</h1>
-            <p className={styles.subtitle}>
-              Chapter-linked teaching videos, separated from the prose and grouped by topic.
-            </p>
+            <p className={styles.subtitle}>Chapter-linked teaching videos grouped by topic</p>
           </div>
 
           <Link className={styles.backLink} to="/">
