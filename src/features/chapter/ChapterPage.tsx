@@ -30,13 +30,10 @@ import {
 } from "@/components/handbook/TraumaMechanismTables";
 import { WheezingDifferentialTable } from "@/components/handbook/WheezingDifferentialTable";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
-import {
-  getAdjacentChapters,
-  getChapterBySlug,
-  getChapterLoader,
-} from "@/content/chapter-index";
+import { getChapterBySlug, getChapterLoader } from "@/content/chapter-index";
 import { getPartById } from "@/content/parts";
 import { getChapterDisplayLabel, hasDistinctChapterNumber } from "@/lib/chapter-display";
+import { buildHandbookSequence, getPaginationEyebrow } from "@/lib/handbook-sequence";
 import { getUniqueHeadingId } from "@/lib/headings";
 import type { MDXContentProps } from "@/types/content";
 import "@/styles/prose.css";
@@ -158,7 +155,13 @@ export function ChapterPage() {
   }
 
   const part = getPartById(chapter.partId);
-  const { previous, next } = getAdjacentChapters(chapter);
+  const handbookSequence = buildHandbookSequence();
+  const currentIndex = handbookSequence.findIndex((entry) => entry.slug === chapter.slug);
+  const previous = currentIndex > 0 ? handbookSequence[currentIndex - 1] : null;
+  const next =
+    currentIndex >= 0 && currentIndex < handbookSequence.length - 1
+      ? handbookSequence[currentIndex + 1]
+      : null;
   const hasKeyPoints = Boolean(keyPoints?.length);
   const hasToc = headings.length > 0;
 
@@ -298,7 +301,7 @@ export function ChapterPage() {
                 ←
               </span>
               <span className={styles.paginationCopy}>
-                <span className={styles.paginationLabel}>Previous</span>
+                <span className={styles.paginationLabel}>{getPaginationEyebrow(previous, "previous")}</span>
                 <span className={styles.paginationTitle}>{previous.title}</span>
               </span>
             </Link>
@@ -307,7 +310,7 @@ export function ChapterPage() {
           {next ? (
             <Link className={`${styles.paginationLink} ${styles.paginationLinkNext}`} to={`/chapter/${next.slug}`}>
               <span className={styles.paginationCopy}>
-                <span className={styles.paginationLabel}>Next</span>
+                <span className={styles.paginationLabel}>{getPaginationEyebrow(next, "next")}</span>
                 <span className={styles.paginationTitle}>{next.title}</span>
               </span>
               <span aria-hidden="true" className={styles.paginationArrow}>
