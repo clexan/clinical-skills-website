@@ -1,0 +1,126 @@
+.rail {
+  position: sticky;
+  top: calc(56px + var(--space-6));
+  max-height: calc(100vh - 56px - var(--space-7));
+  overflow-y: auto;
+  padding-right: var(--space-4);
+}
+
+.partLabel {
+  margin-bottom: var(--space-3);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.chapterList {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reviewItem {
+  padding-top: var(--space-1);
+}
+
+.chapterLink {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  color: var(--text-body);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  text-decoration: none;
+  transition:
+    background 120ms,
+    color 120ms;
+}
+
+.chapterLink:hover {
+  background: var(--bg-subtle);
+  color: var(--text-strong);
+  text-decoration: none;
+}
+
+.chapterLink:focus-visible,
+.tocLink:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-sky-soft);
+}
+
+.active {
+  background: color-mix(in srgb, var(--accent-teal) 10%, transparent);
+  color: var(--accent-teal);
+  font-weight: 600;
+}
+
+.chapterNumber {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.active .chapterNumber {
+  color: var(--accent-teal);
+}
+
+.chapterTitle {
+  min-width: 0;
+}
+
+.reviewDivider {
+  height: 1px;
+  margin: var(--space-2) var(--space-2);
+  background: var(--border-soft);
+}
+
+.sectionDivider {
+  height: 1px;
+  margin: var(--space-4) 0;
+  background: var(--border-soft);
+}
+
+.tocLabel {
+  margin-bottom: var(--space-2);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.tocList {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tocLink {
+  display: block;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: color 120ms;
+}
+
+.tocLink:hover {
+  color: var(--text-body);
+  text-decoration: none;
+}
+
+.tocActive {
+  color: var(--text-strong);
+  font-weight: 500;
+}

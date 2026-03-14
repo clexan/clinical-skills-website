@@ -1,27 +1,45 @@
+.pageGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.railColumn {
+  display: none;
+}
+
 .contentColumn {
   width: 100%;
+  min-width: 0;
   max-width: 72ch;
   margin: 0 auto;
 }
 
-.chapterMeta {
-  display: grid;
-  margin-bottom: var(--space-3);
-}
-
-.partEyebrow {
-  margin: 0;
-  color: var(--accent-teal);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
 .titleBlock {
   margin-bottom: var(--space-5);
-  padding-bottom: var(--space-5);
-  border-bottom: 1px solid var(--border-soft);
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.metaPart {
+  color: var(--text-muted);
+}
+
+.metaSeparator {
+  color: var(--border-soft);
+}
+
+.metaPosition {
+  color: var(--text-muted);
 }
 
 .number {
@@ -40,11 +58,22 @@
 }
 
 .description {
-  margin: 0 0 var(--space-4);
+  margin: 0;
   max-width: 72ch;
   color: var(--text-muted);
   font-size: 1rem;
   line-height: 1.6;
+}
+
+.titleBlock :global([aria-label="Chapter authors"]),
+.titleBlock :global([aria-label="chapter authors"]) {
+  margin-top: var(--space-4);
+  margin-bottom: 0;
+}
+
+.titleDivider {
+  margin-top: var(--space-5);
+  border-top: 1px solid var(--border-soft);
 }
 
 .keyPoints {
@@ -150,6 +179,12 @@
   max-width: 72ch;
 }
 
+.proseBody h2 {
+  margin-top: var(--space-7);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border-soft);
+}
+
 .proseBody :is(h2, h3) {
   scroll-margin-top: calc(56px + var(--space-5));
 }
@@ -202,7 +237,10 @@
 .paginationLabel {
   display: block;
   color: var(--text-muted);
-  font-size: 0.75rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .paginationTitle {
@@ -240,21 +278,13 @@
 }
 
 @media (max-width: 767px) {
-  .chapterMeta {
-    margin-bottom: var(--space-3);
-  }
-
-  .backLink {
-    font-size: 0.9rem;
-  }
-
-  .partEyebrow {
-    font-size: 0.7rem;
-  }
-
   .titleBlock {
     margin-bottom: var(--space-3);
-    padding-bottom: var(--space-3);
+  }
+
+  .metaRow {
+    margin-bottom: var(--space-2);
+    font-size: 0.75rem;
   }
 
   .number {
@@ -267,9 +297,17 @@
   }
 
   .description {
-    margin-bottom: var(--space-3);
     font-size: 0.9rem;
     line-height: 1.5;
+  }
+
+  .titleBlock :global([aria-label="Chapter authors"]),
+  .titleBlock :global([aria-label="chapter authors"]) {
+    margin-top: var(--space-3);
+  }
+
+  .titleDivider {
+    margin-top: var(--space-4);
   }
 
   .keyPoints {
@@ -337,17 +375,6 @@
 }
 
 @media (min-width: 768px) {
-  .titleBlock {
-    display: grid;
-    gap: var(--space-3);
-  }
-
-  .number,
-  .title,
-  .description {
-    margin: 0;
-  }
-
   .pagination {
     flex-direction: row;
     justify-content: space-between;
@@ -355,5 +382,33 @@
 
   .paginationLink {
     flex: 1 1 0;
+  }
+
+  .paginationSingle {
+    display: block;
+  }
+}
+
+@media (min-width: 1024px) {
+  .layoutSurface.layoutSurface {
+    max-width: calc(72ch + 220px + var(--space-6) + (var(--space-6) * 2) + (var(--space-7) * 2));
+  }
+
+  .pageGrid {
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: var(--space-6);
+    align-items: start;
+  }
+
+  .railColumn {
+    display: block;
+  }
+
+  .contentColumn {
+    margin: 0;
+  }
+
+  .inlineTableOfContents {
+    display: none;
   }
 }

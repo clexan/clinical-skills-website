@@ -1,6 +1,6 @@
 .figure,
 .missing {
-  margin: 0 0 var(--space-5);
+  margin: var(--space-6) 0;
 }
 
 .panel {
