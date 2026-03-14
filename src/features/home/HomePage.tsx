@@ -116,11 +116,17 @@ function ReferencePreview() {
 
       {activeEntry ? (
         <div className={styles.mobileCarousel}>
-          <ReferencePreviewCard entry={activeEntry} />
+          <div
+            aria-atomic="true"
+            aria-live="polite"
+            className={styles.carouselViewport}
+          >
+            <ReferencePreviewCard entry={activeEntry} />
+          </div>
 
           <div className={styles.carouselControls}>
             <button
-              aria-label="Previous"
+              aria-label="Show previous featured reference"
               className={styles.carouselBtn}
               disabled={active === 0}
               onClick={() => {
@@ -132,14 +138,14 @@ function ReferencePreview() {
             </button>
 
             <div
-              aria-label="Emergency reference cards"
+              aria-label="Featured emergency reference entries"
               className={styles.carouselDots}
               role="group"
             >
               {featured.map((entry, index) => (
                 <button
                   aria-current={index === active ? "true" : undefined}
-                  aria-label={entry.title}
+                  aria-label={`Show ${entry.title}`}
                   className={`${styles.dot}${index === active ? ` ${styles.dotActive}` : ""}`}
                   key={entry.slug}
                   onClick={() => {
@@ -151,7 +157,7 @@ function ReferencePreview() {
             </div>
 
             <button
-              aria-label="Next"
+              aria-label="Show next featured reference"
               className={styles.carouselBtn}
               disabled={active === featured.length - 1}
               onClick={() => {
@@ -186,19 +192,12 @@ function ReferencePreviewCard({ entry }: { entry: EREntry }) {
 
       <p className={styles.previewCardSub}>{entry.subtitle}</p>
       <p className={styles.previewCardAlert}>
-        <strong>{previewLabel}:</strong> {truncate(previewBody)}
+        <span className={styles.previewCardAlertCopy}>
+          <strong>{previewLabel}:</strong> {previewBody}
+        </span>
       </p>
     </Link>
   );
-}
-
-function truncate(text: string, maxChars = 90) {
-  if (text.length <= maxChars) {
-    return text;
-  }
-
-  const cut = text.lastIndexOf(" ", maxChars);
-  return `${text.slice(0, cut > 0 ? cut : maxChars)}…`;
 }
 
 function FeaturedPartCard({ part }: { part: PartEntry }) {

@@ -100,18 +100,22 @@
 }
 
 .desktopGrid {
-  display: grid;
+  display: none;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-3);
   margin-top: var(--space-4);
 }
 
 .mobileCarousel {
-  display: none;
+  display: block;
+  margin-top: var(--space-4);
+}
+
+.carouselViewport {
+  min-width: 0;
 }
 
 .previewCard {
-  display: block;
   display: flex;
   flex-direction: column;
   background: var(--role-card-surface);
@@ -192,6 +196,13 @@
   color: var(--text-muted);
   font-size: 0.75rem;
   line-height: 1.5;
+}
+
+.previewCardAlertCopy {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
 
 .carouselControls {
@@ -435,15 +446,6 @@
     align-items: flex-start;
   }
 
-  .desktopGrid {
-    display: none;
-  }
-
-  .mobileCarousel {
-    display: block;
-    margin-top: var(--space-4);
-  }
-
   .partCardFeatured {
     grid-template-columns: 1fr;
     gap: var(--space-4);
@@ -474,6 +476,14 @@
 }
 
 @media (min-width: 1024px) {
+  .desktopGrid {
+    display: grid;
+  }
+
+  .mobileCarousel {
+    display: none;
+  }
+
   .partsGrid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
