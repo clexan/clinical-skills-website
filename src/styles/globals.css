@@ -1,4 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap");
 @import './tokens.css';
+@import './tokens/material.css';
 
 *,
 *::before,
@@ -14,12 +16,24 @@ body {
   margin: 0;
 }
 
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
 #root {
   min-height: 100vh;
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent-sky);
+  outline: 2px solid var(--role-focus-ring);
   outline-offset: 2px;
 }
 
@@ -30,14 +44,14 @@ body {
 }
 
 .surface {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-soft);
+  background: var(--role-card-surface);
+  border: 1px solid var(--role-card-border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
 }
 
 a {
-  color: var(--accent-teal);
+  color: var(--role-link);
   text-decoration: none;
 }
 
@@ -75,7 +89,7 @@ img {
 .card__eyebrow,
 .list-row__eyebrow {
   margin: 0 0 var(--space-3);
-  color: var(--accent-teal);
+  color: var(--md-sys-color-primary);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.12em;

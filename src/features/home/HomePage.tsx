@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 
-import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { getChaptersForPart } from "@/content/chapter-index";
 import { CreditsSection } from "@/features/credits/CreditsSection";
@@ -13,21 +12,36 @@ export function HomePage() {
   return (
     <section className={styles.page}>
       <header className={`${styles.hero} surface`}>
-        <h1 className={styles.title}>Clinical Skills Handbook</h1>
-        <p className={styles.description}>
+        <hr aria-hidden="true" className={styles.heroRule} />
+        <h1 className={styles.heroTitle}>Clinical Skills Handbook</h1>
+        <p className={styles.heroSubtitle}>
           Handbook for the Simulation of Clinical Skills course at the {AFFILIATIONS[0]}.
         </p>
       </header>
 
       <div className={styles.grid}>
         {parts.map((part) => {
-          const chapterCount = getChaptersForPart(part.id).length;
+          const chapters = getChaptersForPart(part.id);
+          const chapterCount = chapters.length;
+          const isFeatured = part.position === 1;
 
           return (
-            <Link className={styles.cardLink} key={part.id} to={`/part/${part.slug}`}>
-              <Card elevated>
+            <Link
+              className={`${styles.cardLink}${isFeatured ? ` ${styles.cardLinkFeatured}` : ""}`}
+              key={part.id}
+              to={`/part/${part.slug}`}
+            >
+              <Card
+                className={`${styles.partCard}${isFeatured ? ` ${styles.partCardFeatured}` : ""}`}
+                elevated
+              >
                 <div className={styles.cardContent}>
-                  <Badge color="slate" label={`Part ${part.position}`} />
+                  {isFeatured ? null : (
+                    <p className={styles.partEyebrow}>Part {part.position}</p>
+                  )}
+                  {isFeatured ? (
+                    <p className={styles.partCardFeaturedCue}>Start here</p>
+                  ) : null}
                   <h2 className={styles.cardTitle}>{part.title}</h2>
                   <p className={styles.cardDescription}>{part.description}</p>
                   <p className={styles.cardMeta}>

@@ -1,0 +1,81 @@
+:root {
+  /* Material 3-style role aliases layered over the existing site palette. */
+  --md-sys-color-surface: var(--bg-surface);
+  --md-sys-color-surface-dim: var(--bg-page);
+  --md-sys-color-surface-bright: var(--bg-surface);
+  --md-sys-color-surface-container-lowest: var(--bg-surface);
+  --md-sys-color-surface-container-low: var(--bg-subtle);
+  --md-sys-color-surface-container: var(--bg-elevated);
+  --md-sys-color-surface-container-high: color-mix(in srgb, var(--bg-elevated) 78%, var(--bg-surface));
+  --md-sys-color-on-surface: var(--text-strong);
+  --md-sys-color-on-surface-variant: var(--text-muted);
+  --md-sys-color-outline: var(--border-strong);
+  --md-sys-color-outline-variant: var(--border-soft);
+  --md-sys-color-primary: var(--accent-teal);
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: var(--accent-teal-soft);
+  --md-sys-color-on-primary-container: color-mix(in srgb, var(--accent-teal) 80%, var(--text-strong));
+  --md-sys-color-secondary: var(--accent-sky);
+  --md-sys-color-on-secondary: var(--bg-surface);
+  --md-sys-color-secondary-container: var(--accent-sky-soft);
+  --md-sys-color-on-secondary-container: color-mix(in srgb, var(--accent-sky) 28%, var(--text-strong));
+  --md-sys-color-error: var(--accent-rose);
+  --md-sys-color-error-container: var(--accent-rose-soft);
+  --md-sys-color-on-error-container: var(--text-strong);
+
+  --md-sys-state-hover-state-layer-opacity: 0.08;
+  --md-sys-state-focus-state-layer-opacity: 0.12;
+
+  --role-body-text: var(--text-body);
+  --role-link: var(--md-sys-color-primary);
+  --role-focus-ring: var(--md-sys-color-secondary);
+  --role-focus-ring-soft: var(--md-sys-color-secondary-container);
+  --role-divider: var(--md-sys-color-outline-variant);
+  --role-card-surface: var(--md-sys-color-surface);
+  --role-card-border: var(--md-sys-color-outline-variant);
+  --role-card-hover-surface: var(--bg-subtle);
+  --role-card-focus-surface: var(--accent-sky-soft);
+  --role-rail-hover-surface: color-mix(in srgb, var(--text-strong) 5%, var(--bg-surface));
+  --role-rail-selected-surface: color-mix(
+    in srgb,
+    var(--accent-teal) 10%,
+    var(--bg-surface)
+  );
+  --role-rail-selected-surface-hover: color-mix(
+    in srgb,
+    var(--accent-teal) 15%,
+    var(--bg-surface)
+  );
+  --role-rail-selected-border: color-mix(
+    in srgb,
+    var(--accent-teal) 28%,
+    var(--border-soft)
+  );
+  --role-pagination-previous-surface: var(--md-sys-color-surface);
+  --role-pagination-previous-surface-hover: var(--bg-subtle);
+  --role-pagination-next-surface: color-mix(
+    in srgb,
+    var(--accent-teal) 8%,
+    var(--bg-surface)
+  );
+  --role-pagination-next-surface-hover: color-mix(
+    in srgb,
+    var(--accent-teal) 14%,
+    var(--bg-surface)
+  );
+  --role-pagination-next-border: color-mix(
+    in srgb,
+    var(--accent-teal) 25%,
+    var(--border-soft)
+  );
+  --role-skeleton-base: color-mix(
+    in srgb,
+    var(--text-strong) 8%,
+    var(--bg-subtle)
+  );
+  --role-skeleton-highlight: color-mix(
+    in srgb,
+    var(--text-strong) 4%,
+    var(--bg-surface)
+  );
+}

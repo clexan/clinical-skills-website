@@ -34,7 +34,7 @@ import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { getChapterBySlug, getChapterLoader } from "@/content/chapter-index";
 import { getPartById } from "@/content/parts";
 import { getChapterDisplayLabel, hasDistinctChapterNumber } from "@/lib/chapter-display";
-import { buildHandbookSequence, buildPartSequence, getPaginationEyebrow } from "@/lib/handbook-sequence";
+import { buildHandbookSequence, getPaginationEyebrow } from "@/lib/handbook-sequence";
 import { getUniqueHeadingId } from "@/lib/headings";
 import type { MDXContentProps } from "@/types/content";
 import "@/styles/prose.css";
@@ -157,10 +157,6 @@ export function ChapterPage() {
   }
 
   const part = getPartById(chapter.partId);
-  const partSequence = buildPartSequence(chapter.partId);
-  const regularChapters = partSequence.filter((entry) => entry.kind === "chapter");
-  const chapterPosition = regularChapters.findIndex((entry) => entry.slug === chapter.slug);
-  const chapterCount = regularChapters.length;
   const handbookSequence = buildHandbookSequence();
   const currentIndex = handbookSequence.findIndex((entry) => entry.slug === chapter.slug);
   const previous = currentIndex > 0 ? handbookSequence[currentIndex - 1] : null;
@@ -186,7 +182,7 @@ export function ChapterPage() {
               part
                 ? [
                     { label: "Contents", to: "/" },
-                    { label: part.title, to: `/part/${part.slug}` },
+                    { label: part.title, to: `/part/${part.slug}`, hideOnDesktop: true },
                     { label: getChapterDisplayLabel(chapter) },
                   ]
                 : [
@@ -196,30 +192,10 @@ export function ChapterPage() {
             }
           />
 
-          <header className={styles.titleBlock}>
-            {part && chapter.kind === "review" ? (
-              <div className={styles.metaRow}>
-                <span className={styles.metaPart}>{part.title}</span>
-                <span aria-hidden="true" className={styles.metaSeparator}>
-                  ·
-                </span>
-                <span className={styles.metaPosition}>Review</span>
-              </div>
-            ) : null}
-
-            {part && chapterPosition >= 0 ? (
-              <div className={styles.metaRow}>
-                <span className={styles.metaPart}>{part.title}</span>
-                <span aria-hidden="true" className={styles.metaSeparator}>
-                  ·
-                </span>
-                <span className={styles.metaPosition}>
-                  Chapter {chapterPosition + 1} of {chapterCount}
-                </span>
-              </div>
-            ) : null}
-
-            {hasDistinctChapterNumber(chapter) ? <p className={styles.number}>{chapter.number}</p> : null}
+          <header
+            className={`${styles.titleBlock} ${styles.headerInner}`}
+            data-chapter-number={hasDistinctChapterNumber(chapter) ? chapter.number : ""}
+          >
             <h1 className={styles.title}>{chapter.title}</h1>
             <p className={styles.description}>{chapter.description}</p>
             {chapter.authors.length > 0 ? <ChapterAuthorByline names={chapter.authors} /> : null}
@@ -293,7 +269,36 @@ export function ChapterPage() {
           ) : null}
 
           {error ? <p className={`${styles.message} ${styles.error}`}>{error}</p> : null}
-          {!Content && !error ? <p className={styles.message}>Loading chapter…</p> : null}
+          {!Content && !error ? (
+            <section aria-busy="true" className={styles.loadingState}>
+              <p aria-live="polite" className={styles.visuallyHidden} role="status">
+                Loading chapter…
+              </p>
+              <div aria-hidden="true" className={styles.loadingSkeleton}>
+                <div className={styles.skeletonSection}>
+                  <div className={`${styles.skeletonBlock} ${styles.skeletonHeading}`} />
+                  <div className={styles.skeletonBody}>
+                    <div className={`${styles.skeletonBlock} ${styles.skeletonLineLong}`} />
+                    <div className={`${styles.skeletonBlock} ${styles.skeletonLineLong}`} />
+                    <div className={`${styles.skeletonBlock} ${styles.skeletonLineMedium}`} />
+                  </div>
+                </div>
+
+                <div className={styles.skeletonSection}>
+                  <div className={`${styles.skeletonBlock} ${styles.skeletonPanel}`} />
+                </div>
+
+                <div className={styles.skeletonSection}>
+                  <div className={`${styles.skeletonBlock} ${styles.skeletonHeadingShort}`} />
+                  <div className={styles.skeletonBody}>
+                    <div className={`${styles.skeletonBlock} ${styles.skeletonLineLong}`} />
+                    <div className={`${styles.skeletonBlock} ${styles.skeletonLineLong}`} />
+                    <div className={`${styles.skeletonBlock} ${styles.skeletonLineShort}`} />
+                  </div>
+                </div>
+              </div>
+            </section>
+          ) : null}
 
           {Content ? (
             <div className={`${styles.proseBody} prose chapter-content`} ref={proseRef}>
@@ -333,7 +338,7 @@ export function ChapterPage() {
           className={`${styles.pagination}${paginationCount === 1 ? ` ${styles.paginationSingle}` : ""}`}
         >
           {previous ? (
-            <Link className={styles.paginationLink} to={`/chapter/${previous.slug}`}>
+            <Link className={`${styles.paginationLink} ${styles.paginationLinkPrevious}`} to={`/chapter/${previous.slug}`}>
               <span aria-hidden="true" className={styles.paginationArrow}>
                 ←
               </span>

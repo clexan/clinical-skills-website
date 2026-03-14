@@ -4,8 +4,11 @@ import styles from "./Card.module.css";
 
 type CardProps = PropsWithChildren<{
   elevated?: boolean;
+  className?: string;
 }>;
 
-export function Card({ children, elevated = false }: CardProps) {
-  return <div className={`surface ${styles.card}${elevated ? ` ${styles.elevated}` : ""}`}>{children}</div>;
+export function Card({ children, elevated = false, className = "" }: CardProps) {
+  const cardClassName = `surface ${styles.card}${elevated ? ` ${styles.elevated}` : ""}${className ? ` ${className}` : ""}`;
+
+  return <div className={cardClassName}>{children}</div>;
 }

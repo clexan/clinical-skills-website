@@ -43,6 +43,12 @@
   font-size: 0.85rem;
 }
 
+@media (min-width: 1024px) {
+  .hideOnDesktop {
+    display: none;
+  }
+}
+
 @media (max-width: 767px) {
   .compact {
     margin-bottom: var(--space-3);

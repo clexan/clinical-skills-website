@@ -8,11 +8,13 @@
 
 .partLabel {
   margin-bottom: var(--space-3);
-  color: var(--text-muted);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  color: var(--accent-teal);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+  opacity: 0.8;
 }
 
 .chapterList {
@@ -32,43 +34,81 @@
   align-items: baseline;
   gap: var(--space-2);
   padding: var(--space-1) var(--space-2);
+  border: 1px solid transparent;
   border-radius: var(--radius-sm);
-  color: var(--text-body);
+  color: var(--role-body-text);
   font-size: 0.85rem;
   line-height: 1.4;
   text-decoration: none;
   transition:
-    background 120ms,
-    color 120ms;
+    background-color 120ms ease,
+    border-color 120ms ease,
+    box-shadow 120ms ease,
+    color 120ms ease;
 }
 
 .chapterLink:hover {
-  background: var(--bg-subtle);
-  color: var(--text-strong);
+  background: var(--role-rail-hover-surface);
+  border-color: color-mix(in srgb, var(--md-sys-color-outline) 40%, transparent);
+  color: var(--md-sys-color-on-surface);
   text-decoration: none;
 }
 
-.chapterLink:focus-visible,
-.tocLink:focus-visible {
+.chapterLink:focus-visible {
+  background: var(--role-rail-hover-surface);
+  border-color: var(--role-focus-ring);
   outline: none;
-  box-shadow: 0 0 0 3px var(--accent-sky-soft);
+  box-shadow:
+    0 0 0 3px var(--role-focus-ring-soft),
+    inset 0 0 0 1px var(--role-focus-ring);
+}
+
+.active:focus-visible {
+  background: var(--role-rail-selected-surface-hover);
+  border-color: var(--role-focus-ring);
+  box-shadow:
+    0 0 0 3px var(--role-focus-ring-soft),
+    inset 0 0 0 1px var(--role-focus-ring),
+    inset 3px 0 0 0 var(--md-sys-color-primary);
+}
+
+.tocLink:focus-visible {
+  background: color-mix(in srgb, var(--md-sys-color-secondary) 8%, transparent);
+  outline: none;
+  box-shadow:
+    0 0 0 3px var(--role-focus-ring-soft),
+    inset 0 0 0 1px var(--role-focus-ring);
 }
 
 .active {
-  background: color-mix(in srgb, var(--accent-teal) 10%, transparent);
-  color: var(--accent-teal);
+  background: var(--role-rail-selected-surface);
+  border-color: var(--role-rail-selected-border);
+  box-shadow:
+    inset 0 0 0 1px var(--role-rail-selected-border),
+    inset 3px 0 0 0 var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary-container);
   font-weight: 600;
 }
 
 .chapterNumber {
   flex-shrink: 0;
-  color: var(--text-muted);
+  color: var(--md-sys-color-on-surface-variant);
   font-size: 0.75rem;
   font-variant-numeric: tabular-nums;
 }
 
+.chapterLink:hover .chapterNumber {
+  color: var(--role-body-text);
+}
+
+.active:hover {
+  background: var(--role-rail-selected-surface-hover);
+  border-color: var(--role-rail-selected-border);
+  color: var(--md-sys-color-on-primary-container);
+}
+
 .active .chapterNumber {
-  color: var(--accent-teal);
+  color: var(--md-sys-color-on-primary-container);
 }
 
 .chapterTitle {
@@ -78,18 +118,18 @@
 .reviewDivider {
   height: 1px;
   margin: var(--space-2) var(--space-2);
-  background: var(--border-soft);
+  background: var(--role-divider);
 }
 
 .sectionDivider {
   height: 1px;
   margin: var(--space-4) 0;
-  background: var(--border-soft);
+  background: var(--role-divider);
 }
 
 .tocLabel {
   margin-bottom: var(--space-2);
-  color: var(--text-muted);
+  color: var(--md-sys-color-on-surface-variant);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -108,19 +148,23 @@
   display: block;
   padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-sm);
-  color: var(--text-muted);
+  color: var(--md-sys-color-on-surface-variant);
   font-size: 0.82rem;
   line-height: 1.4;
   text-decoration: none;
-  transition: color 120ms;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
 }
 
 .tocLink:hover {
-  color: var(--text-body);
+  background: color-mix(in srgb, var(--md-sys-color-on-surface) 4%, transparent);
+  color: var(--role-body-text);
   text-decoration: none;
 }
 
 .tocActive {
-  color: var(--text-strong);
+  background: color-mix(in srgb, var(--md-sys-color-primary) 7%, transparent);
+  color: var(--md-sys-color-on-surface);
   font-weight: 500;
 }

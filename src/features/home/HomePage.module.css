@@ -7,19 +7,31 @@
   padding: var(--space-6);
 }
 
-.title {
-  margin: 0;
-  color: var(--text-strong);
-  font-size: clamp(2rem, 4vw, 3rem);
-  line-height: 1.1;
+.heroRule {
+  width: 2.5rem;
+  height: 3px;
+  margin: 0 0 var(--space-4);
+  border: none;
+  border-radius: 2px;
+  background: var(--accent-teal);
 }
 
-.description {
-  margin: var(--space-4) 0 0;
-  max-width: 36rem;
+.heroTitle {
+  margin: 0 0 var(--space-3);
+  color: var(--text-strong);
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.heroSubtitle {
+  margin: 0;
+  max-width: 56ch;
   color: var(--text-muted);
-  font-size: 1.05rem;
-  line-height: 1.7;
+  font-size: 1rem;
+  line-height: 1.65;
 }
 
 .grid {
@@ -35,6 +47,10 @@
   text-decoration: none;
 }
 
+.cardLinkFeatured {
+  grid-column: 1 / -1;
+}
+
 .cardLink:hover {
   text-decoration: none;
 }
@@ -43,15 +59,64 @@
   height: 100%;
 }
 
-.cardLink > div {
-  min-height: 80px;
-}
-
 .cardContent {
   display: grid;
   gap: var(--space-3);
   min-height: 100%;
   min-width: 0;
+}
+
+.partEyebrow {
+  margin: 0 0 var(--space-3);
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.partCard {
+  min-height: 80px;
+  cursor: pointer;
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease,
+    box-shadow 140ms ease,
+    transform 140ms ease;
+}
+
+.partCard:hover {
+  background: var(--role-card-hover-surface);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.partCardFeatured {
+  background: color-mix(in srgb, var(--accent-teal) 6%, var(--bg-surface));
+  border-color: color-mix(in srgb, var(--accent-teal) 20%, var(--border-soft));
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.partCardFeatured:hover {
+  background: color-mix(in srgb, var(--accent-teal) 10%, var(--bg-surface));
+  border-color: color-mix(in srgb, var(--accent-teal) 30%, var(--border-soft));
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.partCardFeaturedCue {
+  margin: 0 0 var(--space-2);
+  color: var(--accent-teal);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .cardTitle {
@@ -76,9 +141,23 @@
   outline: none;
 }
 
-.cardLink:focus-visible > div {
-  border-color: var(--accent-sky);
-  box-shadow: 0 0 0 3px var(--accent-sky-soft), var(--shadow-md);
+.cardLink:focus-visible .partCard {
+  border-color: var(--role-focus-ring);
+  box-shadow: 0 0 0 3px var(--role-focus-ring-soft), var(--shadow-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partCard {
+    transition:
+      background-color 140ms ease,
+      border-color 140ms ease,
+      box-shadow 140ms ease;
+  }
+
+  .partCard:hover,
+  .partCardFeatured:hover {
+    transform: none;
+  }
 }
 
 @media (max-width: 767px) {
@@ -86,18 +165,23 @@
     padding-block: var(--space-6);
   }
 
-  .title {
-    font-size: clamp(1.4rem, 6vw, 2rem);
+  .heroTitle {
+    font-size: clamp(1.8rem, 7vw, 2.4rem);
   }
 
-  .description {
+  .heroSubtitle {
     max-width: 100%;
     font-size: 0.9rem;
     line-height: 1.6;
   }
 
-  .cardLink > div {
+  .partCard {
     padding: var(--space-4);
+  }
+
+  .partCardFeatured {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
   }
 
   .cardTitle {

@@ -54,7 +54,7 @@
 }
 
 .navLinkActive {
-  color: var(--accent-teal);
+  color: var(--text-body);
   font-weight: 600;
 }
 
