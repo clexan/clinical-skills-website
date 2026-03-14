@@ -33,18 +33,3 @@
   outline: 2px solid var(--accent-sky);
   outline-offset: 4px;
 }
-
-.footer {
-  background: var(--bg-surface);
-  border-top: 1px solid var(--border-soft);
-}
-
-.footerInner {
-  padding-block: var(--space-4);
-}
-
-.footerCopy {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: 0.9rem;
-}

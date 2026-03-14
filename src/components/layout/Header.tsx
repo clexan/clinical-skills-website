@@ -1,26 +1,14 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { getSearchShortcutLabel } from "@/features/search/search-shortcut";
-import { primaryNavItems } from "./navigation";
 import styles from "./Header.module.css";
 
 type HeaderProps = {
-  menuOpen: boolean;
-  showMenuButton: boolean;
-  onMenuOpen: () => void;
   onSearchOpen: () => void;
   onSearchWarmup: () => void;
 };
 
-export function Header({
-  menuOpen,
-  showMenuButton,
-  onMenuOpen,
-  onSearchOpen,
-  onSearchWarmup,
-}: HeaderProps) {
-  const getNavLinkClassName = ({ isActive }: { isActive: boolean }) =>
-    isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink;
+export function Header({ onSearchOpen, onSearchWarmup }: HeaderProps) {
   const shortcutLabel = getSearchShortcutLabel();
 
   return (
@@ -30,22 +18,11 @@ export function Header({
           Clinical Skills Handbook
         </Link>
 
-        {primaryNavItems.length ? (
-          <nav aria-label="Primary" className={styles.nav}>
-            {primaryNavItems.map((item) => (
-              <NavLink
-                className={getNavLinkClassName}
-                end={item.end}
-                key={item.to}
-                to={item.to}
-              >
-                {item.label}
-              </NavLink>
-            ))}
-          </nav>
-        ) : null}
+        <nav aria-label="Utility" className={styles.headerNav}>
+          <Link className={styles.headerNavLink} to="/reference">
+            Reference
+          </Link>
 
-        <div className={styles.actions}>
           <button
             aria-label="Search handbook"
             className={styles.searchTrigger}
@@ -72,33 +49,7 @@ export function Header({
               {shortcutLabel}
             </span>
           </button>
-
-          {showMenuButton ? (
-            <button
-              aria-controls="mobile-menu"
-              aria-expanded={menuOpen}
-              aria-label="Open menu"
-              className={styles.menuButton}
-              onClick={onMenuOpen}
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                className={styles.icon}
-                fill="none"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M4 7h16M4 12h16M4 17h16"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeWidth="1.8"
-                />
-              </svg>
-            </button>
-          ) : null}
-        </div>
+        </nav>
       </div>
     </header>
   );

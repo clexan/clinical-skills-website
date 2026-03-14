@@ -11,7 +11,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: var(--space-4);
   height: 100%;
   padding-inline: var(--space-4);
 }
@@ -35,40 +35,29 @@
   text-decoration: none;
 }
 
-.nav {
-  display: none;
-  align-items: center;
-  gap: var(--space-5);
-}
-
-.navLink {
-  color: var(--text-body);
-  font-size: 0.9rem;
-  font-weight: 500;
-  text-decoration: none;
-}
-
-.navLink:hover {
-  color: var(--text-strong);
-  text-decoration: none;
-}
-
-.navLinkActive {
-  color: var(--text-body);
-  font-weight: 600;
-}
-
-.actions {
+.headerNav {
   display: flex;
   flex: none;
   align-items: center;
   gap: var(--space-2);
 }
 
-.searchTrigger,
-.menuButton {
-  background: transparent;
-  color: var(--text-body);
+.headerNavLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding-inline: var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 120ms;
+}
+
+.headerNavLink:hover {
+  color: var(--text-strong);
+  text-decoration: none;
 }
 
 .searchTrigger {
@@ -83,6 +72,8 @@
   border: 1px solid transparent;
   border-radius: 999px;
   cursor: pointer;
+  background: transparent;
+  color: var(--text-body);
   transition:
     width 220ms ease,
     border-color 220ms ease,
@@ -101,17 +92,29 @@
   flex: none;
 }
 
-.searchTrigger:hover,
-.menuButton:hover {
+.searchTrigger:hover {
   color: var(--text-strong);
   text-decoration: none;
 }
 
+.searchTriggerLabel,
+.shortcutBadge {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease 60ms;
+}
+
 .brand:focus-visible,
-.searchTrigger:focus-visible,
-.menuButton:focus-visible {
+.headerNavLink:focus-visible,
+.searchTrigger:focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px var(--accent-sky-soft);
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  flex: none;
 }
 
 .searchTriggerLabel {
@@ -120,9 +123,6 @@
   font-size: 0.8rem;
   line-height: 1;
   white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 180ms ease 60ms;
 }
 
 .shortcutBadge {
@@ -133,27 +133,6 @@
   font-weight: 600;
   line-height: 1;
   white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 180ms ease 60ms;
-}
-
-.menuButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.75rem;
-  min-width: 2.75rem;
-  height: 2.75rem;
-  padding: 0;
-  border: none;
-  border-radius: var(--radius-sm);
-}
-
-.icon {
-  width: 24px;
-  height: 24px;
-  flex: none;
 }
 
 @media (min-width: 1024px) {
@@ -166,14 +145,6 @@
     overflow: visible;
     font-size: 1rem;
     text-overflow: clip;
-  }
-
-  .nav {
-    display: flex;
-  }
-
-  .menuButton {
-    display: none;
   }
 
   .searchTrigger:hover,

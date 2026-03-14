@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Outlet, matchPath, useLocation } from "react-router-dom";
 
+import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
-import { MobileMenu } from "@/components/layout/MobileMenu";
-import { primaryNavItems } from "@/components/layout/navigation";
 import { chapterIndex } from "@/content/chapter-index";
 import { getPartById, getPartBySlug } from "@/content/parts";
 import { SearchModal } from "@/features/search/SearchModal";
@@ -44,7 +43,6 @@ function canWarmSearchInBackground() {
 }
 
 function RootLayoutShell() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const shellRef = useRef<HTMLDivElement | null>(null);
   const { isOpen: searchOpen, openSearch, toggleSearch } = useSearchModal();
@@ -55,10 +53,7 @@ function RootLayoutShell() {
   const matchedChapter = chapterMatch
     ? chapterIndex.find((chapter) => chapter.slug === chapterMatch.params.chapterSlug)
     : undefined;
-  const parentPartSlug = matchedChapter ? getPartById(matchedChapter.partId)?.slug : undefined;
-  const currentPartSlug = partMatch?.params.partSlug ?? parentPartSlug ?? undefined;
-  const showMenuButton = primaryNavItems.length > 0 || Boolean(currentPartSlug);
-  const shellBlocked = menuOpen || searchOpen;
+  const shellBlocked = searchOpen;
   const routeTitle = (() => {
     if (location.pathname === "/") {
       return "Contents";
@@ -102,10 +97,6 @@ function RootLayoutShell() {
   })();
 
   useSearchShortcut(toggleSearch);
-
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [location.pathname]);
 
   useEffect(() => {
     document.title = formatDocumentTitle(routeTitle);
@@ -165,9 +156,6 @@ function RootLayoutShell() {
         </a>
 
         <Header
-          menuOpen={menuOpen}
-          showMenuButton={showMenuButton}
-          onMenuOpen={() => setMenuOpen(true)}
           onSearchOpen={openSearch}
           onSearchWarmup={() => {
             void preloadSearchExperience();
@@ -180,18 +168,9 @@ function RootLayoutShell() {
           </div>
         </main>
 
-        <footer className={styles.footer}>
-          <div className={`container ${styles.footerInner}`}>
-            <p className={styles.footerCopy}>Clinical Skills Handbook</p>
-          </div>
-        </footer>
+        <Footer />
       </div>
 
-      <MobileMenu
-        currentPartSlug={currentPartSlug}
-        isOpen={menuOpen}
-        onClose={() => setMenuOpen(false)}
-      />
       <SearchModal />
     </>
   );
