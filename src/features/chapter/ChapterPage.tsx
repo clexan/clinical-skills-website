@@ -42,31 +42,11 @@ import "@/styles/prose.css";
 import { ChapterRail } from "./ChapterRail";
 import styles from "./ChapterPage.module.css";
 
-const rawChapterModules = import.meta.glob<string>("/src/docs/**/*.mdx", {
-  import: "default",
-  query: "?raw",
-});
-
-function extractChapterAuthorNames(source: string) {
-  const bylineMatch = source.match(/<ChapterAuthorByline[\s\S]*?names=\{\[([\s\S]*?)\]\}[\s\S]*?\/>/m);
-
-  if (!bylineMatch) {
-    return [];
-  }
-
-  return Array.from(bylineMatch[1].matchAll(/"([^"]+)"/g), (match) => match[1].trim()).filter(Boolean);
-}
-
-function HiddenChapterAuthorByline() {
-  return null;
-}
-
 export function ChapterPage() {
   const { chapterSlug = "" } = useParams();
   const location = useLocation();
   const chapter = getChapterBySlug(chapterSlug);
   const [Content, setContent] = useState<ComponentType<MDXContentProps> | null>(null);
-  const [authorNames, setAuthorNames] = useState<string[]>([]);
   const [keyPoints, setKeyPoints] = useState<string[] | null>(null);
   const [headings, setHeadings] = useState<Array<{ id: string; label: string }>>([]);
   const [error, setError] = useState<string | null>(null);
@@ -100,39 +80,6 @@ export function ChapterPage() {
 
         if (isActive) {
           setError("This chapter is not available right now. Please try again.");
-        }
-      });
-
-    return () => {
-      isActive = false;
-    };
-  }, [chapter]);
-
-  useEffect(() => {
-    if (!chapter) {
-      setAuthorNames([]);
-      return;
-    }
-
-    let isActive = true;
-
-    setAuthorNames([]);
-
-    const loadRawChapter = rawChapterModules[chapter.sourcePath];
-
-    if (typeof loadRawChapter !== "function") {
-      return;
-    }
-
-    loadRawChapter()
-      .then((source) => {
-        if (isActive) {
-          setAuthorNames(extractChapterAuthorNames(source));
-        }
-      })
-      .catch(() => {
-        if (isActive) {
-          setAuthorNames([]);
         }
       });
 
@@ -275,7 +222,7 @@ export function ChapterPage() {
             {hasDistinctChapterNumber(chapter) ? <p className={styles.number}>{chapter.number}</p> : null}
             <h1 className={styles.title}>{chapter.title}</h1>
             <p className={styles.description}>{chapter.description}</p>
-            {authorNames.length > 0 ? <ChapterAuthorByline names={authorNames} /> : null}
+            {chapter.authors.length > 0 ? <ChapterAuthorByline names={chapter.authors} /> : null}
             <div aria-hidden="true" className={styles.titleDivider} />
           </header>
 
@@ -356,7 +303,6 @@ export function ChapterPage() {
                   BasicMechanismsOfInjuryTable,
                   BleedingCycleFigure,
                   ChestInjuryLifeThreatsFigure,
-                  ChapterAuthorByline: HiddenChapterAuthorByline,
                   CopdDifferentialTable,
                   DiagramBlock,
                   FigureBlock,

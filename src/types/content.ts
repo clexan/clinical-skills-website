@@ -34,9 +34,17 @@ export interface ChapterRecord {
   order: number;
   title: string;
   description: string;
+  authors: string[];
   kind: ChapterKind;
   status: EditorialStatus;
   sourcePath: ChapterSourcePath;
+}
+
+export interface ChapterFrontmatter {
+  title: string;
+  description: string;
+  authors: string[];
+  [key: string]: unknown;
 }
 
 export interface ChapterModule {

@@ -1,4 +1,5 @@
 import type {
+  ChapterFrontmatter,
   ChapterLoader,
   ChapterModule,
   ChapterRecord,
@@ -7,8 +8,44 @@ import type {
 } from "@/types/content";
 
 const chapterModules = import.meta.glob<ChapterModule>("/src/docs/**/*.mdx");
+const chapterMetadataModules = import.meta.glob<ChapterFrontmatter>("/src/docs/part-*/*.mdx", {
+  eager: true,
+  import: "default",
+  query: "?chapter-metadata",
+});
 
-export const chapterIndex = [
+type ChapterMetadata = Pick<ChapterRecord, "authors" | "description" | "title">;
+type ChapterIndexSeed = Omit<ChapterRecord, "authors">;
+
+function getChapterMetadata(sourcePath: ChapterSourcePath): ChapterMetadata {
+  const frontmatter = chapterMetadataModules[sourcePath];
+
+  if (!frontmatter) {
+    throw new Error(`No chapter metadata found for sourcePath: ${sourcePath}`);
+  }
+
+  const { title, description, authors } = frontmatter;
+
+  if (typeof title !== "string" || !title.trim()) {
+    throw new Error(`Missing chapter title frontmatter for sourcePath: ${sourcePath}`);
+  }
+
+  if (typeof description !== "string" || !description.trim()) {
+    throw new Error(`Missing chapter description frontmatter for sourcePath: ${sourcePath}`);
+  }
+
+  if (!Array.isArray(authors) || authors.some((author) => typeof author !== "string")) {
+    throw new Error(`Missing chapter authors frontmatter for sourcePath: ${sourcePath}`);
+  }
+
+  return {
+    title: title.trim(),
+    description: description.trim(),
+    authors: authors.map((author) => author.trim()).filter(Boolean),
+  };
+}
+
+const chapterIndexSeed = [
   {
     id: "1-1-abcde-sample",
     slug: "1-1-abcde-sample",
@@ -357,7 +394,12 @@ export const chapterIndex = [
     status: "draft",
     sourcePath: "/src/docs/part-7/review.mdx",
   },
-] satisfies readonly ChapterRecord[];
+] satisfies readonly ChapterIndexSeed[];
+
+export const chapterIndex = chapterIndexSeed.map((chapter) => ({
+  ...chapter,
+  ...getChapterMetadata(chapter.sourcePath),
+})) satisfies readonly ChapterRecord[];
 
 export function getChapterBySlug(chapterSlug: string) {
   return chapterIndex.find((chapter) => chapter.slug === chapterSlug) ?? null;
