@@ -6,6 +6,7 @@ import { HandbookLayout } from "@/app/layouts/HandbookLayout";
 import { AsthmaSeverityTable } from "@/components/handbook/AsthmaSeverityTable";
 import { BleedingCycleFigure } from "@/components/handbook/BleedingCycleFigure";
 import { ChestInjuryLifeThreatsFigure } from "@/components/handbook/ChestInjuryLifeThreatsFigure";
+import { ChapterAuthorByline } from "@/components/handbook/ChapterAuthorByline";
 import { DiagramBlock } from "@/components/handbook/DiagramBlock";
 import { CopdDifferentialTable } from "@/components/handbook/CopdDifferentialTable";
 import { FigureBlock } from "@/components/handbook/FigureBlock";
@@ -269,6 +270,7 @@ export function ChapterPage() {
                   BasicMechanismsOfInjuryTable,
                   BleedingCycleFigure,
                   ChestInjuryLifeThreatsFigure,
+                  ChapterAuthorByline,
                   CopdDifferentialTable,
                   DiagramBlock,
                   FigureBlock,

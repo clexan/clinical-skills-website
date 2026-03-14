@@ -137,3 +137,7 @@ export const AUTHORS: Author[] = [
     departments: [DEPT_ANAESTHESIOLOGY_FACULTY, DEPT_ANAESTHESIOLOGY_KBC],
   },
 ];
+
+export function getAuthorByName(name: string) {
+  return AUTHORS.find((author) => author.name === name) ?? null;
+}
