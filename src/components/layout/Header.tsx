@@ -19,6 +19,10 @@ export function Header({ onSearchOpen, onSearchWarmup }: HeaderProps) {
         </Link>
 
         <nav aria-label="Utility" className={styles.headerNav}>
+          <Link className={styles.headerNavLink} to="/videos">
+            Videos
+          </Link>
+
           <Link className={styles.headerNavLink} to="/reference">
             Reference
           </Link>

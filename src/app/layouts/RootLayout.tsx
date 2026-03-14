@@ -63,6 +63,10 @@ function RootLayoutShell() {
       return "Emergency Treatment Reference";
     }
 
+    if (location.pathname === "/videos") {
+      return "Clinical Skills Videos";
+    }
+
     if (location.pathname === "/search") {
       return "Search";
     }

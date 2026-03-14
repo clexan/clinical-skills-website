@@ -20,6 +20,9 @@ export function Footer() {
           <Link className={styles.footerLink} to="/credits">
             Credits
           </Link>
+          <Link className={styles.footerLink} to="/videos">
+            Videos
+          </Link>
           <Link className={styles.footerLink} to="/reference">
             Reference
           </Link>

@@ -33,6 +33,7 @@ import { WheezingDifferentialTable } from "@/components/handbook/WheezingDiffere
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { getChapterBySlug, getChapterLoader } from "@/content/chapter-index";
 import { getPartById } from "@/content/parts";
+import { CompanionVideosSection } from "@/features/videos/CompanionVideosSection";
 import { getChapterDisplayLabel, hasDistinctChapterNumber } from "@/lib/chapter-display";
 import { buildHandbookSequence, getPaginationEyebrow } from "@/lib/handbook-sequence";
 import { getUniqueHeadingId } from "@/lib/headings";
@@ -267,6 +268,8 @@ export function ChapterPage() {
               </details>
             </>
           ) : null}
+
+          <CompanionVideosSection chapterSlug={chapter.slug} />
 
           {error ? <p className={`${styles.message} ${styles.error}`}>{error}</p> : null}
           {!Content && !error ? (

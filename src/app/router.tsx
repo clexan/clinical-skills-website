@@ -9,6 +9,7 @@ import { PartPage } from "@/features/part/PartPage";
 import { EmergencyReferencePage } from "@/features/reference/EmergencyReferencePage";
 import { SearchPage } from "@/features/search/SearchPage";
 import { NotFoundPage } from "@/features/status/NotFoundPage";
+import { VideoIndexPage } from "@/features/videos/VideoIndexPage";
 
 export const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
       {
         path: "reference",
         element: <EmergencyReferencePage />,
+      },
+      {
+        path: "videos",
+        element: <VideoIndexPage />,
       },
       {
         path: "credits",
