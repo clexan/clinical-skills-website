@@ -6,6 +6,7 @@ import { ChapterPage } from "@/features/chapter/ChapterPage";
 import { CreditsPage } from "@/features/credits/CreditsPage";
 import { HomePage } from "@/features/home/HomePage";
 import { PartPage } from "@/features/part/PartPage";
+import { EmergencyReferencePage } from "@/features/reference/EmergencyReferencePage";
 import { SearchPage } from "@/features/search/SearchPage";
 import { NotFoundPage } from "@/features/status/NotFoundPage";
 
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
       {
         path: "search",
         element: <SearchPage />,
+      },
+      {
+        path: "reference",
+        element: <EmergencyReferencePage />,
       },
       {
         path: "credits",

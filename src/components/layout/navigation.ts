@@ -1,7 +1,1 @@
-export const primaryNavItems = [
-  {
-    label: "Contents",
-    to: "/",
-    end: true,
-  },
-] as const;
+export const primaryNavItems = [] as const;

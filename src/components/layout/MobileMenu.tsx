@@ -124,19 +124,21 @@ export function MobileMenu({ isOpen, onClose, currentPartSlug }: MobileMenuProps
           </button>
         </div>
 
-        <nav aria-label="Primary" className={styles.primaryNav}>
-          {primaryNavItems.map((item) => (
-            <NavLink
-              className={getNavLinkClassName}
-              end={item.end}
-              key={item.to}
-              onClick={onClose}
-              to={item.to}
-            >
-              {item.label}
-            </NavLink>
-          ))}
-        </nav>
+        {primaryNavItems.length ? (
+          <nav aria-label="Primary" className={styles.primaryNav}>
+            {primaryNavItems.map((item) => (
+              <NavLink
+                className={getNavLinkClassName}
+                end={item.end}
+                key={item.to}
+                onClick={onClose}
+                to={item.to}
+              >
+                {item.label}
+              </NavLink>
+            ))}
+          </nav>
+        ) : null}
 
         {currentPart ? (
           <section className={styles.partSection}>

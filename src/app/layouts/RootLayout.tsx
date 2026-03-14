@@ -3,6 +3,7 @@ import { Outlet, matchPath, useLocation } from "react-router-dom";
 
 import { Header } from "@/components/layout/Header";
 import { MobileMenu } from "@/components/layout/MobileMenu";
+import { primaryNavItems } from "@/components/layout/navigation";
 import { chapterIndex } from "@/content/chapter-index";
 import { getPartById, getPartBySlug } from "@/content/parts";
 import { SearchModal } from "@/features/search/SearchModal";
@@ -56,10 +57,15 @@ function RootLayoutShell() {
     : undefined;
   const parentPartSlug = matchedChapter ? getPartById(matchedChapter.partId)?.slug : undefined;
   const currentPartSlug = partMatch?.params.partSlug ?? parentPartSlug ?? undefined;
+  const showMenuButton = primaryNavItems.length > 0 || Boolean(currentPartSlug);
   const shellBlocked = menuOpen || searchOpen;
   const routeTitle = (() => {
     if (location.pathname === "/") {
       return "Contents";
+    }
+
+    if (location.pathname === "/reference") {
+      return "Emergency Treatment Reference";
     }
 
     if (location.pathname === "/search") {
@@ -160,6 +166,7 @@ function RootLayoutShell() {
 
         <Header
           menuOpen={menuOpen}
+          showMenuButton={showMenuButton}
           onMenuOpen={() => setMenuOpen(true)}
           onSearchOpen={openSearch}
           onSearchWarmup={() => {

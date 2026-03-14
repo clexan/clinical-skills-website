@@ -6,12 +6,19 @@ import styles from "./Header.module.css";
 
 type HeaderProps = {
   menuOpen: boolean;
+  showMenuButton: boolean;
   onMenuOpen: () => void;
   onSearchOpen: () => void;
   onSearchWarmup: () => void;
 };
 
-export function Header({ menuOpen, onMenuOpen, onSearchOpen, onSearchWarmup }: HeaderProps) {
+export function Header({
+  menuOpen,
+  showMenuButton,
+  onMenuOpen,
+  onSearchOpen,
+  onSearchWarmup,
+}: HeaderProps) {
   const getNavLinkClassName = ({ isActive }: { isActive: boolean }) =>
     isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink;
   const shortcutLabel = getSearchShortcutLabel();
@@ -23,18 +30,20 @@ export function Header({ menuOpen, onMenuOpen, onSearchOpen, onSearchWarmup }: H
           Clinical Skills Handbook
         </Link>
 
-        <nav aria-label="Primary" className={styles.nav}>
-          {primaryNavItems.map((item) => (
-            <NavLink
-              className={getNavLinkClassName}
-              end={item.end}
-              key={item.to}
-              to={item.to}
-            >
-              {item.label}
-            </NavLink>
-          ))}
-        </nav>
+        {primaryNavItems.length ? (
+          <nav aria-label="Primary" className={styles.nav}>
+            {primaryNavItems.map((item) => (
+              <NavLink
+                className={getNavLinkClassName}
+                end={item.end}
+                key={item.to}
+                to={item.to}
+              >
+                {item.label}
+              </NavLink>
+            ))}
+          </nav>
+        ) : null}
 
         <div className={styles.actions}>
           <button
@@ -64,29 +73,31 @@ export function Header({ menuOpen, onMenuOpen, onSearchOpen, onSearchWarmup }: H
             </span>
           </button>
 
-          <button
-            aria-controls="mobile-menu"
-            aria-expanded={menuOpen}
-            aria-label="Open menu"
-            className={styles.menuButton}
-            onClick={onMenuOpen}
-            type="button"
-          >
-            <svg
-              aria-hidden="true"
-              className={styles.icon}
-              fill="none"
-              focusable="false"
-              viewBox="0 0 24 24"
+          {showMenuButton ? (
+            <button
+              aria-controls="mobile-menu"
+              aria-expanded={menuOpen}
+              aria-label="Open menu"
+              className={styles.menuButton}
+              onClick={onMenuOpen}
+              type="button"
             >
-              <path
-                d="M4 7h16M4 12h16M4 17h16"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeWidth="1.8"
-              />
-            </svg>
-          </button>
+              <svg
+                aria-hidden="true"
+                className={styles.icon}
+                fill="none"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M4 7h16M4 12h16M4 17h16"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeWidth="1.8"
+                />
+              </svg>
+            </button>
+          ) : null}
         </div>
       </div>
     </header>

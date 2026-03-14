@@ -1,0 +1,315 @@
+.page {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.header {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-6);
+}
+
+.heroRule {
+  width: 2.5rem;
+  height: 3px;
+  margin: 0;
+  border: none;
+  border-radius: 2px;
+  background: var(--accent-teal);
+}
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-4);
+}
+
+.title {
+  margin: 0 0 var(--space-1);
+  color: var(--text-strong);
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  line-height: 1.1;
+}
+
+.subtitle {
+  margin: 0;
+  max-width: 62ch;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.backLink {
+  white-space: nowrap;
+  color: var(--accent-teal);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0 var(--space-3);
+  background: transparent;
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease,
+    color 140ms ease;
+}
+
+.chip:hover {
+  border-color: var(--border-strong);
+  color: var(--text-strong);
+}
+
+.chipActive {
+  background: color-mix(in srgb, var(--accent-teal) 10%, var(--bg-surface));
+  border-color: color-mix(in srgb, var(--accent-teal) 24%, var(--border-soft));
+  color: var(--accent-teal);
+}
+
+.cardList {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.referenceCard {
+  scroll-margin-top: calc(56px + var(--space-4));
+  background: var(--role-card-surface);
+  border: 1px solid var(--role-card-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition:
+    box-shadow 140ms ease,
+    border-color 140ms ease,
+    transform 140ms ease;
+}
+
+.referenceCardOpen {
+  box-shadow: var(--shadow-md);
+}
+
+.severity-critical {
+  border-left: 4px solid #e24b4a;
+}
+
+.severity-urgent {
+  border-left: 4px solid #d4820a;
+}
+
+.referenceCardToggle {
+  width: 100%;
+  padding: var(--space-5);
+  background: transparent;
+  border: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.referenceCardToggle:hover {
+  background: var(--role-card-hover-surface);
+}
+
+.referenceCardToggle:focus-visible,
+.chip:focus-visible,
+.backLink:focus-visible,
+.cardChapterLink:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-sky-soft);
+}
+
+.referenceCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.referenceCardHeaderMain {
+  min-width: 0;
+}
+
+.referenceCardTitle {
+  margin: 0 0 var(--space-1);
+  color: var(--text-strong);
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  line-height: 1.2;
+}
+
+.referenceCardSub {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.7rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.badge-critical {
+  background: var(--accent-rose-soft);
+  color: var(--accent-rose);
+}
+
+.badge-urgent {
+  background: var(--accent-amber-soft);
+  color: var(--accent-amber-label);
+}
+
+.referenceCardSummary {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.referenceCardAlert {
+  margin: 0;
+  color: var(--text-body);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.referenceCardHint {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  color: var(--accent-teal);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.referenceCardBody {
+  display: grid;
+  gap: var(--space-4);
+  padding: 0 var(--space-5) var(--space-5);
+  border-top: 1px solid var(--border-soft);
+}
+
+.bodyGrid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+}
+
+.section {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.sectionTitle {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.step {
+  margin: 0;
+  color: var(--text-body);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.priorityList,
+.medicationList {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--text-body);
+}
+
+.priorityList li,
+.medicationList li {
+  line-height: 1.6;
+}
+
+.priorityList strong,
+.medicationList strong {
+  color: var(--text-strong);
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.cardChapterLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  color: var(--text-strong);
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cardChapterLink:hover {
+  background: var(--bg-subtle);
+  text-decoration: none;
+}
+
+.emptyState {
+  padding: var(--space-6);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chip,
+  .referenceCard {
+    transition:
+      background-color 140ms ease,
+      border-color 140ms ease,
+      box-shadow 140ms ease;
+  }
+}
+
+@media (max-width: 767px) {
+  .header {
+    padding: var(--space-5);
+  }
+
+  .titleRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .bodyGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .referenceCardToggle,
+  .referenceCardBody {
+    padding-inline: var(--space-4);
+  }
+}
