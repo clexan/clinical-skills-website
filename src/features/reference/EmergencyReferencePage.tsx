@@ -66,6 +66,11 @@ export function EmergencyReferencePage() {
           </Link>
         </div>
 
+        <p className={styles.safetyNote}>
+          Educational reference only — not a substitute for clinical judgement, local protocols, or senior supervision.
+          Doses are adult defaults; adjust for renal function, weight, and comorbidity. Practice may vary by region.
+        </p>
+
         <div aria-label="Reference filters" className={styles.filters}>
           {referenceFilterChips.map((filter) => (
             <button
@@ -155,31 +160,117 @@ function ReferenceAccordionCard({ entry, isOpen, onToggle }: ReferenceAccordionC
 
       {isOpen ? (
         <div className={styles.referenceCardBody} id={panelId}>
+
+          {/* Recognition */}
+          <section className={styles.section}>
+            <h3 className={styles.sectionTitle}>Recognition</h3>
+            <ul className={styles.contentList}>
+              {entry.recognition.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </section>
+
+          {/* First 5 Minutes + Adult Doses */}
           <div className={styles.bodyGrid}>
             <section className={styles.section}>
-              <h3 className={styles.sectionTitle}>Clinical Priorities</h3>
-              <p className={styles.step}>{entry.firstStep}</p>
-
-              <ul className={styles.priorityList}>
-                {entry.priorities.map((priority) => (
-                  <li key={priority}>{priority}</li>
+              <h3 className={styles.sectionTitle}>First 5 Minutes</h3>
+              <ol className={styles.stepList}>
+                {entry.first5Minutes.map((item) => (
+                  <li key={item}>{item}</li>
                 ))}
-              </ul>
+              </ol>
             </section>
 
             <section className={styles.section}>
               <h3 className={styles.sectionTitle}>Adult Doses</h3>
-
               <ul className={styles.medicationList}>
                 {entry.medications.map((medication) => (
                   <li key={`${medication.name}-${medication.dose}`}>
                     <strong>{medication.name}:</strong> {medication.dose}
-                    {medication.note ? ` ${medication.note}` : ""}
+                    {medication.note ? (
+                      <span className={styles.medicationNote}> {medication.note}</span>
+                    ) : null}
                   </li>
                 ))}
               </ul>
             </section>
           </div>
+
+          {/* Diagnostics */}
+          <section className={styles.section}>
+            <h3 className={styles.sectionTitle}>Diagnostics &amp; Monitoring</h3>
+            <ul className={styles.contentList}>
+              {entry.diagnostics.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </section>
+
+          {/* Clinical Priorities */}
+          <section className={styles.section}>
+            <h3 className={styles.sectionTitle}>Clinical Priorities</h3>
+            <ul className={styles.contentList}>
+              {entry.priorities.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </section>
+
+          {/* Contraindications + Escalation */}
+          <div className={styles.bodyGrid}>
+            <section className={styles.section}>
+              <h3 className={styles.sectionTitle}>Contraindications &amp; Pitfalls</h3>
+              <ul className={styles.contentList}>
+                {entry.contraindications.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </section>
+
+            <section className={styles.section}>
+              <h3 className={styles.sectionTitle}>Escalation</h3>
+              <ul className={styles.contentList}>
+                {entry.escalation.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </section>
+          </div>
+
+          {/* Reassessment */}
+          <section className={styles.section}>
+            <h3 className={styles.sectionTitle}>Reassessment</h3>
+            <ul className={styles.contentList}>
+              {entry.reassessment.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </section>
+
+          {/* Key Numbers */}
+          {entry.keyNumbers ? (
+            <section className={styles.section}>
+              <h3 className={styles.sectionTitle}>Key Numbers</h3>
+              <ul className={styles.keyNumbersList}>
+                {entry.keyNumbers.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          {/* Sources */}
+          <section className={styles.section}>
+            <h3 className={styles.sectionTitle}>Sources</h3>
+            <ol className={styles.sourcesList}>
+              {entry.sources.map((source) => (
+                <li key={source.label}>
+                  <strong>{source.label}.</strong> {source.citation}
+                </li>
+              ))}
+            </ol>
+          </section>
 
           {chapter ? (
             <div className={styles.cardFooter}>

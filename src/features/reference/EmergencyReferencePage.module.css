@@ -40,6 +40,17 @@
   font-size: 0.95rem;
 }
 
+.safetyNote {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  background: color-mix(in srgb, var(--accent-amber) 8%, var(--bg-surface));
+  border: 1px solid color-mix(in srgb, var(--accent-amber) 20%, var(--border-soft));
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
 .backLink {
   white-space: nowrap;
   color: var(--accent-teal);
@@ -202,10 +213,12 @@
   font-weight: 600;
 }
 
+/* ── Expanded card body ───────────────────────────────────── */
+
 .referenceCardBody {
   display: grid;
-  gap: var(--space-4);
-  padding: 0 var(--space-5) var(--space-5);
+  gap: var(--space-5);
+  padding: var(--space-5);
   border-top: 1px solid var(--border-soft);
 }
 
@@ -217,44 +230,93 @@
 
 .section {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-2);
+  align-content: start;
 }
 
 .sectionTitle {
   margin: 0;
   color: var(--text-strong);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
-.step {
-  margin: 0;
-  color: var(--text-body);
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
-
-.priorityList,
-.medicationList {
+/* Shared list base */
+.contentList,
+.medicationList,
+.stepList,
+.keyNumbersList,
+.sourcesList {
   display: grid;
   gap: var(--space-2);
   margin: 0;
-  padding-left: 1.1rem;
+  padding-left: 1.2rem;
   color: var(--text-body);
-}
-
-.priorityList li,
-.medicationList li {
+  font-size: 0.88rem;
   line-height: 1.6;
 }
 
-.priorityList strong,
+.contentList li,
+.medicationList li,
+.stepList li,
+.keyNumbersList li,
+.sourcesList li {
+  padding-left: 0.1rem;
+}
+
+/* Numbered list for first-5-minutes */
+.stepList {
+  padding-left: 1.4rem;
+}
+
+.stepList li::marker {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Key numbers — subtle highlight */
+.keyNumbersList {
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--space-1);
+}
+
+.keyNumbersList li {
+  padding: var(--space-1) var(--space-3);
+  background: color-mix(in srgb, var(--accent-teal) 7%, var(--bg-surface));
+  border-left: 2px solid var(--accent-teal);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--text-body);
+}
+
+/* Sources */
+.sourcesList {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.sourcesList strong {
+  color: var(--text-body);
+}
+
+/* Medication note inline */
+.medicationNote {
+  color: var(--text-muted);
+  font-size: 0.84em;
+}
+
 .medicationList strong {
   color: var(--text-strong);
 }
 
+/* Card footer */
 .cardFooter {
   display: flex;
   justify-content: flex-start;
