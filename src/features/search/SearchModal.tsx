@@ -60,12 +60,16 @@ export function SearchModal() {
   const [searchModule, setSearchModule] = useState<Awaited<ReturnType<typeof loadSearchModule>> | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const panelRef = useRef<HTMLDivElement | null>(null);
+  const resultsRef = useRef<HTMLDivElement | null>(null);
   const resultRefs = useRef<Array<HTMLAnchorElement | null>>([]);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const shouldRestoreFocusRef = useRef(true);
-  const deferredQuery = useDeferredValue(query ?? "");
-  const trimmedQuery = (query ?? "").trim();
+  const queryValue = typeof query === "string" ? query : "";
+  const deferredQuery = useDeferredValue(queryValue);
+  const trimmedQuery = queryValue.trim();
   const shortcutLabel = getSearchShortcutLabel();
+  const filteredResults =
+    modeFilter === "all" ? results : results.filter((r) => r.mode === modeFilter);
 
   useEffect(() => {
     if (!isOpen) {
@@ -226,6 +230,26 @@ export function SearchModal() {
     resultRefs.current = resultRefs.current.slice(0, results.length);
   }, [results.length]);
 
+  useEffect(() => {
+    setModeFilter("all");
+  }, [trimmedQuery]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    const frame = window.requestAnimationFrame(() => {
+      if (resultsRef.current) {
+        resultsRef.current.scrollTop = 0;
+      }
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+    };
+  }, [filteredResults.length, isOpen, modeFilter, trimmedQuery]);
+
   const focusResultAtIndex = (index: number) => {
     const target = resultRefs.current[index];
 
@@ -282,9 +306,6 @@ export function SearchModal() {
     closeSearch();
   };
 
-  const filteredResults =
-    modeFilter === "all" ? results : results.filter((r) => r.mode === modeFilter);
-
   if (!isOpen) {
     return null;
   }
@@ -309,7 +330,7 @@ export function SearchModal() {
             placeholder="Search chapters and emergency reference"
             ref={inputRef}
             type="search"
-            value={query}
+            value={queryValue}
           />
         </div>
 
@@ -328,7 +349,12 @@ export function SearchModal() {
           </div>
         ) : null}
 
-        <div aria-live="polite" className={styles.results}>
+        <div
+          aria-live="polite"
+          className={styles.results}
+          key={`${trimmedQuery}:${modeFilter}`}
+          ref={resultsRef}
+        >
           {!searchReady ? <p className={styles.emptyState}>Preparing search index…</p> : null}
 
           {searchReady && !trimmedQuery ? (

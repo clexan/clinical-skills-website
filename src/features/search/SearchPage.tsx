@@ -1,23 +1,25 @@
 import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { HomePage } from "@/features/home/HomePage";
 import { useSearchModal } from "./SearchModalContext";
 
 export function SearchPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { isOpen, openSearch } = useSearchModal();
-  const hasRequestedOpenRef = useRef(false);
+  const requestedQueryRef = useRef<string | null>(null);
   const hasOpenedSearchRef = useRef(false);
+  const requestedQuery = searchParams.get("q")?.trim() ?? "";
 
   useEffect(() => {
-    if (hasRequestedOpenRef.current) {
+    if (requestedQueryRef.current === requestedQuery) {
       return;
     }
 
-    hasRequestedOpenRef.current = true;
-    openSearch();
-  }, [openSearch]);
+    requestedQueryRef.current = requestedQuery;
+    openSearch(requestedQuery);
+  }, [openSearch, requestedQuery]);
 
   useEffect(() => {
     if (isOpen) {

@@ -21,7 +21,7 @@ export function SearchModalProvider({ children }: { children: ReactNode }) {
         isOpen,
         initialQuery,
         openSearch: (query = "") => {
-          setInitialQuery(query);
+          setInitialQuery(typeof query === "string" ? query : "");
           setIsOpen(true);
         },
         closeSearch: () => {

@@ -92,33 +92,58 @@ function toPlainText(line: string) {
     .trim();
 }
 
+function isStandaloneBlockLine(line: string) {
+  return /^\s*(?:[-*+]|\d+\.)\s+/i.test(line) || /^\s{0,3}>+\s?/.test(line);
+}
+
 function extractSearchableText(source: string) {
   const preparedSource = stripTables(stripJsx(stripImports(stripExports(stripFrontmatter(source)))));
   const lines = preparedSource.split(/\r?\n/);
-  const chapterLines: string[] = [];
+  const chapterBlocks: string[] = [];
   const sectionDrafts: Array<{ headingText: string; lines: string[] }> = [];
   let currentSection: { headingText: string; lines: string[] } | null = null;
+  let paragraphLines: string[] = [];
+
+  const pushContentBlock = (content: string) => {
+    if (!content) {
+      return;
+    }
+
+    chapterBlocks.push(content);
+    currentSection?.lines.push(content);
+  };
+
+  const flushParagraph = () => {
+    if (!paragraphLines.length) {
+      return;
+    }
+
+    pushContentBlock(normalizeVisibleText(paragraphLines.join(" ")));
+    paragraphLines = [];
+  };
 
   for (const line of lines) {
     const trimmedLine = line.trim();
 
     if (!trimmedLine) {
+      flushParagraph();
       continue;
     }
 
     const h2Match = trimmedLine.match(/^##\s+(?!#)(.+)$/);
 
     if (h2Match) {
+      flushParagraph();
       const headingText = toPlainText(h2Match[1]);
 
       if (!headingText) {
         continue;
       }
 
-      chapterLines.push(headingText);
+      chapterBlocks.push(headingText);
       currentSection = {
         headingText,
-        lines: [headingText],
+        lines: [],
       };
       sectionDrafts.push(currentSection);
       continue;
@@ -127,18 +152,20 @@ function extractSearchableText(source: string) {
     const h3Match = trimmedLine.match(/^###\s+(?!#)(.+)$/);
 
     if (h3Match) {
+      flushParagraph();
       const headingText = toPlainText(h3Match[1]);
 
       if (!headingText) {
         continue;
       }
 
-      chapterLines.push(headingText);
+      chapterBlocks.push(headingText);
       currentSection?.lines.push(headingText);
       continue;
     }
 
     if (/^#\s+/.test(trimmedLine)) {
+      flushParagraph();
       continue;
     }
 
@@ -148,15 +175,23 @@ function extractSearchableText(source: string) {
       continue;
     }
 
-    chapterLines.push(plainText);
-    currentSection?.lines.push(plainText);
+    if (isStandaloneBlockLine(line)) {
+      flushParagraph();
+      pushContentBlock(plainText);
+      continue;
+    }
+
+    paragraphLines.push(plainText);
   }
 
+  flushParagraph();
+
   const usedHeadingIds = new Set<string>();
-  const chapterText = normalizeVisibleText(chapterLines.join(" "));
+  const chapterText = normalizeVisibleText(chapterBlocks.join(" "));
+  const chapterExcerptSource = chapterBlocks.join("\n");
   const sections: ExtractedSection[] = sectionDrafts
     .map((section) => {
-      const excerptSource = normalizeVisibleText(section.lines.join(" "));
+      const excerptSource = section.lines.join("\n") || section.headingText;
 
       if (!excerptSource) {
         return null;
@@ -166,13 +201,14 @@ function extractSearchableText(source: string) {
         headingId: getUniqueHeadingId(section.headingText, usedHeadingIds),
         headingText: section.headingText,
         excerptSource,
-        bodyText: excerptSource.toLowerCase(),
+        bodyText: normalizeSearchText([section.headingText, ...section.lines].join(" ")),
       };
     })
     .filter((section): section is ExtractedSection => section !== null);
 
   return {
     chapterText,
+    chapterExcerptSource,
     sections,
   };
 }
@@ -216,7 +252,7 @@ async function buildSearchIndex() {
     const part = getPartById(chapter.partId);
     const partTitle = part?.title ?? chapter.partId;
     const sourceText = await resolveChapterSource(chapter.sourcePath);
-    const { chapterText, sections } = extractSearchableText(sourceText);
+    const { chapterText, chapterExcerptSource, sections } = extractSearchableText(sourceText);
 
     const chapterMode = chapter.kind === "review" ? "review" : "chapter";
     const chapterModeLabel = chapter.kind === "review" ? "Review" : "Chapter";
@@ -230,7 +266,7 @@ async function buildSearchIndex() {
       chapterTitle: chapter.title,
       chapterDescription: chapter.description,
       bodyText: normalizeSearchText(chapterText),
-      excerptSource: chapterText,
+      excerptSource: chapterExcerptSource,
       kind: "chapter",
       mode: chapterMode,
       modeLabel: chapterModeLabel,

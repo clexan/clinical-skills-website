@@ -29,7 +29,7 @@ export function HomePage() {
 }
 
 function HomeHero() {
-  const { openSearch } = useSearchModal();
+  const { isOpen, openSearch } = useSearchModal();
   const [query, setQuery] = useState("");
 
   const warmSearch = () => {
@@ -38,7 +38,13 @@ function HomeHero() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    openSearch(query.trim());
+    const trimmedQuery = query.trim();
+
+    if (!trimmedQuery) {
+      return;
+    }
+
+    openSearch(trimmedQuery);
     setQuery("");
   };
 
@@ -94,7 +100,17 @@ function HomeHero() {
             autoComplete="off"
             className={styles.searchInput}
             id="home-search"
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={(event) => {
+              const nextQuery = event.target.value;
+
+              if (!isOpen && nextQuery.trim()) {
+                openSearch(nextQuery);
+                setQuery("");
+                return;
+              }
+
+              setQuery(nextQuery);
+            }}
             onFocus={warmSearch}
             placeholder="Search chapters and emergency reference"
             spellCheck={false}

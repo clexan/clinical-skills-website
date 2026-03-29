@@ -54,7 +54,7 @@ export function Header({ currentPartSlug, onSearchOpen, onSearchWarmup }: Header
                 aria-label="Search chapters, emergencies, practical prep, and final prep"
                 className={styles.searchTrigger}
                 data-search-trigger="header"
-                onClick={onSearchOpen}
+                onClick={() => onSearchOpen()}
                 onFocus={onSearchWarmup}
                 onMouseEnter={onSearchWarmup}
                 type="button"
