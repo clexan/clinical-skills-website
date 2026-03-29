@@ -53,3 +53,45 @@ export interface ChapterModule {
 }
 
 export type ChapterLoader = () => Promise<ChapterModule>;
+
+export interface PracticalSession {
+  slug: string;
+  title: string;
+  summary: string;
+  relatedChapterSlugs: string[];
+
+  // Enriched station architecture — optional; falls back to legacy fields when absent
+  stationGoal?: string;
+  setup?: readonly string[];
+  stationFlow?: readonly string[];
+  safetyChecks?: readonly string[];
+  communicationAnchors?: readonly string[];
+  commonBreakdowns?: readonly string[];
+  feedbackPrompts?: readonly string[];
+  repeatDrills?: readonly string[];
+
+  // Legacy fields — shown when enriched fields are absent; always required
+  equipmentChecklist: string[];
+  pitfalls: string[];
+  communicationFocus: string[];
+}
+
+export interface FinalPrepTopic {
+  slug: string;
+  title: string;
+  summary: string;
+  relatedChapterSlugs: string[];
+
+  // Enriched OSCE retrieval format — optional; falls back to legacy fields when absent
+  opener?: string;
+  mustHitSequence?: readonly string[];
+  redFlags?: readonly string[];
+  quickCues?: readonly string[];
+  rapidRecall?: readonly string[];
+  vivaPrompts?: readonly string[];
+
+  // Legacy fields — shown when enriched fields are absent; always required
+  mustDo: string[];
+  mustSay: string[];
+  commonErrors: string[];
+}

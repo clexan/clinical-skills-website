@@ -15,8 +15,8 @@ export function StatusPage({
   eyebrow,
   title,
   description,
-  backLabel = "Back to contents",
-  backTo = "/",
+  backLabel = "Back to handbook contents",
+  backTo = "/contents",
 }: StatusPageProps) {
   useEffect(() => {
     document.title = formatDocumentTitle(eyebrow);

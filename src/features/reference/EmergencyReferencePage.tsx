@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
+import { Breadcrumb } from "@/components/layout/Breadcrumb";
+import { ModeGuide } from "@/components/modes/ModeGuide";
 import { getChapterBySlug } from "@/content/chapter-index";
 
 import {
@@ -51,25 +53,61 @@ export function EmergencyReferencePage() {
   return (
     <section className={styles.page}>
       <header className={`${styles.header} surface`}>
+        <Breadcrumb
+          crumbs={[
+            { label: "Handbook", to: "/contents" },
+            { label: "Emergency Reference" },
+          ]}
+        />
         <hr aria-hidden="true" className={styles.heroRule} />
 
         <div className={styles.titleRow}>
           <div>
+            <p className={styles.modeBadge}>Reference</p>
             <h1 className={styles.title}>Emergency Treatment Reference</h1>
             <p className={styles.subtitle}>
-              First-line drugs, adult doses, and clinical priorities for high-risk emergency presentations.
+              Compact first-minutes management algorithms for selected high-risk emergency
+              presentations.
+            </p>
+          </div>
+        </div>
+
+        <p className={styles.intro}>
+          This mode is deliberately narrow. Use it for rapid recognition, first 5 minutes,
+          diagnostics and monitoring, adult treatment anchors, pitfalls, escalation, reassessment,
+          and concise sources. Use the handbook for reasoning and the Final Prep layer for
+          OSCE-style phrasing.
+        </p>
+
+        <div className={styles.scopeGrid}>
+          <div className={styles.scopeCard}>
+            <p className={styles.scopeLabel}>Coverage</p>
+            <p className={styles.scopeValue}>
+              {emergencyEntries.length} emergency algorithms with linked handbook chapter families
             </p>
           </div>
 
-          <Link className={styles.backLink} to="/">
-            Back to contents
-          </Link>
+          <div className={styles.scopeCard}>
+            <p className={styles.scopeLabel}>Use this for</p>
+            <p className={styles.scopeValue}>
+              Fast first practical priorities in the first minutes of deterioration, not narrative
+              study reading
+            </p>
+          </div>
         </div>
 
         <p className={styles.safetyNote}>
-          Educational reference only — not a substitute for clinical judgement, local protocols, or senior supervision.
-          Doses are adult defaults; adjust for renal function, weight, and comorbidity. Practice may vary by region.
+          Educational reference only. This is not a substitute for clinical judgement, local
+          protocols, or senior supervision. Doses are adult defaults; adjust for renal function,
+          weight, and comorbidity. Practice may vary by region.
         </p>
+
+        <ModeGuide
+          compact
+          currentModeId="reference"
+          title="Mode position"
+          intro="Emergency Reference shares the same topic families as the other modes, but strips them down to fast algorithmic action. It should stay compact even as sourced content grows."
+        />
 
         <div aria-label="Reference filters" className={styles.filters}>
           {referenceFilterChips.map((filter) => (
@@ -134,10 +172,13 @@ function ReferenceAccordionCard({ entry, isOpen, onToggle }: ReferenceAccordionC
           <div className={styles.referenceCardHeaderMain}>
             <h2 className={styles.referenceCardTitle}>{entry.title}</h2>
             <p className={styles.referenceCardSub}>{entry.subtitle}</p>
+            {chapter ? (
+              <p className={styles.referenceCardMeta}>Handbook family: {chapter.title}</p>
+            ) : null}
           </div>
 
           <span className={`${styles.badge} ${styles[`badge-${entry.severity}`]}`}>
-            {entry.severity.toUpperCase()}
+            {entry.severity}
           </span>
         </div>
 
@@ -154,7 +195,7 @@ function ReferenceAccordionCard({ entry, isOpen, onToggle }: ReferenceAccordionC
         </div>
 
         <span aria-hidden="true" className={styles.referenceCardHint}>
-          {isOpen ? "Hide details" : "Show details"}
+          {isOpen ? "Hide algorithm" : "Show algorithm"}
         </span>
       </button>
 
@@ -183,7 +224,7 @@ function ReferenceAccordionCard({ entry, isOpen, onToggle }: ReferenceAccordionC
             </section>
 
             <section className={styles.section}>
-              <h3 className={styles.sectionTitle}>Adult Doses</h3>
+              <h3 className={styles.sectionTitle}>Adult Treatment</h3>
               <ul className={styles.medicationList}>
                 {entry.medications.map((medication) => (
                   <li key={`${medication.name}-${medication.dose}`}>
@@ -275,7 +316,7 @@ function ReferenceAccordionCard({ entry, isOpen, onToggle }: ReferenceAccordionC
           {chapter ? (
             <div className={styles.cardFooter}>
               <Link className={styles.cardChapterLink} to={`/chapter/${chapter.slug}`}>
-                Open handbook chapter
+                Read handbook explanation
               </Link>
             </div>
           ) : null}

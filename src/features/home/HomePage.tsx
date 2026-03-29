@@ -1,246 +1,204 @@
 import { useState } from "react";
+import type { FormEvent } from "react";
 import { Link } from "react-router-dom";
 
-import { Card } from "@/components/ui/Card";
 import { getChaptersForPart } from "@/content/chapter-index";
 import { parts } from "@/content/parts";
-import { CreditsSection } from "@/features/credits/CreditsSection";
-import { AFFILIATIONS } from "@/features/credits/creditsData";
-import {
-  emergencyEntries,
-  referenceFilterChips,
-  type EREntry,
-} from "@/features/reference/referenceData";
-import type { ChapterRecord, PartRecord } from "@/types/content";
+import { openResourceSubtitle, siteTitle } from "@/content/site-framing";
+import { emergencyEntries, type EREntry } from "@/features/reference/referenceData";
+import { preloadSearchExperience } from "@/features/search/search-loader";
+import { useSearchModal } from "@/features/search/SearchModalContext";
 
 import styles from "./HomePage.module.css";
 
 const FEATURED_SLUGS = ["acs", "anaphylaxis", "sepsis"] as const;
 
-type PartEntry = PartRecord & {
-  chapterCount: number;
-  firstChapter: ChapterRecord;
-};
-
-const homePartEntries = parts.flatMap<PartEntry>((part) => {
-  const chapters = getChaptersForPart(part.id);
-  const [firstChapter] = chapters;
-
-  if (!firstChapter) {
-    return [];
-  }
-
-  return [
-    {
-      ...part,
-      chapterCount: chapters.length,
-      firstChapter,
-    },
-  ];
-});
-
-const [featuredPart, ...gridParts] = homePartEntries;
+const chapterFamilies = parts.map((part) => ({
+  ...part,
+  chapterCount: getChaptersForPart(part.id).length,
+}));
 
 export function HomePage() {
   return (
     <section className={styles.page}>
       <HomeHero />
-      {featuredPart ? <FeaturedPartCard part={featuredPart} /> : null}
-
-      <div className={styles.partsGrid}>
-        {gridParts.map((part) => (
-          <PartCard key={part.id} part={part} />
-        ))}
-      </div>
-
+      <ChapterFamilies />
       <ReferencePreview />
-
-      <CreditsSection includeAuthors={false} />
     </section>
   );
 }
 
 function HomeHero() {
+  const { openSearch } = useSearchModal();
+  const [query, setQuery] = useState("");
+
+  const warmSearch = () => {
+    void preloadSearchExperience();
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    openSearch(query.trim());
+    setQuery("");
+  };
+
+  const titleWords = siteTitle.split(" ");
+  const accentWord = titleWords.length >= 2 ? titleWords[1] : null;
+  const beforeAccent = titleWords[0];
+  const afterAccent = titleWords.slice(2).join(" ");
+
   return (
-    <header className={`${styles.hero} surface`}>
-      <hr aria-hidden="true" className={styles.heroRule} />
-      <h1 className={styles.heroTitle}>Clinical Skills Handbook</h1>
-      <p className={styles.heroSubtitle}>
-        Handbook for the Simulation of Clinical Skills course at the {AFFILIATIONS[0]}.
-      </p>
+    <header className={styles.hero}>
+      <div className={styles.heroIntro}>
+        <h1 className={styles.heroTitle}>
+          <span>{beforeAccent}</span>
+          {accentWord ? <span className={styles.heroTitleAccent}>{accentWord}</span> : null}
+          {afterAccent ? <span>{afterAccent}</span> : null}
+        </h1>
+        <p className={styles.heroSubtitle}>{openResourceSubtitle}</p>
+      </div>
+
+      <form
+        className={styles.searchForm}
+        onMouseEnter={warmSearch}
+        onSubmit={handleSubmit}
+      >
+        <label className={styles.visuallyHidden} htmlFor="home-search">
+          Search chapters, emergencies, practicals, and final prep
+        </label>
+        <div className={styles.searchField}>
+          <span aria-hidden="true" className={styles.searchIconWrap}>
+            <svg
+              className={styles.searchIcon}
+              fill="none"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                cx="11"
+                cy="11"
+                r="6.5"
+                stroke="currentColor"
+                strokeWidth="2"
+              />
+              <path
+                d="M16 16l4.5 4.5"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth="2"
+              />
+            </svg>
+          </span>
+          <input
+            aria-label="Search content"
+            autoComplete="off"
+            className={styles.searchInput}
+            id="home-search"
+            onChange={(event) => setQuery(event.target.value)}
+            onFocus={warmSearch}
+            placeholder="Search chapters, emergencies, practicals, and final prep"
+            spellCheck={false}
+            type="search"
+            value={query}
+          />
+          <button
+            aria-label="Search"
+            className={styles.searchSubmit}
+            type="submit"
+          >
+            <svg
+              className={styles.searchSubmitIcon}
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M5 12h14m-6-6l6 6-6 6"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2.5"
+              />
+            </svg>
+          </button>
+        </div>
+      </form>
     </header>
   );
 }
 
+function ChapterFamilies() {
+  return (
+    <section aria-labelledby="chapter-families-title" className={styles.chapterFamilies}>
+      <div className={styles.sectionIntro}>
+        <h2 className={styles.sectionTitle} id="chapter-families-title">
+          Chapter families
+        </h2>
+        <p className={styles.sectionDescription}>Browse the handbook by topic family.</p>
+      </div>
+
+      <div className={styles.familyGrid}>
+        {chapterFamilies.map((part) => (
+          <Link className={`${styles.familyCard} surface`} key={part.id} to={`/part/${part.slug}`}>
+            <div className={styles.familyHeader}>
+              <p className={styles.familyEyebrow}>Part {part.position}</p>
+              <p className={styles.familyMeta}>
+                {part.chapterCount} {part.chapterCount === 1 ? "chapter" : "chapters"}
+              </p>
+            </div>
+            <h3 className={styles.familyTitle}>{part.title}</h3>
+            <p className={styles.familyDescription}>{part.description}</p>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function ReferencePreview() {
-  const [active, setActive] = useState(0);
   const featured = FEATURED_SLUGS.flatMap((slug) => {
     const match = emergencyEntries.find((entry) => entry.slug === slug);
     return match ? [match] : [];
   });
 
-  const activeEntry = featured[active];
-
   return (
     <section className={styles.referencePreview}>
       <div className={styles.previewHeader}>
-        <div>
-          <hr aria-hidden="true" className={styles.heroRule} />
-          <h2 className={styles.previewTitle}>Emergency Treatment Reference</h2>
-          <p className={styles.previewSubtitle}>
-            First-line drugs · adult doses · clinical priorities
+        <div className={styles.sectionIntro}>
+          <h2 className={styles.sectionTitle}>Emergency Reference</h2>
+          <p className={styles.sectionDescription}>
+            Compact first-minutes guidance for selected high-risk emergencies.
           </p>
         </div>
-
         <Link className={styles.previewCta} to="/reference">
-          Open full reference -&gt;
+          Open emergency reference
         </Link>
       </div>
 
-      <div aria-hidden="true" className={styles.chips}>
-        {referenceFilterChips.map((filter) => (
-          <span
-            className={`${styles.chip}${filter.key === "all" ? ` ${styles.chipActive}` : ""}`}
-            key={filter.key}
-          >
-            {filter.label}
-          </span>
-        ))}
-      </div>
-
-      <div className={styles.desktopGrid}>
+      <div className={styles.previewGrid}>
         {featured.map((entry) => (
           <ReferencePreviewCard entry={entry} key={entry.slug} />
         ))}
       </div>
-
-      {activeEntry ? (
-        <div className={styles.mobileCarousel}>
-          <div
-            aria-atomic="true"
-            aria-live="polite"
-            className={styles.carouselViewport}
-          >
-            <ReferencePreviewCard entry={activeEntry} />
-          </div>
-
-          <div className={styles.carouselControls}>
-            <button
-              aria-label="Show previous featured reference"
-              className={styles.carouselBtn}
-              disabled={active === 0}
-              onClick={() => {
-                setActive((current) => Math.max(0, current - 1));
-              }}
-              type="button"
-            >
-              ←
-            </button>
-
-            <div
-              aria-label="Featured emergency reference entries"
-              className={styles.carouselDots}
-              role="group"
-            >
-              {featured.map((entry, index) => (
-                <button
-                  aria-current={index === active ? "true" : undefined}
-                  aria-label={`Show ${entry.title}`}
-                  className={`${styles.dot}${index === active ? ` ${styles.dotActive}` : ""}`}
-                  key={entry.slug}
-                  onClick={() => {
-                    setActive(index);
-                  }}
-                  type="button"
-                />
-              ))}
-            </div>
-
-            <button
-              aria-label="Show next featured reference"
-              className={styles.carouselBtn}
-              disabled={active === featured.length - 1}
-              onClick={() => {
-                setActive((current) => Math.min(featured.length - 1, current + 1));
-              }}
-              type="button"
-            >
-              →
-            </button>
-          </div>
-        </div>
-      ) : null}
     </section>
   );
 }
 
 function ReferencePreviewCard({ entry }: { entry: EREntry }) {
-  const previewLabel = entry.alert?.label ?? "First step";
-  const previewBody = entry.alert?.body ?? entry.firstStep;
-
   return (
     <Link
       className={`${styles.previewCard} ${styles[`severity-${entry.severity}`]}`}
       to={`/reference#${entry.slug}`}
     >
       <div className={styles.previewCardHeader}>
-        <span className={styles.previewCardTitle}>{entry.title}</span>
-        <span className={`${styles.badge} ${styles[`badge-${entry.severity}`]}`}>
-          {entry.severity.toUpperCase()}
+        <h3 className={styles.previewCardTitle}>{entry.title}</h3>
+        <span
+          className={`${styles.badge} ${styles[`badge-${entry.severity}`]}`}
+        >
+          {entry.severity}
         </span>
       </div>
 
-      <p className={styles.previewCardSub}>{entry.subtitle}</p>
-      <p className={styles.previewCardAlert}>
-        <span className={styles.previewCardAlertCopy}>
-          <strong>{previewLabel}:</strong> {previewBody}
-        </span>
-      </p>
-    </Link>
-  );
-}
-
-function FeaturedPartCard({ part }: { part: PartEntry }) {
-  return (
-    <Link className={styles.cardLink} to={`/chapter/${part.firstChapter.slug}`}>
-      <Card className={`${styles.partCard} ${styles.partCardFeatured}`} elevated>
-        <div className={styles.featuredLeft}>
-          <p className={styles.startHere}>Start here</p>
-          <h2 className={styles.partTitle}>{part.title}</h2>
-          <p className={styles.partDesc}>{part.description}</p>
-        </div>
-
-        <div className={styles.featuredRight}>
-          <span className={styles.featuredChapterCount}>
-            {part.chapterCount} {part.chapterCount === 1 ? "chapter" : "chapters"}
-          </span>
-          <span className={styles.featuredFirstChapter}>
-            Begin with {part.firstChapter.number}
-            <br />
-            <em>{part.firstChapter.title}</em>
-          </span>
-          <span aria-hidden="true" className={styles.featuredArrow}>
-            -&gt;
-          </span>
-        </div>
-      </Card>
-    </Link>
-  );
-}
-
-function PartCard({ part }: { part: PartEntry }) {
-  return (
-    <Link className={styles.cardLink} to={`/part/${part.slug}`}>
-      <Card className={styles.partCard} elevated>
-        <div className={styles.partCardBody}>
-          <p className={styles.partEyebrow}>Part {part.position}</p>
-          <h2 className={styles.partTitle}>{part.title}</h2>
-          <p className={styles.partDesc}>{part.description}</p>
-          <p className={styles.partMeta}>
-            {part.chapterCount} {part.chapterCount === 1 ? "chapter" : "chapters"}
-          </p>
-        </div>
-      </Card>
+      <p className={styles.previewCardAlert}>{entry.subtitle}</p>
     </Link>
   );
 }

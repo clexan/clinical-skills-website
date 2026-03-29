@@ -1,8 +1,8 @@
 .card {
   padding: var(--space-5);
-  border-radius: var(--radius-md);
 }
 
 .elevated {
-  box-shadow: var(--shadow-md);
+  background: var(--role-card-surface-raised);
+  box-shadow: var(--md-sys-elevation-level2);
 }

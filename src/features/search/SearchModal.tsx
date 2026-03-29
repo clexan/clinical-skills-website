@@ -3,7 +3,7 @@ import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 import { Link } from "react-router-dom";
 
 import { hasDistinctChapterNumber } from "@/lib/chapter-display";
-import type { SearchResult } from "./search";
+import type { SearchMode, SearchResult } from "./search";
 import { useSearchModal } from "./SearchModalContext";
 import { loadSearchModule, preloadSearchExperience } from "./search-loader";
 import { getSearchShortcutLabel } from "./search-shortcut";
@@ -42,9 +42,21 @@ function getMeaningfulActiveElement() {
   return activeElement;
 }
 
+type ModeFilter = SearchMode | "all";
+
+const MODE_FILTERS: Array<{ value: ModeFilter; label: string }> = [
+  { value: "all", label: "All" },
+  { value: "chapter", label: "Chapters" },
+  { value: "review", label: "Reviews" },
+  { value: "practical", label: "Practical Prep" },
+  { value: "final-prep", label: "Final Prep" },
+  { value: "reference", label: "Emergency Reference" },
+];
+
 export function SearchModal() {
-  const { isOpen, closeSearch } = useSearchModal();
+  const { isOpen, closeSearch, initialQuery } = useSearchModal();
   const [query, setQuery] = useState("");
+  const [modeFilter, setModeFilter] = useState<ModeFilter>("all");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [searchReady, setSearchReady] = useState(false);
   const [searchModule, setSearchModule] = useState<Awaited<ReturnType<typeof loadSearchModule>> | null>(null);
@@ -61,10 +73,12 @@ export function SearchModal() {
     if (!isOpen) {
       setQuery("");
       setResults([]);
+      setModeFilter("all");
       shouldRestoreFocusRef.current = true;
       return;
     }
 
+    setQuery(initialQuery);
     previousFocusRef.current = getMeaningfulActiveElement() ?? getFallbackTriggerElement();
 
     const frame = window.requestAnimationFrame(() => {
@@ -74,7 +88,7 @@ export function SearchModal() {
     return () => {
       window.cancelAnimationFrame(frame);
     };
-  }, [isOpen]);
+  }, [initialQuery, isOpen]);
 
   useEffect(() => {
     if (!isOpen || searchReady) {
@@ -239,7 +253,7 @@ export function SearchModal() {
 
     if (event.key === "ArrowUp") {
       event.preventDefault();
-      focusResultAtIndex(results.length - 1);
+      focusResultAtIndex(filteredResults.length - 1);
     }
   };
 
@@ -248,7 +262,7 @@ export function SearchModal() {
       if (event.key === "ArrowDown") {
         event.preventDefault();
 
-        if (index < results.length - 1) {
+        if (index < filteredResults.length - 1) {
           focusResultAtIndex(index + 1);
         }
       }
@@ -270,6 +284,9 @@ export function SearchModal() {
     closeSearch();
   };
 
+  const filteredResults =
+    modeFilter === "all" ? results : results.filter((r) => r.mode === modeFilter);
+
   if (!isOpen) {
     return null;
   }
@@ -277,7 +294,7 @@ export function SearchModal() {
   return (
     <div className={styles.backdrop} onClick={() => closeSearch()}>
       <div
-        aria-label="Search handbook"
+        aria-label="Search content"
         aria-modal="true"
         className={styles.panel}
         onClick={(event) => event.stopPropagation()}
@@ -287,33 +304,45 @@ export function SearchModal() {
       >
         <div className={styles.inputArea}>
           <input
-            aria-label="Search handbook"
+            aria-label="Search content"
             className={styles.input}
             onChange={(event) => setQuery(event.target.value)}
             onKeyDown={handleInputKeyDown}
-            placeholder="Search topics, chapters, or section headings"
+            placeholder="Search chapters, emergencies, practicals, and final prep"
             ref={inputRef}
             type="search"
             value={query}
           />
         </div>
 
+        {searchReady && results.length > 0 ? (
+          <div className={styles.filterBar} role="group" aria-label="Filter results by type">
+            {MODE_FILTERS.map((f) => (
+              <button
+                className={`${styles.filterTab}${modeFilter === f.value ? ` ${styles.filterTabActive}` : ""}`}
+                key={f.value}
+                onClick={() => setModeFilter(f.value)}
+                type="button"
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+        ) : null}
+
         <div aria-live="polite" className={styles.results}>
           {!searchReady ? <p className={styles.emptyState}>Preparing search index…</p> : null}
 
           {searchReady && !trimmedQuery ? (
-            <p className={styles.emptyState}>Start typing to search the handbook.</p>
+            <p className={styles.emptyState}>Start typing to search.</p>
           ) : null}
 
-          {searchReady && trimmedQuery && results.length === 0 ? (
+          {searchReady && trimmedQuery && filteredResults.length === 0 ? (
             <p className={styles.emptyState}>No results found for "{trimmedQuery}".</p>
           ) : null}
 
-          {searchReady && results.length > 0
-            ? results.map((result, index) => {
-                const target = result.headingId
-                  ? `/chapter/${result.chapterSlug}#${result.headingId}`
-                  : `/chapter/${result.chapterSlug}`;
+          {searchReady && filteredResults.length > 0
+            ? filteredResults.map((result, index) => {
                 const showChapterNumber = hasDistinctChapterNumber({
                   number: result.chapterNumber,
                   title: result.chapterTitle,
@@ -328,10 +357,17 @@ export function SearchModal() {
                     ref={(element) => {
                       resultRefs.current[index] = element;
                     }}
-                    to={target}
+                    to={result.targetUrl}
                   >
                     <div className={styles.resultMeta}>
-                      <p className={styles.partTitle}>{result.partTitle}</p>
+                      <div className={styles.resultMetaRow}>
+                        <span className={`${styles.modeLabel} ${styles[`modeLabel--${result.mode}`]}`}>
+                          {result.modeLabel}
+                        </span>
+                        {result.partTitle ? (
+                          <p className={styles.partTitle}>{result.partTitle}</p>
+                        ) : null}
+                      </div>
                       {result.kind === "section" && result.headingText ? (
                         <div className={styles.sectionMeta}>
                           <span className={styles.sectionBadge}>Section</span>

@@ -22,8 +22,9 @@ export function CreditsSection({
         <div className={`surface ${styles.summaryBlock}`}>
           <p className={`${styles.eyebrow} ${styles.summaryEyebrow}`}>Institutional Credits</p>
           <TitleTag className={styles.title} id="credits-title">
-            Kabinet Vještina
+            Clinical Skills Handbook
           </TitleTag>
+          <p className={styles.subtitle}>Kabinet Vještina</p>
 
           <div aria-label="Institutional affiliations" className={styles.summaryAffiliations}>
             <p className={styles.summaryAffiliation}>
@@ -37,11 +38,11 @@ export function CreditsSection({
           </div>
 
           <p className={styles.summaryLegal}>
-            &copy; {new Date().getFullYear()} Faculty of Medicine, University of Rijeka. All rights
-            reserved.
+            Open-access educational edition aligned with the University of Rijeka clinical skills
+            curriculum.
           </p>
           <Link className={styles.summaryLink} to="/credits">
-            View authors and contributors
+            View authors, affiliations, and publication context
           </Link>
         </div>
       </section>
@@ -53,9 +54,9 @@ export function CreditsSection({
       <header className={`surface ${styles.hero}`}>
         <p className={styles.eyebrow}>Institutional Credits</p>
         <TitleTag className={styles.title} id="credits-title">
-          Kabinet Vještina
+          Clinical Skills Handbook
         </TitleTag>
-        <p className={styles.subtitle}>Clinical Skills Handbook</p>
+        <p className={styles.subtitle}>Kabinet Vještina</p>
 
         <div aria-label="Institutional affiliations" className={styles.affiliations}>
           <span className={styles.affiliation}>
@@ -76,8 +77,9 @@ export function CreditsSection({
             Authors &amp; Contributors
           </AuthorsTitleTag>
           <p className={styles.panelDescription}>
-            Affiliations as listed in the published handbook. Each author holds dual appointments
-            at the Faculty of Medicine and Clinical Hospital Centre Rijeka.
+            Attribution carried forward from the published handbook and teaching materials that this
+            open digital edition is derived from. Each author holds dual appointments at the
+            Faculty of Medicine and Clinical Hospital Centre Rijeka.
           </p>
         </div>
 
@@ -108,11 +110,12 @@ export function CreditsSection({
           <Shield size={20} />
         </div>
         <p className={styles.footerCopy}>
-          This digital edition presents the official Clinical Skills Handbook for teaching, study,
-          and clinical simulation use at the University of Rijeka Faculty of Medicine.
+          This digital edition is derived from the Clinical Skills Handbook used for teaching and
+          simulation at the University of Rijeka Faculty of Medicine, and is presented here as an
+          open-access clinical review and emergency-reference resource.
         </p>
         <p className={styles.footerLegal}>
-          &copy; {new Date().getFullYear()} Faculty of Medicine, University of Rijeka. All rights reserved.
+          University of Rijeka aligned educational resource · updated digital edition {new Date().getFullYear()}
         </p>
       </footer>
     </section>

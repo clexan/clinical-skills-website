@@ -20,8 +20,7 @@
 
 .titleRow {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: var(--space-4);
 }
 
@@ -33,11 +32,65 @@
   line-height: 1.1;
 }
 
+.modeBadge {
+  display: inline-block;
+  margin: 0 0 var(--space-3);
+  padding: 0.2em 0.6em;
+  border: 1px solid color-mix(in srgb, var(--accent-sky) 24%, transparent);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--accent-sky) 10%, var(--bg-surface));
+  color: var(--accent-sky);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .subtitle {
   margin: 0;
   max-width: 62ch;
   color: var(--text-muted);
   font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.intro {
+  margin: 0;
+  max-width: 68ch;
+  color: var(--text-body);
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+.scopeGrid {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.scopeCard {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  border: 1px solid color-mix(in srgb, var(--accent-sky) 16%, var(--border-soft));
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--accent-sky) 5%, var(--bg-surface));
+}
+
+.scopeLabel {
+  margin: 0;
+  color: var(--accent-sky);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.scopeValue {
+  margin: 0;
+  color: var(--text-body);
+  font-size: 0.9rem;
+  line-height: 1.55;
 }
 
 .safetyNote {
@@ -49,13 +102,6 @@
   color: var(--text-muted);
   font-size: 0.82rem;
   line-height: 1.55;
-}
-
-.backLink {
-  white-space: nowrap;
-  color: var(--accent-teal);
-  font-size: 0.9rem;
-  font-weight: 600;
 }
 
 .filters {
@@ -138,7 +184,6 @@
 
 .referenceCardToggle:focus-visible,
 .chip:focus-visible,
-.backLink:focus-visible,
 .cardChapterLink:focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px var(--accent-sky-soft);
@@ -167,27 +212,37 @@
 .referenceCardSub {
   margin: 0;
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.referenceCardMeta {
+  margin: var(--space-2) 0 0;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
 }
 
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: 0.2rem 0.7rem;
-  border-radius: var(--radius-sm);
-  font-size: 0.72rem;
+  min-height: 1.7rem;
+  padding: 0 0.6rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: transparent;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
 .badge-critical {
-  background: var(--accent-rose-soft);
   color: var(--accent-rose);
 }
 
 .badge-urgent {
-  background: var(--accent-amber-soft);
   color: var(--accent-amber-label);
 }
 
@@ -208,7 +263,7 @@
   align-items: center;
   gap: var(--space-2);
   margin-top: var(--space-3);
-  color: var(--accent-teal);
+  color: var(--accent-sky);
   font-size: 0.8rem;
   font-weight: 600;
 }
@@ -287,8 +342,8 @@
 
 .keyNumbersList li {
   padding: var(--space-1) var(--space-3);
-  background: color-mix(in srgb, var(--accent-teal) 7%, var(--bg-surface));
-  border-left: 2px solid var(--accent-teal);
+  background: color-mix(in srgb, var(--accent-sky) 7%, var(--bg-surface));
+  border-left: 2px solid var(--accent-sky);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   font-size: 0.84rem;
   font-weight: 500;

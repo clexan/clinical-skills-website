@@ -3,7 +3,8 @@ import type { ReactNode } from "react";
 
 interface SearchModalContextValue {
   isOpen: boolean;
-  openSearch: () => void;
+  initialQuery: string;
+  openSearch: (initialQuery?: string) => void;
   closeSearch: () => void;
   toggleSearch: () => void;
 }
@@ -12,14 +13,29 @@ const SearchModalContext = createContext<SearchModalContextValue | null>(null);
 
 export function SearchModalProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [initialQuery, setInitialQuery] = useState("");
 
   return (
     <SearchModalContext.Provider
       value={{
         isOpen,
-        openSearch: () => setIsOpen(true),
-        closeSearch: () => setIsOpen(false),
-        toggleSearch: () => setIsOpen((open) => !open),
+        initialQuery,
+        openSearch: (query = "") => {
+          setInitialQuery(query);
+          setIsOpen(true);
+        },
+        closeSearch: () => {
+          setIsOpen(false);
+          setInitialQuery("");
+        },
+        toggleSearch: () =>
+          setIsOpen((open) => {
+            if (open) {
+              setInitialQuery("");
+            }
+
+            return !open;
+          }),
       }}
     >
       {children}

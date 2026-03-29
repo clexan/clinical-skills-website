@@ -56,11 +56,33 @@
   letter-spacing: -0.01em;
 }
 
+.modeBadge {
+  display: inline-block;
+  margin: 0 0 var(--space-3);
+  padding: 0.2em 0.6em;
+  border: 1px solid color-mix(in srgb, var(--accent-teal) 24%, transparent);
+  border-radius: var(--radius-sm);
+  background: var(--accent-teal-soft);
+  color: var(--accent-teal);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .description {
   margin: 0;
   max-width: 68ch;
   color: var(--text-muted);
   font-size: 1rem;
+  line-height: 1.65;
+}
+
+.modeNote {
+  margin: var(--space-4) 0 0;
+  max-width: 68ch;
+  color: var(--text-body);
+  font-size: 0.92rem;
   line-height: 1.65;
 }
 

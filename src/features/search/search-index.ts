@@ -1,6 +1,17 @@
-import { chapterIndex } from "@/content/chapter-index";
+import { chapterIndex, getChapterBySlug } from "@/content/chapter-index";
+import { emergencyEntries } from "@/features/reference/referenceData";
+import { finalPrepTopics } from "@/data/final-prep";
+import { practicals } from "@/data/practicals";
 import { getPartById } from "@/content/parts";
 import { getUniqueHeadingId } from "@/lib/headings";
+
+export type SearchMode = "chapter" | "review" | "practical" | "final-prep" | "reference";
+export type SearchModeLabel =
+  | "Chapter"
+  | "Review"
+  | "Practical session"
+  | "Final prep"
+  | "Emergency reference";
 
 export interface SearchDocument {
   id: string;
@@ -14,6 +25,8 @@ export interface SearchDocument {
   headingText?: string;
   bodyText: string;
   kind: "chapter" | "section";
+  mode: SearchMode;
+  modeLabel: SearchModeLabel;
 }
 
 export interface IndexedSearchDocument extends SearchDocument {
@@ -209,6 +222,9 @@ async function buildSearchIndex() {
     const sourceText = await resolveChapterSource(chapter.sourcePath);
     const { chapterText, sections } = extractSearchableText(sourceText);
 
+    const chapterMode = chapter.kind === "review" ? "review" : "chapter";
+    const chapterModeLabel = chapter.kind === "review" ? "Review" : "Chapter";
+
     documents.push({
       id: `chapter:${chapter.slug}`,
       partSlug: part?.slug ?? chapter.partId,
@@ -220,6 +236,8 @@ async function buildSearchIndex() {
       bodyText: normalizeSearchText(chapterText),
       excerptSource: chapterText,
       kind: "chapter",
+      mode: chapterMode,
+      modeLabel: chapterModeLabel,
       normalizedChapterTitle: normalizeSearchText(chapter.title),
       normalizedChapterDescription: normalizeSearchText(chapter.description),
       normalizedHeadingText: "",
@@ -244,6 +262,8 @@ async function buildSearchIndex() {
         bodyText: section.bodyText,
         excerptSource: section.excerptSource,
         kind: "section",
+        mode: chapterMode,
+        modeLabel: chapterModeLabel,
         normalizedChapterTitle: normalizeSearchText(chapter.title),
         normalizedChapterDescription: normalizeSearchText(chapter.description),
         normalizedHeadingText: normalizeSearchText(section.headingText),
@@ -254,6 +274,119 @@ async function buildSearchIndex() {
 
       order += 1;
     }
+  }
+
+  for (const practical of practicals) {
+    const bodyParts = [
+      practical.summary,
+      ...practical.equipmentChecklist,
+      ...practical.pitfalls,
+      ...practical.communicationFocus,
+    ];
+    const excerptSource = normalizeVisibleText(bodyParts.join(" "));
+
+    documents.push({
+      id: `practical:${practical.slug}`,
+      partSlug: "",
+      chapterSlug: practical.slug,
+      chapterNumber: "",
+      partTitle: "",
+      chapterTitle: practical.title,
+      chapterDescription: practical.summary,
+      bodyText: normalizeSearchText(bodyParts.join(" ")),
+      excerptSource,
+      kind: "chapter",
+      mode: "practical",
+      modeLabel: "Practical session",
+      normalizedChapterTitle: normalizeSearchText(practical.title),
+      normalizedChapterDescription: normalizeSearchText(practical.summary),
+      normalizedHeadingText: "",
+      normalizedPartTitle: "",
+      order,
+      targetUrl: `/practical/${practical.slug}`,
+    });
+
+    order += 1;
+  }
+
+  for (const topic of finalPrepTopics) {
+    const bodyParts = [
+      topic.summary,
+      ...topic.mustDo,
+      ...topic.mustSay,
+      ...topic.commonErrors,
+    ];
+    const excerptSource = normalizeVisibleText(bodyParts.join(" "));
+
+    documents.push({
+      id: `final-prep:${topic.slug}`,
+      partSlug: "",
+      chapterSlug: topic.slug,
+      chapterNumber: "",
+      partTitle: "",
+      chapterTitle: topic.title,
+      chapterDescription: topic.summary,
+      bodyText: normalizeSearchText(bodyParts.join(" ")),
+      excerptSource,
+      kind: "chapter",
+      mode: "final-prep",
+      modeLabel: "Final prep",
+      normalizedChapterTitle: normalizeSearchText(topic.title),
+      normalizedChapterDescription: normalizeSearchText(topic.summary),
+      normalizedHeadingText: "",
+      normalizedPartTitle: "",
+      order,
+      targetUrl: `/final-prep/${topic.slug}`,
+    });
+
+    order += 1;
+  }
+
+  for (const entry of emergencyEntries) {
+    const relatedChapter = getChapterBySlug(entry.chapterSlug);
+    const bodyParts = [
+      entry.title,
+      entry.subtitle,
+      entry.firstStep,
+      entry.alert?.body ?? "",
+      ...entry.recognition,
+      ...entry.first5Minutes,
+      ...entry.diagnostics,
+      ...entry.priorities,
+      ...entry.escalation,
+      ...entry.reassessment,
+      ...entry.medications.map((medication) =>
+        normalizeVisibleText(
+          [medication.name, medication.dose, medication.note ?? ""].filter(Boolean).join(" "),
+        ),
+      ),
+    ];
+    const excerptSource = normalizeVisibleText([entry.subtitle, entry.firstStep].join(" "));
+
+    documents.push({
+      id: `reference:${entry.slug}`,
+      partSlug: "reference",
+      chapterSlug: entry.slug,
+      chapterNumber: "",
+      partTitle: relatedChapter ? `Emergency Reference · ${relatedChapter.title}` : "Emergency Reference",
+      chapterTitle: entry.title,
+      chapterDescription: entry.subtitle,
+      bodyText: normalizeSearchText(bodyParts.join(" ")),
+      excerptSource,
+      kind: "chapter",
+      mode: "reference",
+      modeLabel: "Emergency reference",
+      normalizedChapterTitle: normalizeSearchText(entry.title),
+      normalizedChapterDescription: normalizeSearchText(entry.subtitle),
+      normalizedHeadingText: "",
+      normalizedPartTitle: normalizeSearchText(
+        relatedChapter ? `Emergency Reference ${relatedChapter.title}` : "Emergency Reference",
+      ),
+      order,
+      targetUrl: `/reference#${entry.slug}`,
+    });
+
+    order += 1;
   }
 
   return documents;

@@ -2,9 +2,11 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  height: 56px;
-  background: var(--bg-surface);
+  min-height: 64px;
+  background: color-mix(in srgb, var(--bg-surface) 92%, transparent);
   border-bottom: 1px solid var(--border-soft);
+  backdrop-filter: blur(12px) saturate(130%);
+  box-shadow: 0 1px 0 rgba(26, 20, 12, 0.04);
 }
 
 .inner {
@@ -17,17 +19,14 @@
 }
 
 .brand {
+  display: grid;
   flex: 1 1 auto;
+  gap: 0.1rem;
   min-width: 0;
-  max-width: clamp(140px, 50vw, 240px);
+  max-width: clamp(168px, 48vw, 360px);
   overflow: hidden;
-  color: var(--text-strong);
-  font-size: 0.95rem;
-  font-weight: 600;
-  line-height: 1.2;
+  color: inherit;
   text-decoration: none;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .brand:hover {
@@ -35,8 +34,34 @@
   text-decoration: none;
 }
 
-.headerNav {
+.brandTitle {
+  overflow: hidden;
+  color: var(--text-strong);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brandMeta {
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.headerActions {
   display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.headerNav {
+  display: none;
   flex: none;
   align-items: center;
   gap: var(--space-2);
@@ -58,6 +83,10 @@
 .headerNavLink:hover {
   color: var(--text-strong);
   text-decoration: none;
+}
+
+.headerNavLinkActive {
+  color: var(--text-strong);
 }
 
 .searchTrigger {
@@ -82,6 +111,33 @@
     color 220ms ease;
 }
 
+.menuButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  min-width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  background: var(--bg-surface);
+  color: var(--text-body);
+}
+
+.menuIcon {
+  display: grid;
+  gap: 0.22rem;
+}
+
+.menuIcon span {
+  display: block;
+  width: 1rem;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
 .searchIconWrap {
   display: inline-flex;
   align-items: center;
@@ -97,6 +153,11 @@
   text-decoration: none;
 }
 
+.menuButton:hover {
+  color: var(--text-strong);
+  background: var(--bg-subtle);
+}
+
 .searchTriggerLabel,
 .shortcutBadge {
   opacity: 0;
@@ -106,7 +167,8 @@
 
 .brand:focus-visible,
 .headerNavLink:focus-visible,
-.searchTrigger:focus-visible {
+.searchTrigger:focus-visible,
+.menuButton:focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px var(--accent-sky-soft);
 }
@@ -143,22 +205,62 @@
   .brand {
     max-width: none;
     overflow: visible;
+  }
+
+  .headerNav {
+    display: flex;
+  }
+
+  .menuButton {
+    display: none;
+  }
+
+  .brandTitle {
     font-size: 1rem;
     text-overflow: clip;
   }
 
-  .searchTrigger:hover,
-  .searchTrigger:focus-visible {
-    width: 11rem;
+  .searchTrigger {
+    width: 10.25rem;
     padding-right: 0.75rem;
     border-color: var(--border-soft);
+    background: color-mix(in srgb, var(--bg-subtle) 82%, var(--bg-surface));
+  }
+
+  .searchTrigger:hover,
+  .searchTrigger:focus-visible {
     background: var(--bg-subtle);
   }
 
-  .searchTrigger:hover .searchTriggerLabel,
-  .searchTrigger:focus-visible .searchTriggerLabel,
-  .searchTrigger:hover .shortcutBadge,
-  .searchTrigger:focus-visible .shortcutBadge {
+  .searchTriggerCompact {
+    width: 2.75rem;
+    padding-right: 0;
+    border-color: transparent;
+    background: transparent;
+  }
+
+  .searchTriggerCompact:hover,
+  .searchTriggerCompact:focus-visible {
+    border-color: var(--border-soft);
+  }
+
+  .searchTriggerCompact .searchTriggerLabel,
+  .searchTriggerCompact .shortcutBadge {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .searchTriggerLabel {
     opacity: 1;
+  }
+
+  .shortcutBadge {
+    opacity: 0.72;
+  }
+}
+
+@media (max-width: 767px) {
+  .brandMeta {
+    display: none;
   }
 }

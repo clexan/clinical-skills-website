@@ -1,11 +1,6 @@
 import { Link } from "react-router-dom";
 
-import { chapterIndex } from "@/content/chapter-index";
-
 import styles from "./Footer.module.css";
-
-const firstChapter = chapterIndex.find((chapter) => chapter.kind === "chapter");
-const startHerePath = firstChapter ? `/chapter/${firstChapter.slug}` : "/";
 
 export function Footer() {
   return (
@@ -13,7 +8,10 @@ export function Footer() {
       <div className={`container ${styles.footerInner}`}>
         <div className={styles.footerIdentity}>
           <span className={styles.footerTitle}>Clinical Skills Handbook</span>
-          <span className={styles.footerInstitution}>Faculty of Medicine, University of Rijeka</span>
+          <span className={styles.footerInstitution}>
+            Open-access clinical review platform aligned with the Faculty of Medicine, University
+            of Rijeka
+          </span>
         </div>
 
         <nav aria-label="Secondary navigation" className={styles.footerNav}>
@@ -24,14 +22,17 @@ export function Footer() {
             Videos
           </Link>
           <Link className={styles.footerLink} to="/reference">
-            Reference
+            Emergency Reference
           </Link>
-          <Link className={styles.footerLink} to={startHerePath}>
-            Start here
+          <Link className={styles.footerLink} to="/contents">
+            Handbook
           </Link>
         </nav>
 
-        <p className={styles.footerNote}>Beta educational edition · {new Date().getFullYear()}</p>
+        <p className={styles.footerNote}>
+          {new Date().getFullYear()} open digital edition for senior medical students, OSCE
+          learners, and early-clinical review.
+        </p>
       </div>
     </footer>
   );

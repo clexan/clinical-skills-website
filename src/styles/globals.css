@@ -1,6 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap");
 @import './tokens.css';
 @import './tokens/material.css';
+
+:root {
+  color-scheme: light;
+}
 
 *,
 *::before,
@@ -8,12 +12,27 @@
   box-sizing: border-box;
 }
 
+html {
+  background: var(--md-sys-color-background);
+}
+
 body {
-  background: var(--bg-page);
-  color: var(--text-body);
-  font-family: system-ui, -apple-system, sans-serif;
-  line-height: 1.6;
+  background:
+    radial-gradient(
+      circle at top center,
+      color-mix(in srgb, var(--md-sys-color-primary-container) 52%, transparent) 0,
+      transparent 38%
+    ),
+    linear-gradient(180deg, var(--md-sys-color-surface-container-lowest), var(--md-sys-color-background) 18rem);
+  color: var(--role-body-text);
+  font-family: var(--font-sans);
+  font-size: var(--md-sys-typescale-body-large-size);
+  font-weight: var(--md-sys-typescale-body-large-weight);
+  line-height: var(--md-sys-typescale-body-large-line-height);
+  letter-spacing: var(--md-sys-typescale-body-large-tracking);
   margin: 0;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 body::after {
@@ -32,15 +51,28 @@ body::after {
   min-height: 100vh;
 }
 
+::selection {
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+
 :focus-visible {
-  outline: 2px solid var(--role-focus-ring);
-  outline-offset: 2px;
+  outline: 3px solid var(--role-focus-ring);
+  outline-offset: 3px;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
 }
 
 .container {
   max-width: var(--container);
   margin-inline: auto;
-  padding-inline: var(--space-5);
+  padding-inline: clamp(var(--space-4), 3vw, var(--space-5));
 }
 
 .surface {
@@ -48,15 +80,36 @@ body::after {
   border: 1px solid var(--role-card-border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
+  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.surface--raised {
+  background: var(--role-card-surface-raised);
+  box-shadow: var(--shadow-md);
+}
+
+.surface--highest {
+  background: var(--md-sys-color-surface-container-highest);
+  box-shadow: var(--shadow-lg);
+}
+
+.divider {
+  border: 0;
+  border-top: 1px solid var(--role-divider);
+  margin: 0;
 }
 
 a {
   color: var(--role-link);
-  text-decoration: none;
+  text-decoration-color: color-mix(in srgb, currentColor 38%, transparent);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.16em;
+  transition: color 140ms ease, text-decoration-color 140ms ease;
 }
 
 a:hover {
-  text-decoration: underline;
+  color: var(--role-link-hover);
+  text-decoration-color: currentColor;
 }
 
 img {
@@ -73,9 +126,9 @@ img {
 .page-shell__body,
 .list-panel,
 .card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-md);
+  background: var(--role-card-surface);
+  border: 1px solid var(--role-card-border);
+  border-radius: var(--md-sys-shape-corner-large);
   box-shadow: var(--shadow-sm);
 }
 
@@ -90,9 +143,11 @@ img {
 .list-row__eyebrow {
   margin: 0 0 var(--space-3);
   color: var(--md-sys-color-primary);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  font-family: var(--md-sys-typescale-label-medium-font);
+  font-size: var(--md-sys-typescale-label-medium-size);
+  font-weight: var(--md-sys-typescale-label-medium-weight);
+  letter-spacing: var(--md-sys-typescale-label-medium-tracking);
+  line-height: var(--md-sys-typescale-label-medium-line-height);
   text-transform: uppercase;
 }
 
@@ -100,14 +155,29 @@ img {
 .card h2,
 .list-row h2 {
   margin: 0;
-  color: var(--text-strong);
-  line-height: 1.3;
+  color: var(--md-sys-color-on-surface);
+  font-family: var(--md-sys-typescale-title-large-font);
+  font-size: var(--md-sys-typescale-title-large-size);
+  font-weight: var(--md-sys-typescale-title-large-weight);
+  line-height: var(--md-sys-typescale-title-large-line-height);
+  letter-spacing: var(--md-sys-typescale-title-large-tracking);
+}
+
+.page-shell__header h1 {
+  font-size: var(--md-sys-typescale-headline-medium-size);
+  line-height: var(--md-sys-typescale-headline-medium-line-height);
+  letter-spacing: var(--md-sys-typescale-headline-medium-tracking);
 }
 
 .page-shell__description,
 .card p,
 .list-row p {
-  color: var(--text-muted);
+  color: var(--md-sys-color-on-surface-variant);
+  font-family: var(--md-sys-typescale-body-medium-font);
+  font-size: var(--md-sys-typescale-body-medium-size);
+  font-weight: var(--md-sys-typescale-body-medium-weight);
+  line-height: var(--md-sys-typescale-body-medium-line-height);
+  letter-spacing: var(--md-sys-typescale-body-medium-tracking);
 }
 
 .page-shell__description {
@@ -119,8 +189,10 @@ img {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-family: var(--md-sys-typescale-label-large-font);
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: var(--md-sys-typescale-label-large-weight);
+  letter-spacing: var(--md-sys-typescale-label-large-tracking);
 }
 
 .page-shell__back:hover {
@@ -141,8 +213,10 @@ img {
 .card__meta,
 .list-row__meta {
   margin: 0;
-  color: var(--text-muted);
-  font-size: 0.9rem;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-small-size);
+  line-height: var(--md-sys-typescale-body-small-line-height);
+  letter-spacing: var(--md-sys-typescale-body-small-tracking);
 }
 
 .card__actions {
@@ -163,7 +237,7 @@ img {
 }
 
 .list-row + .list-row {
-  border-top: 1px solid var(--border-soft);
+  border-top: 1px solid var(--role-divider);
 }
 
 .list-row > div {
@@ -175,17 +249,23 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-2) var(--space-5);
-  border-radius: var(--radius-sm);
-  background: var(--btn-primary);
-  color: var(--bg-surface);
-  font-size: 0.9rem;
-  font-weight: 500;
+  min-height: 2.5rem;
+  padding: 0.625rem 1rem;
+  border-radius: var(--md-sys-shape-corner-full);
+  background: var(--role-button-filled-surface);
+  box-shadow: var(--shadow-sm);
+  color: var(--role-button-filled-label);
+  font-family: var(--md-sys-typescale-label-large-font);
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: var(--md-sys-typescale-label-large-weight);
+  letter-spacing: var(--md-sys-typescale-label-large-tracking);
+  transition: background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
   text-decoration: none;
   white-space: nowrap;
 }
 
 .button-link:hover {
-  background: var(--btn-primary-hover);
+  background: var(--role-button-filled-surface-hover);
+  box-shadow: var(--shadow-md);
   text-decoration: none;
 }

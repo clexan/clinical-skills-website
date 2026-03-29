@@ -1,4 +1,4 @@
-import type { IndexedSearchDocument } from "./search-index";
+import type { IndexedSearchDocument, SearchMode, SearchModeLabel } from "./search-index";
 import { loadSearchDocuments } from "./search-index";
 
 export interface SearchResult {
@@ -12,8 +12,13 @@ export interface SearchResult {
   headingText?: string;
   excerpt: string;
   kind: "chapter" | "section";
+  mode: SearchMode;
+  modeLabel: SearchModeLabel;
+  targetUrl: string;
   score: number;
 }
+
+export type { SearchMode, SearchModeLabel };
 
 const BODY_MATCH_SCORE = 12;
 const BODY_MATCH_BONUS_LIMIT = 6;
@@ -228,6 +233,8 @@ export function searchHandbook(query: string): SearchResult[] {
         headingText: document.headingText,
         excerpt,
         kind: document.kind,
+        mode: document.mode,
+        modeLabel: document.modeLabel,
         score,
         targetUrl: document.targetUrl,
         order: document.order,
@@ -267,6 +274,9 @@ export function searchHandbook(query: string): SearchResult[] {
       headingText: result.headingText,
       excerpt: result.excerpt,
       kind: result.kind,
+      mode: result.mode,
+      modeLabel: result.modeLabel,
+      targetUrl: result.targetUrl,
       score: result.score,
     });
   }

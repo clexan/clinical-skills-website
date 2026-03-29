@@ -1,13 +1,16 @@
-import { Link } from "react-router-dom";
+import { Breadcrumb } from "@/components/layout/Breadcrumb";
 
 import { CreditsSection } from "./CreditsSection";
 
 export function CreditsPage() {
   return (
     <section className="page-shell">
-      <Link className="page-shell__back" to="/">
-        ← Back to contents
-      </Link>
+      <Breadcrumb
+        crumbs={[
+          { label: "Handbook", to: "/contents" },
+          { label: "Credits" },
+        ]}
+      />
 
       <CreditsSection authorsTitleTag="h2" titleTag="h1" />
     </section>

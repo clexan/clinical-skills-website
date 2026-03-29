@@ -1,81 +1,256 @@
 :root {
-  /* Material 3-style role aliases layered over the existing site palette. */
+  /* Material 3 foundation built on top of the site's warm editorial palette. */
+  --md-ref-typeface-brand: "Lora", Georgia, serif;
+  --md-ref-typeface-plain: "Source Sans 3", "Segoe UI", sans-serif;
+  --md-ref-typeface-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  --md-ref-typeface-weight-regular: 400;
+  --md-ref-typeface-weight-medium: 500;
+  --md-ref-typeface-weight-semibold: 600;
+  --md-ref-typeface-weight-bold: 700;
+
+  --md-sys-shape-corner-none: 0px;
+  --md-sys-shape-corner-extra-small: 8px;
+  --md-sys-shape-corner-small: 12px;
+  --md-sys-shape-corner-medium: 16px;
+  --md-sys-shape-corner-large: 24px;
+  --md-sys-shape-corner-extra-large: 32px;
+  --md-sys-shape-corner-full: 9999px;
+
+  --md-sys-color-background: var(--bg-page);
+  --md-sys-color-on-background: var(--text-body);
   --md-sys-color-surface: var(--bg-surface);
-  --md-sys-color-surface-dim: var(--bg-page);
-  --md-sys-color-surface-bright: var(--bg-surface);
-  --md-sys-color-surface-container-lowest: var(--bg-surface);
-  --md-sys-color-surface-container-low: var(--bg-subtle);
-  --md-sys-color-surface-container: var(--bg-elevated);
-  --md-sys-color-surface-container-high: color-mix(in srgb, var(--bg-elevated) 78%, var(--bg-surface));
+  --md-sys-color-surface-dim: color-mix(in srgb, var(--bg-page) 88%, #d7d1c8);
+  --md-sys-color-surface-bright: color-mix(in srgb, var(--bg-surface) 92%, white);
+  --md-sys-color-surface-container-lowest: color-mix(in srgb, var(--bg-surface) 94%, white);
+  --md-sys-color-surface-container-low: var(--bg-surface);
+  --md-sys-color-surface-container: var(--bg-subtle);
+  --md-sys-color-surface-container-high: var(--bg-elevated);
+  --md-sys-color-surface-container-highest: color-mix(
+    in srgb,
+    var(--border-soft) 36%,
+    var(--bg-surface)
+  );
+  --md-sys-color-surface-variant: color-mix(
+    in srgb,
+    var(--border-soft) 52%,
+    var(--bg-surface)
+  );
   --md-sys-color-on-surface: var(--text-strong);
   --md-sys-color-on-surface-variant: var(--text-muted);
+  --md-sys-color-inverse-surface: #27231f;
+  --md-sys-color-inverse-on-surface: #f7f2eb;
+  --md-sys-color-inverse-primary: color-mix(in srgb, var(--accent-teal) 68%, white);
   --md-sys-color-outline: var(--border-strong);
   --md-sys-color-outline-variant: var(--border-soft);
-  --md-sys-color-primary: var(--accent-teal);
+  --md-sys-color-shadow: rgba(26, 20, 12, 0.18);
+  --md-sys-color-scrim: rgba(26, 20, 12, 0.42);
+  --md-sys-color-surface-tint: var(--btn-primary);
+
+  --md-sys-color-primary: var(--btn-primary);
   --md-sys-color-on-primary: #ffffff;
-  --md-sys-color-primary-container: var(--accent-teal-soft);
-  --md-sys-color-on-primary-container: color-mix(in srgb, var(--accent-teal) 80%, var(--text-strong));
-  --md-sys-color-secondary: var(--accent-sky);
-  --md-sys-color-on-secondary: var(--bg-surface);
+  --md-sys-color-primary-container: color-mix(in srgb, var(--accent-teal) 14%, var(--bg-surface));
+  --md-sys-color-on-primary-container: #3f2418;
+  --md-sys-color-secondary: color-mix(in srgb, var(--accent-sky) 72%, #0f4967);
+  --md-sys-color-on-secondary: #ffffff;
   --md-sys-color-secondary-container: var(--accent-sky-soft);
-  --md-sys-color-on-secondary-container: color-mix(in srgb, var(--accent-sky) 28%, var(--text-strong));
+  --md-sys-color-on-secondary-container: #143747;
+  --md-sys-color-tertiary: var(--accent-amber-label);
+  --md-sys-color-on-tertiary: #ffffff;
+  --md-sys-color-tertiary-container: var(--accent-amber-soft);
+  --md-sys-color-on-tertiary-container: var(--accent-amber-deep);
   --md-sys-color-error: var(--accent-rose);
+  --md-sys-color-on-error: #ffffff;
   --md-sys-color-error-container: var(--accent-rose-soft);
-  --md-sys-color-on-error-container: var(--text-strong);
+  --md-sys-color-on-error-container: #4f1e19;
 
   --md-sys-state-hover-state-layer-opacity: 0.08;
   --md-sys-state-focus-state-layer-opacity: 0.12;
+  --md-sys-state-pressed-state-layer-opacity: 0.12;
+  --md-sys-state-dragged-state-layer-opacity: 0.16;
+  --md-sys-state-disabled-opacity: 0.38;
+  --md-sys-state-disabled-container-opacity: 0.12;
 
-  --role-body-text: var(--text-body);
+  --md-sys-elevation-level0: none;
+  --md-sys-elevation-level1: 0 1px 2px rgba(52, 39, 28, 0.12), 0 1px 3px rgba(52, 39, 28, 0.08);
+  --md-sys-elevation-level2: 0 2px 6px rgba(52, 39, 28, 0.14), 0 1px 2px rgba(52, 39, 28, 0.08);
+  --md-sys-elevation-level3: 0 8px 18px rgba(52, 39, 28, 0.16), 0 2px 6px rgba(52, 39, 28, 0.08);
+  --md-sys-elevation-level4: 0 14px 28px rgba(52, 39, 28, 0.18), 0 4px 10px rgba(52, 39, 28, 0.08);
+  --md-sys-elevation-level5: 0 24px 48px rgba(52, 39, 28, 0.2), 0 10px 20px rgba(52, 39, 28, 0.1);
+
+  --md-sys-typescale-display-large-font: var(--md-ref-typeface-brand);
+  --md-sys-typescale-display-large-weight: var(--md-ref-typeface-weight-semibold);
+  --md-sys-typescale-display-large-size: clamp(3.4rem, 7vw, 4.8rem);
+  --md-sys-typescale-display-large-line-height: 0.96;
+  --md-sys-typescale-display-large-tracking: -0.045em;
+  --md-sys-typescale-display-medium-font: var(--md-ref-typeface-brand);
+  --md-sys-typescale-display-medium-weight: var(--md-ref-typeface-weight-semibold);
+  --md-sys-typescale-display-medium-size: clamp(2.9rem, 5.8vw, 3.8rem);
+  --md-sys-typescale-display-medium-line-height: 0.98;
+  --md-sys-typescale-display-medium-tracking: -0.04em;
+  --md-sys-typescale-display-small-font: var(--md-ref-typeface-brand);
+  --md-sys-typescale-display-small-weight: var(--md-ref-typeface-weight-semibold);
+  --md-sys-typescale-display-small-size: clamp(2.4rem, 4.8vw, 3rem);
+  --md-sys-typescale-display-small-line-height: 1.02;
+  --md-sys-typescale-display-small-tracking: -0.03em;
+
+  --md-sys-typescale-headline-large-font: var(--md-ref-typeface-brand);
+  --md-sys-typescale-headline-large-weight: var(--md-ref-typeface-weight-semibold);
+  --md-sys-typescale-headline-large-size: clamp(2.1rem, 4vw, 2.75rem);
+  --md-sys-typescale-headline-large-line-height: 1.08;
+  --md-sys-typescale-headline-large-tracking: -0.025em;
+  --md-sys-typescale-headline-medium-font: var(--md-ref-typeface-brand);
+  --md-sys-typescale-headline-medium-weight: var(--md-ref-typeface-weight-semibold);
+  --md-sys-typescale-headline-medium-size: clamp(1.8rem, 3.3vw, 2.2rem);
+  --md-sys-typescale-headline-medium-line-height: 1.12;
+  --md-sys-typescale-headline-medium-tracking: -0.02em;
+  --md-sys-typescale-headline-small-font: var(--md-ref-typeface-brand);
+  --md-sys-typescale-headline-small-weight: var(--md-ref-typeface-weight-semibold);
+  --md-sys-typescale-headline-small-size: clamp(1.45rem, 2.8vw, 1.8rem);
+  --md-sys-typescale-headline-small-line-height: 1.16;
+  --md-sys-typescale-headline-small-tracking: -0.015em;
+
+  --md-sys-typescale-title-large-font: var(--md-ref-typeface-brand);
+  --md-sys-typescale-title-large-weight: var(--md-ref-typeface-weight-semibold);
+  --md-sys-typescale-title-large-size: 1.35rem;
+  --md-sys-typescale-title-large-line-height: 1.28;
+  --md-sys-typescale-title-large-tracking: -0.01em;
+  --md-sys-typescale-title-medium-font: var(--md-ref-typeface-plain);
+  --md-sys-typescale-title-medium-weight: var(--md-ref-typeface-weight-semibold);
+  --md-sys-typescale-title-medium-size: 1rem;
+  --md-sys-typescale-title-medium-line-height: 1.32;
+  --md-sys-typescale-title-medium-tracking: 0em;
+  --md-sys-typescale-title-small-font: var(--md-ref-typeface-plain);
+  --md-sys-typescale-title-small-weight: var(--md-ref-typeface-weight-semibold);
+  --md-sys-typescale-title-small-size: 0.875rem;
+  --md-sys-typescale-title-small-line-height: 1.3;
+  --md-sys-typescale-title-small-tracking: 0.01em;
+
+  --md-sys-typescale-body-large-font: var(--md-ref-typeface-plain);
+  --md-sys-typescale-body-large-weight: var(--md-ref-typeface-weight-regular);
+  --md-sys-typescale-body-large-size: 1rem;
+  --md-sys-typescale-body-large-line-height: 1.65;
+  --md-sys-typescale-body-large-tracking: 0.005em;
+  --md-sys-typescale-body-medium-font: var(--md-ref-typeface-plain);
+  --md-sys-typescale-body-medium-weight: var(--md-ref-typeface-weight-regular);
+  --md-sys-typescale-body-medium-size: 0.9375rem;
+  --md-sys-typescale-body-medium-line-height: 1.58;
+  --md-sys-typescale-body-medium-tracking: 0.005em;
+  --md-sys-typescale-body-small-font: var(--md-ref-typeface-plain);
+  --md-sys-typescale-body-small-weight: var(--md-ref-typeface-weight-regular);
+  --md-sys-typescale-body-small-size: 0.875rem;
+  --md-sys-typescale-body-small-line-height: 1.5;
+  --md-sys-typescale-body-small-tracking: 0.01em;
+
+  --md-sys-typescale-label-large-font: var(--md-ref-typeface-plain);
+  --md-sys-typescale-label-large-weight: var(--md-ref-typeface-weight-semibold);
+  --md-sys-typescale-label-large-size: 0.95rem;
+  --md-sys-typescale-label-large-line-height: 1.2;
+  --md-sys-typescale-label-large-tracking: 0.01em;
+  --md-sys-typescale-label-medium-font: var(--md-ref-typeface-plain);
+  --md-sys-typescale-label-medium-weight: var(--md-ref-typeface-weight-semibold);
+  --md-sys-typescale-label-medium-size: 0.825rem;
+  --md-sys-typescale-label-medium-line-height: 1.18;
+  --md-sys-typescale-label-medium-tracking: 0.08em;
+  --md-sys-typescale-label-small-font: var(--md-ref-typeface-plain);
+  --md-sys-typescale-label-small-weight: var(--md-ref-typeface-weight-semibold);
+  --md-sys-typescale-label-small-size: 0.75rem;
+  --md-sys-typescale-label-small-line-height: 1.14;
+  --md-sys-typescale-label-small-tracking: 0.12em;
+
+  /* Legacy aliases bridged to the M3 system for incremental rollout. */
+  --font-display: var(--md-ref-typeface-brand);
+  --font-sans: var(--md-ref-typeface-plain);
+  --radius-sm: var(--md-sys-shape-corner-small);
+  --radius-md: var(--md-sys-shape-corner-medium);
+  --radius-lg: var(--md-sys-shape-corner-large);
+  --shadow-sm: var(--md-sys-elevation-level1);
+  --shadow-md: var(--md-sys-elevation-level2);
+  --shadow-lg: var(--md-sys-elevation-level4);
+  --overlay-backdrop: color-mix(in srgb, var(--md-sys-color-scrim) 72%, transparent);
+  --overlay-backdrop-strong: var(--md-sys-color-scrim);
+  --bg-hover: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 4%,
+    var(--md-sys-color-surface-container-low)
+  );
+
+  --role-body-text: var(--md-sys-color-on-background);
   --role-link: var(--md-sys-color-primary);
+  --role-link-hover: color-mix(in srgb, var(--md-sys-color-primary) 72%, var(--md-sys-color-on-surface));
   --role-focus-ring: var(--md-sys-color-secondary);
-  --role-focus-ring-soft: var(--md-sys-color-secondary-container);
+  --role-focus-ring-soft: color-mix(in srgb, var(--md-sys-color-secondary) 22%, transparent);
   --role-divider: var(--md-sys-color-outline-variant);
-  --role-card-surface: var(--md-sys-color-surface);
+  --role-app-bar-surface: color-mix(in srgb, var(--md-sys-color-surface-container-lowest) 82%, white);
+  --role-app-bar-border: color-mix(in srgb, var(--md-sys-color-outline-variant) 72%, white);
+  --role-card-surface: var(--md-sys-color-surface-container-low);
+  --role-card-surface-raised: var(--md-sys-color-surface-container);
   --role-card-border: var(--md-sys-color-outline-variant);
-  --role-card-hover-surface: var(--bg-subtle);
-  --role-card-focus-surface: var(--accent-sky-soft);
-  --role-rail-hover-surface: color-mix(in srgb, var(--text-strong) 5%, var(--bg-surface));
+  --role-card-hover-surface: color-mix(
+    in srgb,
+    var(--md-sys-color-primary) 6%,
+    var(--md-sys-color-surface-container)
+  );
+  --role-card-focus-surface: var(--md-sys-color-secondary-container);
+  --role-search-surface: var(--md-sys-color-surface-container-high);
+  --role-button-filled-surface: var(--md-sys-color-primary);
+  --role-button-filled-surface-hover: color-mix(in srgb, var(--md-sys-color-primary) 88%, black);
+  --role-button-filled-label: var(--md-sys-color-on-primary);
+  --role-button-outlined-surface-hover: color-mix(
+    in srgb,
+    var(--md-sys-color-primary) 6%,
+    var(--md-sys-color-surface-container-low)
+  );
+  --role-button-outlined-label: var(--md-sys-color-primary);
+  --role-button-outlined-border: color-mix(
+    in srgb,
+    var(--md-sys-color-primary) 18%,
+    var(--md-sys-color-outline)
+  );
+  --role-rail-hover-surface: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 5%,
+    var(--md-sys-color-surface-container-lowest)
+  );
   --role-rail-selected-surface: color-mix(
     in srgb,
-    var(--accent-teal) 10%,
-    var(--bg-surface)
+    var(--md-sys-color-primary) 12%,
+    var(--md-sys-color-surface-container-lowest)
   );
   --role-rail-selected-surface-hover: color-mix(
     in srgb,
-    var(--accent-teal) 15%,
-    var(--bg-surface)
+    var(--md-sys-color-primary) 16%,
+    var(--md-sys-color-surface-container-lowest)
   );
   --role-rail-selected-border: color-mix(
     in srgb,
-    var(--accent-teal) 28%,
-    var(--border-soft)
+    var(--md-sys-color-primary) 28%,
+    var(--md-sys-color-outline-variant)
   );
-  --role-pagination-previous-surface: var(--md-sys-color-surface);
-  --role-pagination-previous-surface-hover: var(--bg-subtle);
+  --role-pagination-previous-surface: var(--md-sys-color-surface-container-low);
+  --role-pagination-previous-surface-hover: var(--role-card-hover-surface);
   --role-pagination-next-surface: color-mix(
     in srgb,
-    var(--accent-teal) 8%,
-    var(--bg-surface)
+    var(--md-sys-color-primary) 8%,
+    var(--md-sys-color-surface-container-low)
   );
   --role-pagination-next-surface-hover: color-mix(
     in srgb,
-    var(--accent-teal) 14%,
-    var(--bg-surface)
+    var(--md-sys-color-primary) 14%,
+    var(--md-sys-color-surface-container-low)
   );
   --role-pagination-next-border: color-mix(
     in srgb,
-    var(--accent-teal) 25%,
-    var(--border-soft)
+    var(--md-sys-color-primary) 24%,
+    var(--md-sys-color-outline-variant)
   );
   --role-skeleton-base: color-mix(
     in srgb,
-    var(--text-strong) 8%,
-    var(--bg-subtle)
+    var(--md-sys-color-on-surface) 8%,
+    var(--md-sys-color-surface-container)
   );
   --role-skeleton-highlight: color-mix(
     in srgb,
-    var(--text-strong) 4%,
-    var(--bg-surface)
+    var(--md-sys-color-on-surface) 3%,
+    var(--md-sys-color-surface-bright)
   );
 }

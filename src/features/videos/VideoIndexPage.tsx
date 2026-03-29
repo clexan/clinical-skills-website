@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
+import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { chapterIndex, getChapterBySlug } from "@/content/chapter-index";
 import { companionVideos, type CompanionVideo, type VideoCategory, type VideoPriority } from "@/content/videoData";
 
@@ -64,16 +65,18 @@ export function VideoIndexPage() {
   return (
     <section className={styles.page}>
       <header className={`${styles.header} surface`}>
+        <Breadcrumb
+          crumbs={[
+            { label: "Handbook", to: "/contents" },
+            { label: "Videos" },
+          ]}
+        />
         <div className={styles.headerRow}>
           <div>
             <p className={styles.eyebrow}>Companion video library</p>
             <h1 className={styles.title}>Clinical Skills Videos</h1>
             <p className={styles.subtitle}>Chapter-linked teaching videos grouped by topic</p>
           </div>
-
-          <Link className={styles.backLink} to="/">
-            Back to contents
-          </Link>
         </div>
 
         <div className={styles.filterStack}>
