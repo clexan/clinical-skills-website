@@ -221,41 +221,30 @@
   }
 
   .searchTrigger {
-    width: 10.25rem;
-    padding-right: 0.75rem;
-    border-color: var(--border-soft);
-    background: color-mix(in srgb, var(--bg-subtle) 82%, var(--bg-surface));
-  }
-
-  .searchTrigger:hover,
-  .searchTrigger:focus-visible {
-    background: var(--bg-subtle);
-  }
-
-  .searchTriggerCompact {
     width: 2.75rem;
     padding-right: 0;
     border-color: transparent;
     background: transparent;
   }
 
-  .searchTriggerCompact:hover,
-  .searchTriggerCompact:focus-visible {
+  .searchTrigger:hover,
+  .searchTrigger:focus-visible {
+    width: 11.5rem;
+    padding-right: 0.75rem;
     border-color: var(--border-soft);
+    background: color-mix(in srgb, var(--bg-subtle) 82%, var(--bg-surface));
   }
 
-  .searchTriggerCompact .searchTriggerLabel,
-  .searchTriggerCompact .shortcutBadge {
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .searchTriggerLabel {
+  .searchTrigger:hover .searchTriggerLabel,
+  .searchTrigger:focus-visible .searchTriggerLabel {
     opacity: 1;
+    pointer-events: auto;
   }
 
-  .shortcutBadge {
+  .searchTrigger:hover .shortcutBadge,
+  .searchTrigger:focus-visible .shortcutBadge {
     opacity: 0.72;
+    pointer-events: auto;
   }
 }
 

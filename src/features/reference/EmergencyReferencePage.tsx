@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
-import { ModeGuide } from "@/components/modes/ModeGuide";
 import { getChapterBySlug } from "@/content/chapter-index";
 
 import {
@@ -55,7 +54,7 @@ export function EmergencyReferencePage() {
       <header className={`${styles.header} surface`}>
         <Breadcrumb
           crumbs={[
-            { label: "Handbook", to: "/contents" },
+            { label: "Handbook", to: "/" },
             { label: "Emergency Reference" },
           ]}
         />
@@ -101,13 +100,6 @@ export function EmergencyReferencePage() {
           protocols, or senior supervision. Doses are adult defaults; adjust for renal function,
           weight, and comorbidity. Practice may vary by region.
         </p>
-
-        <ModeGuide
-          compact
-          currentModeId="reference"
-          title="Mode position"
-          intro="Emergency Reference shares the same topic families as the other modes, but strips them down to fast algorithmic action. It should stay compact even as sourced content grows."
-        />
 
         <div aria-label="Reference filters" className={styles.filters}>
           {referenceFilterChips.map((filter) => (

@@ -1,16 +1,12 @@
 import { chapterIndex, getChapterBySlug } from "@/content/chapter-index";
 import { emergencyEntries } from "@/features/reference/referenceData";
-import { finalPrepTopics } from "@/data/final-prep";
-import { practicals } from "@/data/practicals";
 import { getPartById } from "@/content/parts";
 import { getUniqueHeadingId } from "@/lib/headings";
 
-export type SearchMode = "chapter" | "review" | "practical" | "final-prep" | "reference";
+export type SearchMode = "chapter" | "review" | "reference";
 export type SearchModeLabel =
   | "Chapter"
   | "Review"
-  | "Practical session"
-  | "Final prep"
   | "Emergency reference";
 
 export interface SearchDocument {
@@ -274,72 +270,6 @@ async function buildSearchIndex() {
 
       order += 1;
     }
-  }
-
-  for (const practical of practicals) {
-    const bodyParts = [
-      practical.summary,
-      ...practical.equipmentChecklist,
-      ...practical.pitfalls,
-      ...practical.communicationFocus,
-    ];
-    const excerptSource = normalizeVisibleText(bodyParts.join(" "));
-
-    documents.push({
-      id: `practical:${practical.slug}`,
-      partSlug: "",
-      chapterSlug: practical.slug,
-      chapterNumber: "",
-      partTitle: "",
-      chapterTitle: practical.title,
-      chapterDescription: practical.summary,
-      bodyText: normalizeSearchText(bodyParts.join(" ")),
-      excerptSource,
-      kind: "chapter",
-      mode: "practical",
-      modeLabel: "Practical session",
-      normalizedChapterTitle: normalizeSearchText(practical.title),
-      normalizedChapterDescription: normalizeSearchText(practical.summary),
-      normalizedHeadingText: "",
-      normalizedPartTitle: "",
-      order,
-      targetUrl: `/practical/${practical.slug}`,
-    });
-
-    order += 1;
-  }
-
-  for (const topic of finalPrepTopics) {
-    const bodyParts = [
-      topic.summary,
-      ...topic.mustDo,
-      ...topic.mustSay,
-      ...topic.commonErrors,
-    ];
-    const excerptSource = normalizeVisibleText(bodyParts.join(" "));
-
-    documents.push({
-      id: `final-prep:${topic.slug}`,
-      partSlug: "",
-      chapterSlug: topic.slug,
-      chapterNumber: "",
-      partTitle: "",
-      chapterTitle: topic.title,
-      chapterDescription: topic.summary,
-      bodyText: normalizeSearchText(bodyParts.join(" ")),
-      excerptSource,
-      kind: "chapter",
-      mode: "final-prep",
-      modeLabel: "Final prep",
-      normalizedChapterTitle: normalizeSearchText(topic.title),
-      normalizedChapterDescription: normalizeSearchText(topic.summary),
-      normalizedHeadingText: "",
-      normalizedPartTitle: "",
-      order,
-      targetUrl: `/final-prep/${topic.slug}`,
-    });
-
-    order += 1;
   }
 
   for (const entry of emergencyEntries) {

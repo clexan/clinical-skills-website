@@ -5,8 +5,6 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { chapterIndex } from "@/content/chapter-index";
 import { getPartById, getPartBySlug } from "@/content/parts";
-import { finalPrepTopics } from "@/data/final-prep";
-import { practicals } from "@/data/practicals";
 import { SearchModal } from "@/features/search/SearchModal";
 import { preloadSearchExperience } from "@/features/search/search-loader";
 import { SearchModalProvider, useSearchModal, useSearchShortcut } from "@/features/search/SearchModalContext";
@@ -51,17 +49,9 @@ function RootLayoutShell() {
 
   const partMatch = matchPath("/part/:partSlug", location.pathname);
   const chapterMatch = matchPath("/chapter/:chapterSlug", location.pathname);
-  const practicalMatch = matchPath("/practical/:practicalSlug", location.pathname);
-  const finalPrepMatch = matchPath("/final-prep/:topicSlug", location.pathname);
   const matchedPart = partMatch?.params.partSlug ? getPartBySlug(partMatch.params.partSlug) : null;
   const matchedChapter = chapterMatch
     ? chapterIndex.find((chapter) => chapter.slug === chapterMatch.params.chapterSlug)
-    : undefined;
-  const matchedPractical = practicalMatch?.params.practicalSlug
-    ? practicals.find((p) => p.slug === practicalMatch.params.practicalSlug)
-    : undefined;
-  const matchedFinalPrepTopic = finalPrepMatch?.params.topicSlug
-    ? finalPrepTopics.find((t) => t.slug === finalPrepMatch.params.topicSlug)
     : undefined;
   const currentPartSlug =
     matchedPart?.slug ?? (matchedChapter ? getPartById(matchedChapter.partId)?.slug : undefined);
@@ -89,30 +79,6 @@ function RootLayoutShell() {
 
     if (location.pathname === "/credits") {
       return "Credits";
-    }
-
-    if (location.pathname === "/practicals") {
-      return "Practical Prep";
-    }
-
-    if (location.pathname === "/final-prep") {
-      return "Final Prep";
-    }
-
-    if (matchedPractical) {
-      return matchedPractical.title;
-    }
-
-    if (practicalMatch) {
-      return "Session unavailable";
-    }
-
-    if (matchedFinalPrepTopic) {
-      return matchedFinalPrepTopic.title;
-    }
-
-    if (finalPrepMatch) {
-      return "Topic unavailable";
     }
 
     if (matchedChapter) {

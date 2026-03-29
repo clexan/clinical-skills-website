@@ -3,13 +3,10 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 
 import { router } from "@/app/router";
-import { registerMaterialComponents } from "@/lib/material/register";
 
 import "./styles/globals.css";
 
 const VITE_PRELOAD_RETRY_KEY = "vite-preload-retried";
-
-registerMaterialComponents();
 
 window.addEventListener("vite:preloadError", (event) => {
   const preloadEvent = event as Event & { payload?: unknown };

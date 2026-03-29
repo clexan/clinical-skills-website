@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 import { getSearchShortcutLabel } from "@/features/search/search-shortcut";
+import { siteTitle } from "@/lib/document-title";
 import { MobileMenu } from "./MobileMenu";
 import { primaryNavItems } from "./navigation";
 import styles from "./Header.module.css";
@@ -48,36 +49,34 @@ export function Header({ currentPartSlug, onSearchOpen, onSearchWarmup }: Header
               ))}
             </nav>
 
-            <button
-              aria-label="Search chapters, emergencies, practical prep, and final prep"
-              className={
-                isHomePage
-                  ? `${styles.searchTrigger} ${styles.searchTriggerCompact}`
-                  : styles.searchTrigger
-              }
-              data-search-trigger="header"
-              onClick={onSearchOpen}
-              onFocus={onSearchWarmup}
-              onMouseEnter={onSearchWarmup}
-              type="button"
-            >
-              <span aria-hidden="true" className={styles.searchIconWrap}>
-                <svg
-                  aria-hidden="true"
-                  className={styles.icon}
-                  fill="none"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <circle cx="11" cy="11" r="6.5" stroke="currentColor" strokeWidth="1.8" />
-                  <path d="M16 16l4.5 4.5" stroke="currentColor" strokeLinecap="round" strokeWidth="1.8" />
-                </svg>
-              </span>
-              <span className={styles.searchTriggerLabel}>Search content</span>
-              <span aria-hidden="true" className={styles.shortcutBadge}>
-                {shortcutLabel}
-              </span>
-            </button>
+            {!isHomePage && (
+              <button
+                aria-label="Search chapters, emergencies, practical prep, and final prep"
+                className={styles.searchTrigger}
+                data-search-trigger="header"
+                onClick={onSearchOpen}
+                onFocus={onSearchWarmup}
+                onMouseEnter={onSearchWarmup}
+                type="button"
+              >
+                <span aria-hidden="true" className={styles.searchIconWrap}>
+                  <svg
+                    aria-hidden="true"
+                    className={styles.icon}
+                    fill="none"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle cx="11" cy="11" r="6.5" stroke="currentColor" strokeWidth="1.8" />
+                    <path d="M16 16l4.5 4.5" stroke="currentColor" strokeLinecap="round" strokeWidth="1.8" />
+                  </svg>
+                </span>
+                <span className={styles.searchTriggerLabel}>Search content</span>
+                <span aria-hidden="true" className={styles.shortcutBadge}>
+                  {shortcutLabel}
+                </span>
+              </button>
+            )}
 
             <button
               aria-controls="mobile-menu"

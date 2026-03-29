@@ -48,8 +48,6 @@ const MODE_FILTERS: Array<{ value: ModeFilter; label: string }> = [
   { value: "all", label: "All" },
   { value: "chapter", label: "Chapters" },
   { value: "review", label: "Reviews" },
-  { value: "practical", label: "Practical Prep" },
-  { value: "final-prep", label: "Final Prep" },
   { value: "reference", label: "Emergency Reference" },
 ];
 
@@ -65,8 +63,8 @@ export function SearchModal() {
   const resultRefs = useRef<Array<HTMLAnchorElement | null>>([]);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const shouldRestoreFocusRef = useRef(true);
-  const deferredQuery = useDeferredValue(query);
-  const trimmedQuery = query.trim();
+  const deferredQuery = useDeferredValue(query ?? "");
+  const trimmedQuery = (query ?? "").trim();
   const shortcutLabel = getSearchShortcutLabel();
 
   useEffect(() => {
@@ -308,7 +306,7 @@ export function SearchModal() {
             className={styles.input}
             onChange={(event) => setQuery(event.target.value)}
             onKeyDown={handleInputKeyDown}
-            placeholder="Search chapters, emergencies, practicals, and final prep"
+            placeholder="Search chapters and emergency reference"
             ref={inputRef}
             type="search"
             value={query}

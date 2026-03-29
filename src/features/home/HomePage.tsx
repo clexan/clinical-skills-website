@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 
 import { getChaptersForPart } from "@/content/chapter-index";
 import { parts } from "@/content/parts";
-import { openResourceSubtitle, siteTitle } from "@/content/site-framing";
 import { emergencyEntries, type EREntry } from "@/features/reference/referenceData";
 import { preloadSearchExperience } from "@/features/search/search-loader";
 import { useSearchModal } from "@/features/search/SearchModalContext";
+import { openResourceSubtitle, siteTitle } from "@/lib/document-title";
 
 import styles from "./HomePage.module.css";
 
@@ -64,7 +64,7 @@ function HomeHero() {
         onSubmit={handleSubmit}
       >
         <label className={styles.visuallyHidden} htmlFor="home-search">
-          Search chapters, emergencies, practicals, and final prep
+          Search chapters and emergency reference
         </label>
         <div className={styles.searchField}>
           <span aria-hidden="true" className={styles.searchIconWrap}>
@@ -96,7 +96,7 @@ function HomeHero() {
             id="home-search"
             onChange={(event) => setQuery(event.target.value)}
             onFocus={warmSearch}
-            placeholder="Search chapters, emergencies, practicals, and final prep"
+            placeholder="Search chapters and emergency reference"
             spellCheck={false}
             type="search"
             value={query}

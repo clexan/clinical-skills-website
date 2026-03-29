@@ -25,7 +25,6 @@ import { PoisoningAntidotesTable } from "@/components/handbook/PoisoningAntidote
 import { SepsisQsofaTable } from "@/components/handbook/SepsisQsofaTable";
 import { SepsisSofaScoreTable } from "@/components/handbook/SepsisSofaScoreTable";
 import { StatusPage } from "@/components/layout/StatusPage";
-import { RelatedModesPanel } from "@/components/modes/RelatedModesPanel";
 import {
   BasicMechanismsOfInjuryTable,
   PotentialInjuriesByMechanismTable,
@@ -183,12 +182,12 @@ export function ChapterPage() {
             crumbs={
               part
                 ? [
-                    { label: "Handbook", to: "/contents" },
+                    { label: "Handbook", to: "/" },
                     { label: part.title, to: `/part/${part.slug}`, hideOnDesktop: true },
                     { label: getChapterDisplayLabel(chapter) },
                   ]
                 : [
-                    { label: "Handbook", to: "/contents" },
+                    { label: "Handbook", to: "/" },
                     { label: getChapterDisplayLabel(chapter) },
                   ]
             }
@@ -203,18 +202,11 @@ export function ChapterPage() {
             <p className={styles.description}>{chapter.description}</p>
             <p className={styles.modeNote}>
               This handbook chapter is the explanation layer for the topic family. Use the linked
-              Practical Prep, Final Prep, and Emergency Reference surfaces when you need sequence,
-              compressed retrieval, or first-minutes action instead of full reasoning.
+              Emergency Reference surfaces when you need first-minutes action instead of full reasoning.
             </p>
             {chapter.authors.length > 0 ? <ChapterAuthorByline names={chapter.authors} /> : null}
             <div aria-hidden="true" className={styles.titleDivider} />
           </header>
-
-          <RelatedModesPanel
-            chapterSlugs={[chapter.slug]}
-            currentModeId="handbook"
-            intro="Use the same topic in other modes when you need a station sequence, exam-compressed retrieval, or a compact emergency algorithm rather than handbook explanation."
-          />
 
           {hasToc ? (
             <>
