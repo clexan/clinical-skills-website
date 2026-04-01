@@ -1,0 +1,490 @@
+/* ── Container ────────────────────────────────────────────────────────────── */
+.container {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* ── Skill tag ────────────────────────────────────────────────────────────── */
+.skillTag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.3rem var(--space-3);
+  background: var(--mode-learn-soft);
+  border: 1px solid color-mix(in srgb, var(--mode-learn) 25%, transparent);
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.skillIcon {
+  font-size: 0.8rem;
+  color: var(--mode-learn-label);
+}
+
+.skillText {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--mode-learn-label);
+  letter-spacing: 0.02em;
+}
+
+/* ── Question block ───────────────────────────────────────────────────────── */
+.questionBlock {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.questionLabel {
+  margin: 0;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--btn-primary);
+}
+
+.questionText {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--text-strong);
+}
+
+/* ── Options ──────────────────────────────────────────────────────────────── */
+.optionsList {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.option {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  color: var(--text-body);
+  font: inherit;
+  font-size: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    transform 80ms ease;
+}
+
+.option:hover:not(:disabled) {
+  background: var(--bg-hover);
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+
+.option:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-sky-soft);
+}
+
+.option:disabled {
+  cursor: default;
+  transform: none;
+}
+
+/* Revealed states */
+.opt_correct {
+  background: color-mix(in srgb, var(--m3-success) 8%, var(--bg-surface));
+  border-color: color-mix(in srgb, var(--m3-success) 45%, var(--border-soft));
+}
+
+.opt_incorrect {
+  background: color-mix(in srgb, var(--m3-error) 8%, var(--bg-surface));
+  border-color: color-mix(in srgb, var(--m3-error) 45%, var(--border-soft));
+}
+
+.opt_selected {
+  background: var(--m3-selected-container);
+  border-color: var(--m3-selected-outline);
+  color: var(--m3-selected-text);
+  box-shadow: inset 0 0 0 1px var(--m3-selected-outline);
+}
+
+.opt_unselected {
+  background: var(--m3-surface-container-low);
+  border-color: transparent;
+  color: var(--text-muted);
+}
+
+.opt_faded {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-muted);
+}
+
+/* ── Option badge (letter circle) ────────────────────────────────────────── */
+.optionBadge {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  font-size: 0.78rem;
+  font-weight: 700;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.badge_correct {
+  background: var(--m3-success);
+  border-color: var(--m3-success);
+  color: #fff;
+}
+
+.badge_incorrect {
+  background: var(--m3-error);
+  border-color: var(--m3-error);
+  color: #fff;
+}
+
+.badge_selected {
+  background: var(--m3-selected-outline);
+  border-color: var(--m3-selected-outline);
+  color: #fff;
+}
+
+.badge_unselected {
+  border-color: var(--m3-divider);
+  color: var(--text-muted);
+}
+
+.optionText {
+  flex: 1;
+  line-height: 1.55;
+}
+
+.correctTag {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--m3-success);
+  margin-left: auto;
+}
+
+/* ── Confidence check ─────────────────────────────────────────────────────── */
+.confidenceBlock {
+  padding: var(--space-4);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  background: var(--bg-subtle);
+  animation: fadeSlideIn 180ms ease both;
+}
+
+.confidenceLabel {
+  margin: 0 0 var(--space-3);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.confidenceRow {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.confBtn {
+  flex: 1;
+  padding: 0.55rem var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-soft);
+  background: var(--bg-surface);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease, transform 80ms ease;
+}
+
+.confBtn:hover {
+  transform: translateY(-1px);
+}
+
+.conf_low {
+  color: var(--text-muted);
+}
+.conf_low:hover {
+  background: var(--accent-slate-soft);
+  border-color: var(--accent-slate);
+}
+
+.conf_medium {
+  color: var(--accent-amber-label);
+}
+.conf_medium:hover {
+  background: var(--accent-amber-soft);
+  border-color: var(--accent-amber);
+}
+
+.conf_high {
+  color: var(--mode-learn-label);
+}
+.conf_high:hover {
+  background: var(--mode-learn-soft);
+  border-color: var(--mode-learn);
+}
+
+/* ── Exam mode acknowledgement ────────────────────────────────────────────── */
+.examAck {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  background: var(--bg-subtle);
+  animation: fadeSlideIn 180ms ease both;
+}
+
+.examAckIcon {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.examAckCorrect { color: #16a34a; }
+.examAckWrong   { color: var(--text-muted); }
+
+.examAckText {
+  flex: 1;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* ── Layered feedback block ───────────────────────────────────────────────── */
+.feedback {
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-soft);
+  overflow: hidden;
+  animation: fadeSlideIn 200ms ease both;
+}
+
+.feedback_correct {
+  border-left: 4px solid var(--m3-success);
+}
+
+.feedback_incorrect {
+  border-left: 4px solid var(--m3-error);
+}
+
+/* Verdict banner */
+.verdictBanner {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-soft);
+  background: var(--bg-subtle);
+}
+
+.verdictPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem var(--space-3);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  width: fit-content;
+}
+
+.feedback_correct .verdictPill {
+  background: color-mix(in srgb, var(--m3-success) 15%, var(--bg-surface));
+  color: var(--m3-success);
+}
+
+.feedback_incorrect .verdictPill {
+  background: color-mix(in srgb, var(--m3-error) 12%, var(--bg-surface));
+  color: var(--m3-error);
+}
+
+.verdictSummary {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-strong);
+  line-height: 1.55;
+}
+
+/* ── Accordion ────────────────────────────────────────────────────────────── */
+.accordion {
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.accordionItem {
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.accordionItem:last-child {
+  border-bottom: none;
+}
+
+.accordionTrigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-surface);
+  border: none;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 100ms ease;
+}
+
+.accordionTrigger:hover {
+  background: var(--bg-hover);
+}
+
+.chevron {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  transition: transform 150ms ease;
+  display: inline-block;
+}
+
+.chevronOpen {
+  transform: rotate(-180deg);
+}
+
+.accordionContent {
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  background: var(--bg-subtle);
+  animation: fadeSlideIn 150ms ease both;
+}
+
+.rationaleText {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--text-body);
+}
+
+.mdBlock {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--text-body);
+}
+
+.mdBlock p   { margin: 0 0 var(--space-3); }
+.mdBlock ul,
+.mdBlock ol  { padding-left: 1.25rem; margin: 0 0 var(--space-3); }
+.mdBlock li  { margin-bottom: var(--space-1); }
+.mdBlock strong { color: var(--text-strong); }
+
+.refList {
+  margin: 0;
+  padding-left: 1.25rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ── Feedback controls ────────────────────────────────────────────────────── */
+.feedbackControls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-surface);
+}
+
+.flagBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem var(--space-3);
+  background: transparent;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.flagBtn:hover {
+  border-color: var(--border-strong);
+  color: var(--text-strong);
+}
+
+.flagged {
+  background: var(--accent-amber-soft);
+  border-color: var(--accent-amber);
+  color: var(--accent-amber-label);
+}
+
+.handbookLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent-sky);
+  text-decoration: none;
+  padding: 0.35rem var(--space-3);
+  border: 1px solid color-mix(in srgb, var(--accent-sky) 30%, transparent);
+  border-radius: var(--radius-sm);
+}
+
+.handbookLink:hover {
+  text-decoration: underline;
+}
+
+.nextBtn {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem var(--space-4);
+  background: var(--btn-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 120ms ease, transform 80ms ease;
+}
+
+.nextBtn:hover {
+  background: var(--btn-primary-hover);
+  transform: translateY(-1px);
+}
+
+/* ── Animations ───────────────────────────────────────────────────────────── */
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .option,
+  .confBtn,
+  .nextBtn,
+  .flagBtn,
+  .feedbackBlock,
+  .confidenceBlock,
+  .examAck {
+    transition: none;
+    animation: none;
+  }
+}

@@ -1,0 +1,292 @@
+.page {
+  display: grid;
+  gap: var(--space-5);
+  padding-bottom: var(--space-7);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* ── Score card ───────────────────────────────────────────────────────────── */
+.scoreCard {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.scoreHeader {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.modeTag {
+  display: inline-block;
+  padding: 0.2em 0.65em;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  width: fit-content;
+}
+
+.modeTag[data-mode="learn"] {
+  background: var(--mode-learn-soft);
+  color: var(--mode-learn-label);
+  border: 1px solid color-mix(in srgb, var(--mode-learn) 25%, transparent);
+}
+
+.modeTag[data-mode="exam"] {
+  background: var(--mode-exam-soft);
+  color: var(--mode-exam-label);
+  border: 1px solid color-mix(in srgb, var(--mode-exam) 25%, transparent);
+}
+
+.resultTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  line-height: 1.15;
+  color: var(--text-strong);
+}
+
+.scoreDisplay {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.scoreFraction {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text-strong);
+}
+
+.scoreOf {
+  font-size: 1.8rem;
+  color: var(--text-muted);
+}
+
+.scorePct {
+  font-size: 2rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.gradeLabel {
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.2rem 0.75rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 10%, var(--bg-surface));
+  border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+}
+
+.scoreBar {
+  height: 8px;
+  background: var(--bg-elevated);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.scoreBarFill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 600ms ease;
+}
+
+/* ── Sections ─────────────────────────────────────────────────────────────── */
+.section {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ── Domain breakdown ─────────────────────────────────────────────────────── */
+.domainGrid {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.domainCard {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.domainHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.domainName {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.domainScore {
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.domainBar {
+  height: 6px;
+  background: var(--bg-elevated);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.domainBarFill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 500ms ease;
+}
+
+/* ── Confidence calibration ───────────────────────────────────────────────── */
+.calibrationBlock {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  background: var(--bg-subtle);
+}
+
+.calibrationHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.calibrationIcon {
+  color: var(--status-critical);
+  font-size: 0.95rem;
+}
+
+.calibrationLabel {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-strong);
+  flex: 1;
+}
+
+.calibrationCount {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.calibrationDesc {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ── Question lists ───────────────────────────────────────────────────────── */
+.questionList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-1);
+}
+
+.questionListItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.85rem;
+  color: var(--text-body);
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.questionListItem:last-child {
+  border-bottom: none;
+}
+
+.qBadge {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.qBadge[data-type="wrong"]   { background: color-mix(in srgb, var(--m3-error) 15%, var(--bg-surface)); color: var(--m3-error); }
+.qBadge[data-type="correct"] { background: color-mix(in srgb, var(--m3-success) 15%, var(--bg-surface)); color: var(--m3-success); }
+.qBadge[data-type="flag"]    { background: var(--accent-amber-soft); color: var(--accent-amber-label); }
+
+.qCategory {
+  margin-left: auto;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+/* ── CTAs ─────────────────────────────────────────────────────────────────── */
+.ctas {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.ctaPrimary {
+  padding: 0.7rem 1.75rem;
+  background: var(--btn-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 120ms ease, transform 80ms ease;
+}
+
+.ctaPrimary:hover {
+  background: var(--btn-primary-hover);
+  transform: translateY(-1px);
+}
+
+.ctaSecondary {
+  padding: 0.7rem 1.75rem;
+  background: transparent;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--text-body);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease;
+}
+
+.ctaSecondary:hover {
+  border-color: var(--btn-primary);
+  color: var(--btn-primary);
+}

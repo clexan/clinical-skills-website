@@ -1,0 +1,164 @@
+/* ── Page wrapper ─────────────────────────────────────────────────────────── */
+.page {
+  display: grid;
+  gap: 0;
+  padding-bottom: var(--space-7);
+}
+
+/* ── Progress bar ─────────────────────────────────────────────────────────── */
+.progressTrack {
+  height: 3px;
+  background: var(--bg-elevated);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: var(--space-5);
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 400ms ease;
+}
+
+.progressFill[data-mode="learn"] {
+  background: var(--mode-learn);
+}
+
+.progressFill[data-mode="exam"] {
+  background: var(--mode-exam);
+}
+
+/* ── Two-column layout ────────────────────────────────────────────────────── */
+.sessionLayout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+/* ── Left panel ───────────────────────────────────────────────────────────── */
+.leftPanel {
+  display: grid;
+  gap: var(--space-4);
+  position: sticky;
+  top: var(--space-5);
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
+  padding-right: var(--space-2);
+  scrollbar-width: thin;
+}
+
+.panelMeta {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.modePill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mode_learn {
+  background: var(--mode-learn-soft);
+  color: var(--mode-learn-label);
+  border: 1px solid color-mix(in srgb, var(--mode-learn) 28%, transparent);
+}
+
+.mode_exam {
+  background: var(--mode-exam-soft);
+  color: var(--mode-exam-label);
+  border: 1px solid color-mix(in srgb, var(--mode-exam) 28%, transparent);
+}
+
+.progressLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.badgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.caseTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  line-height: 1.25;
+  color: var(--text-strong);
+}
+
+/* ── Vignette ─────────────────────────────────────────────────────────────── */
+.vignette {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.vignetteLabel {
+  margin: 0;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.vignetteText {
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: var(--text-body);
+}
+
+.vignetteText p {
+  margin: 0 0 var(--space-3);
+}
+
+.vignetteText p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Right panel ──────────────────────────────────────────────────────────── */
+.rightPanel {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* ── Legacy classes (keep for any pages that still import this file) ───────── */
+.article          { display: grid; gap: var(--space-6); }
+.articleHeader    { display: grid; gap: var(--space-3); }
+.title            { margin: 0; font-family: var(--font-display); font-size: clamp(1.5rem, 2.5vw, 2rem); line-height: 1.2; color: var(--text-strong); }
+.sectionHeading   { margin: 0 0 var(--space-4); color: var(--text-muted); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.caseSection      {}
+.caseText         { display: grid; gap: var(--space-4); max-width: 72ch; }
+.caseText p       { margin: 0; color: var(--text-body); font-size: 0.95rem; line-height: 1.75; }
+.questionSection  {}
+
+/* ── Mobile ───────────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .sessionLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .leftPanel {
+    position: static;
+    max-height: none;
+    overflow-y: visible;
+    padding-right: 0;
+  }
+}
