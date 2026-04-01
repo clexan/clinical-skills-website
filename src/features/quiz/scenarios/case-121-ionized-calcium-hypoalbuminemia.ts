@@ -1,7 +1,7 @@
 import { QuizScenario } from '../quizData';
 
-export const case121: QuizScenario = {
-  id: 'case-121',
+export const case136: QuizScenario = {
+  id: 'case-136',
   slug: 'ionized-calcium-hypoalbuminemia',
   title: 'Corrected Calcium vs Ionized Calcium in Hypoalbuminemia',
   category: 'Emergency',

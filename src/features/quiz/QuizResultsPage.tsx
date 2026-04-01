@@ -1,19 +1,36 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useQuizStore } from '../../store/useQuizStore';
 import styles from './QuizResultsPage.module.css';
 
 type GradeBand = { label: string; color: string };
 
 function gradeBand(pct: number): GradeBand {
-  if (pct >= 80) return { label: 'Excellent',    color: 'var(--m3-success)' };
-  if (pct >= 60) return { label: 'Good',         color: 'var(--m3-warning)' };
-  return                 { label: 'Needs Review', color: 'var(--m3-error)' };
+  if (pct >= 80) return { label: 'Excellent', color: 'var(--status-normal)' };
+  if (pct >= 60) return { label: 'Good', color: 'var(--status-warn)' };
+  return { label: 'Needs Review', color: 'var(--status-critical)' };
 }
 
 export function QuizResultsPage() {
   const navigate = useNavigate();
-  const { score, queue, answers, confidence, flags, mode, resetSession } = useQuizStore();
+  const { hasHydrated, status, score, queue, answers, confidence, flags, mode, resetSession, startReviewSession } = useQuizStore();
+  const canShowResults = status === 'finished' && queue.length > 0;
+
+  useEffect(() => {
+    if (canShowResults) {
+      return;
+    }
+
+    if (!hasHydrated) {
+      return;
+    }
+
+    navigate('/quiz', { replace: true });
+  }, [canShowResults, hasHydrated, navigate]);
+
+  if (!canShowResults) {
+    return null;
+  }
 
   const total  = queue.length;
   const pct    = total > 0 ? Math.round((score / total) * 100) : 0;
@@ -31,10 +48,13 @@ export function QuizResultsPage() {
   });
 
   // Confidence calibration
-  const wrongWithHighConfidence = queue.filter(q => {
+  const incorrectAnswers = queue.filter(q => {
     const chosen = answers[q.id];
-    const isW = chosen && !q.options.find(o => o.id === chosen)?.isCorrect;
-    return isW && confidence[q.id] === 'high';
+    return Boolean(chosen && !q.options.find(o => o.id === chosen)?.isCorrect);
+  });
+
+  const wrongWithHighConfidence = incorrectAnswers.filter(q => {
+    return confidence[q.id] === 'high';
   });
 
   const correctWithLowConfidence = queue.filter(q => {
@@ -44,6 +64,7 @@ export function QuizResultsPage() {
   });
 
   const flaggedItems = queue.filter(q => flags.includes(q.id));
+  const hasReviewableQuestions = incorrectAnswers.length > 0;
 
   const handleRestart = () => {
     resetSession();
@@ -51,10 +72,11 @@ export function QuizResultsPage() {
   };
 
   const handleReview = () => {
-    // Future: launch a filtered Learn session for wrong answers only
-    // For now, restart from index
-    resetSession();
-    navigate('/quiz');
+    const started = startReviewSession('learn');
+
+    if (started) {
+      navigate('/quiz/session');
+    }
   };
 
   return (
@@ -132,7 +154,9 @@ export function QuizResultsPage() {
                 {wrongWithHighConfidence.map(q => (
                   <li key={q.id} className={styles.questionListItem}>
                     <span className={styles.qBadge} data-type="wrong">✗</span>
-                    <span>{q.title}</span>
+                    <Link className={styles.questionLink} to={`/quiz/${q.slug}`}>
+                      {q.title}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -142,7 +166,7 @@ export function QuizResultsPage() {
           {correctWithLowConfidence.length > 0 && (
             <div className={styles.calibrationBlock} style={{ marginTop: 'var(--space-3)' }}>
               <div className={styles.calibrationHeader}>
-                <span className={styles.calibrationIcon} style={{ color: 'var(--accent-amber)' }}>◒</span>
+                <span className={styles.calibrationIcon} style={{ color: 'var(--status-warn)' }}>◒</span>
                 <span className={styles.calibrationLabel}>Low-confidence correct</span>
                 <span className={styles.calibrationCount}>{correctWithLowConfidence.length} question{correctWithLowConfidence.length > 1 ? 's' : ''}</span>
               </div>
@@ -153,7 +177,9 @@ export function QuizResultsPage() {
                 {correctWithLowConfidence.map(q => (
                   <li key={q.id} className={styles.questionListItem}>
                     <span className={styles.qBadge} data-type="correct">✓</span>
-                    <span>{q.title}</span>
+                    <Link className={styles.questionLink} to={`/quiz/${q.slug}`}>
+                      {q.title}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -170,7 +196,9 @@ export function QuizResultsPage() {
             {flaggedItems.map(q => (
               <li key={q.id} className={styles.questionListItem}>
                 <span className={styles.qBadge} data-type="flag">⚑</span>
-                <span>{q.title}</span>
+                <Link className={styles.questionLink} to={`/quiz/${q.slug}`}>
+                  {q.title}
+                </Link>
                 <span className={styles.qCategory}>{q.category}</span>
               </li>
             ))}
@@ -180,8 +208,13 @@ export function QuizResultsPage() {
 
       {/* ── CTAs ────────────────────────────────────────────────────────────── */}
       <div className={styles.ctas}>
-        <button id="results-review-btn" className={styles.ctaSecondary} onClick={handleReview}>
-          Review Incorrect Answers
+        <button
+          id="results-review-btn"
+          className={styles.ctaSecondary}
+          disabled={!hasReviewableQuestions}
+          onClick={handleReview}
+        >
+          {hasReviewableQuestions ? 'Review Missed Questions' : 'No Missed Questions'}
         </button>
         <button id="results-restart-btn" className={styles.ctaPrimary} onClick={handleRestart}>
           Back to Quiz Index

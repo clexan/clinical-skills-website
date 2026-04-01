@@ -11,8 +11,8 @@
   display: grid;
   gap: var(--space-4);
   padding: var(--space-6);
-  background: var(--bg-surface);
-  border: 1px solid var(--border-soft);
+  background: var(--role-card-surface);
+  border: 1px solid var(--role-card-border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
 }
@@ -82,13 +82,13 @@
   font-weight: 600;
   padding: 0.2rem 0.75rem;
   border-radius: 999px;
-  background: color-mix(in srgb, currentColor 10%, var(--bg-surface));
+  background: color-mix(in srgb, currentColor 10%, var(--role-card-surface));
   border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
 }
 
 .scoreBar {
   height: 8px;
-  background: var(--bg-elevated);
+  background: var(--role-card-surface-raised);
   border-radius: 999px;
   overflow: hidden;
 }
@@ -104,8 +104,8 @@
   display: grid;
   gap: var(--space-3);
   padding: var(--space-5);
-  background: var(--bg-surface);
-  border: 1px solid var(--border-soft);
+  background: var(--role-card-surface);
+  border: 1px solid var(--role-card-border);
   border-radius: var(--radius-md);
 }
 
@@ -149,7 +149,7 @@
 
 .domainBar {
   height: 6px;
-  background: var(--bg-elevated);
+  background: var(--role-card-surface-raised);
   border-radius: 999px;
   overflow: hidden;
 }
@@ -165,9 +165,9 @@
   display: grid;
   gap: var(--space-2);
   padding: var(--space-4);
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--role-card-border);
   border-radius: var(--radius-sm);
-  background: var(--bg-subtle);
+  background: var(--role-card-surface-raised);
 }
 
 .calibrationHeader {
@@ -217,7 +217,7 @@
   font-size: 0.85rem;
   color: var(--text-body);
   padding: 0.3rem 0;
-  border-bottom: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--role-divider);
 }
 
 .questionListItem:last-child {
@@ -236,9 +236,19 @@
   font-weight: 700;
 }
 
-.qBadge[data-type="wrong"]   { background: color-mix(in srgb, var(--m3-error) 15%, var(--bg-surface)); color: var(--m3-error); }
-.qBadge[data-type="correct"] { background: color-mix(in srgb, var(--m3-success) 15%, var(--bg-surface)); color: var(--m3-success); }
-.qBadge[data-type="flag"]    { background: var(--accent-amber-soft); color: var(--accent-amber-label); }
+.qBadge[data-type="wrong"]   { background: var(--role-status-error-surface); color: var(--status-critical); }
+.qBadge[data-type="correct"] { background: var(--role-status-success-surface); color: var(--status-normal); }
+.qBadge[data-type="flag"]    { background: var(--role-status-warning-surface); color: var(--status-warn); }
+
+.questionLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.questionLink:hover {
+  color: var(--role-link);
+  text-decoration: underline;
+}
 
 .qCategory {
   margin-left: auto;
@@ -257,7 +267,7 @@
 
 .ctaPrimary {
   padding: 0.7rem 1.75rem;
-  background: var(--btn-primary);
+  background: var(--role-button-filled-surface);
   border: none;
   border-radius: var(--radius-sm);
   color: #fff;
@@ -269,24 +279,29 @@
 }
 
 .ctaPrimary:hover {
-  background: var(--btn-primary-hover);
+  background: var(--role-button-filled-surface-hover);
   transform: translateY(-1px);
 }
 
 .ctaSecondary {
   padding: 0.7rem 1.75rem;
   background: transparent;
-  border: 1.5px solid var(--border-strong);
+  border: 1.5px solid var(--role-button-outlined-border);
   border-radius: var(--radius-sm);
-  color: var(--text-body);
+  color: var(--role-button-outlined-label);
   font: inherit;
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: border-color 120ms ease, color 120ms ease;
+  transition: border-color 120ms ease, color 120ms ease, opacity 120ms ease;
 }
 
-.ctaSecondary:hover {
-  border-color: var(--btn-primary);
-  color: var(--btn-primary);
+.ctaSecondary:hover:not(:disabled) {
+  border-color: var(--role-selection-border);
+  color: var(--role-selection-label);
+}
+
+.ctaSecondary:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
 }

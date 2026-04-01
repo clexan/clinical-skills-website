@@ -13,4 +13,8 @@ export const primaryNavItems: readonly PrimaryNavItem[] = [
     label: "Videos",
     to: "/videos",
   },
+  {
+    label: "Quiz",
+    to: "/quiz",
+  },
 ];

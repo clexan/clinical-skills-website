@@ -1,7 +1,7 @@
 import { QuizScenario } from '../quizData';
 
-export const case117: QuizScenario = {
-  id: 'case-117',
+export const case132: QuizScenario = {
+  id: 'case-132',
   slug: 'oral-phosphate-repletion-moderate-asymptomatic',
   title: 'Oral vs IV Phosphate Repletion',
   category: 'Emergency',

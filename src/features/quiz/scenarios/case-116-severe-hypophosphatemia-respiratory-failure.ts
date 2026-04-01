@@ -1,7 +1,7 @@
 import { QuizScenario } from '../quizData';
 
-export const case116: QuizScenario = {
-  id: 'case-116',
+export const case131: QuizScenario = {
+  id: 'case-131',
   slug: 'severe-hypophosphatemia-respiratory-failure-hemolysis',
   title: 'Severe Hypophosphatemia Causing Respiratory Failure',
   category: 'Emergency',

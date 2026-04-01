@@ -42,6 +42,23 @@ export interface QuizScenario {
 
 export const quizScenarios: QuizScenario[] = allScenarios;
 
+const quizScenarioIndexById = new Map(quizScenarios.map((scenario) => [scenario.id, scenario] as const));
+const quizScenarioIndexBySlug = new Map(quizScenarios.map((scenario) => [scenario.slug, scenario] as const));
+
+export function getQuizScenarioById(id: string): QuizScenario | undefined {
+  return quizScenarioIndexById.get(id);
+}
+
+export function getQuizScenarioBySlug(slug: string): QuizScenario | undefined {
+  return quizScenarioIndexBySlug.get(slug);
+}
+
+export function getQuizScenariosByIds(ids: string[]): QuizScenario[] {
+  return ids
+    .map((id) => quizScenarioIndexById.get(id))
+    .filter((scenario): scenario is QuizScenario => Boolean(scenario));
+}
+
 export function getRandomScenarios(
   categoryFilter: string | null,
   difficultyFilter: string | null,

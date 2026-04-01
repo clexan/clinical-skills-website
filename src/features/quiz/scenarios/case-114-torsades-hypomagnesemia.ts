@@ -1,7 +1,7 @@
 import { QuizScenario } from '../quizData';
 
-export const case114: QuizScenario = {
-  id: 'case-114',
+export const case129: QuizScenario = {
+  id: 'case-129',
   slug: 'torsades-hypomagnesemia-iv-magnesium',
   title: 'Torsades de Pointes From Hypomagnesemia',
   category: 'Emergency',

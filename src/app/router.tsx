@@ -9,6 +9,10 @@ import { PartPage } from "@/features/part/PartPage";
 import { EmergencyReferencePage } from "@/features/reference/EmergencyReferencePage";
 import { SearchPage } from "@/features/search/SearchPage";
 import { NotFoundPage } from "@/features/status/NotFoundPage";
+import { QuizDetailPage } from "@/features/quiz/QuizDetailPage";
+import { QuizIndexPage } from "@/features/quiz/QuizIndexPage";
+import { QuizResultsPage } from "@/features/quiz/QuizResultsPage";
+import { QuizSessionPage } from "@/features/quiz/QuizSessionPage";
 import { VideoIndexPage } from "@/features/videos/VideoIndexPage";
 
 export const router = createBrowserRouter([
@@ -44,6 +48,22 @@ export const router = createBrowserRouter([
       {
         path: "videos",
         element: <VideoIndexPage />,
+      },
+      {
+        path: "quiz",
+        element: <QuizIndexPage />,
+      },
+      {
+        path: "quiz/session",
+        element: <QuizSessionPage />,
+      },
+      {
+        path: "quiz/results",
+        element: <QuizResultsPage />,
+      },
+      {
+        path: "quiz/:quizSlug",
+        element: <QuizDetailPage />,
       },
       {
         path: "credits",

@@ -1,7 +1,7 @@
 import { QuizScenario } from '../quizData';
 
-export const case119: QuizScenario = {
-  id: 'case-119',
+export const case134: QuizScenario = {
+  id: 'case-134',
   slug: 'hypercalcemic-crisis-fluids-first',
   title: 'Hypercalcemic Crisis: Stones, Bones, Groans, and Psychiatric Overtones',
   category: 'Emergency',

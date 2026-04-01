@@ -22,11 +22,6 @@ const DIFFICULTIES = [
 
 const COUNTS = [5, 10, 15, 20];
 
-function estimateTime(count: number, difficulty: string): string {
-  const mins = count * (difficulty === 'Hard' ? 2.5 : difficulty === 'Easy' ? 1 : 1.5);
-  return `~${Math.round(mins)}–${Math.round(mins * 1.3)} min`;
-}
-
 export function QuizIndexPage() {
   const navigate = useNavigate();
   const { startSession } = useQuizStore();
@@ -35,10 +30,6 @@ export function QuizIndexPage() {
   const [category,   setCategory]   = useState('All');
   const [difficulty, setDifficulty] = useState('All');
   const [count,      setCount]      = useState(10);
-
-  const catLabel  = CATEGORIES.find(c => c.value === category)?.label ?? category;
-  const diffLabel = DIFFICULTIES.find(d => d.value === difficulty)?.label ?? difficulty;
-  const timeEst   = estimateTime(count, difficulty === 'All' ? 'Medium' : difficulty);
 
   const handleStart = () => {
     if (!mode) return;
@@ -146,18 +137,6 @@ export function QuizIndexPage() {
       </div>
 
       <div className={styles.ctaBlock}>
-        {mode && (
-          <div className={styles.summaryRow}>
-             <span className={styles.summaryItem}>{catLabel}</span>
-             <span className={styles.summaryDot}>·</span>
-             <span className={styles.summaryItem}>{diffLabel}</span>
-             <span className={styles.summaryDot}>·</span>
-             <span className={styles.summaryItem}>{count} questions</span>
-             <span className={styles.summaryDot}>·</span>
-             <span className={styles.summaryItem}>{timeEst}</span>
-          </div>
-        )}
-
         <button
           id="start-quiz-btn"
           className={styles.startBtn}

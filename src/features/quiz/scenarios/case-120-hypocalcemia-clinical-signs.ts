@@ -1,7 +1,7 @@
 import { QuizScenario } from '../quizData';
 
-export const case120: QuizScenario = {
-  id: 'case-120',
+export const case135: QuizScenario = {
+  id: 'case-135',
   slug: 'hypocalcemia-chvostek-trousseau-iv-calcium',
   title: 'Recognizing Hypocalcemia: Clinical Signs and ECG Findings',
   category: 'Emergency',

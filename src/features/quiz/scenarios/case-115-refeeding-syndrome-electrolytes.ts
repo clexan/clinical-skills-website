@@ -1,7 +1,7 @@
 import { QuizScenario } from '../quizData';
 
-export const case115: QuizScenario = {
-  id: 'case-115',
+export const case130: QuizScenario = {
+  id: 'case-130',
   slug: 'refeeding-syndrome-phosphate-potassium-magnesium',
   title: 'Refeeding Syndrome After Aggressive Nutrition',
   category: 'Emergency',

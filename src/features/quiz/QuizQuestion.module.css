@@ -40,7 +40,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--btn-primary);
+  color: var(--role-button-filled-surface);
 }
 
 .questionText {
@@ -65,8 +65,8 @@
   gap: var(--space-3);
   width: 100%;
   padding: var(--space-3) var(--space-4);
-  background: var(--bg-surface);
-  border: 1.5px solid var(--border-soft);
+  background: var(--role-card-surface);
+  border: 1.5px solid var(--role-card-border);
   border-radius: var(--radius-sm);
   color: var(--text-body);
   font: inherit;
@@ -80,14 +80,14 @@
 }
 
 .option:hover:not(:disabled) {
-  background: var(--bg-hover);
-  border-color: var(--border-strong);
+  background: var(--role-card-hover-surface);
+  border-color: var(--role-selection-border);
   transform: translateY(-1px);
 }
 
 .option:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--accent-sky-soft);
+  box-shadow: 0 0 0 3px var(--role-focus-ring-soft);
 }
 
 .option:disabled {
@@ -97,24 +97,24 @@
 
 /* Revealed states */
 .opt_correct {
-  background: color-mix(in srgb, var(--m3-success) 8%, var(--bg-surface));
-  border-color: color-mix(in srgb, var(--m3-success) 45%, var(--border-soft));
+  background: var(--role-status-success-surface);
+  border-color: var(--role-status-success-border);
 }
 
 .opt_incorrect {
-  background: color-mix(in srgb, var(--m3-error) 8%, var(--bg-surface));
-  border-color: color-mix(in srgb, var(--m3-error) 45%, var(--border-soft));
+  background: var(--role-status-error-surface);
+  border-color: var(--role-status-error-border);
 }
 
 .opt_selected {
-  background: var(--m3-selected-container);
-  border-color: var(--m3-selected-outline);
-  color: var(--m3-selected-text);
-  box-shadow: inset 0 0 0 1px var(--m3-selected-outline);
+  background: var(--role-selection-surface);
+  border-color: var(--role-selection-border);
+  color: var(--role-selection-label);
+  box-shadow: inset 0 0 0 1px var(--role-selection-border);
 }
 
 .opt_unselected {
-  background: var(--m3-surface-container-low);
+  background: var(--role-card-surface-raised);
   border-color: transparent;
   color: var(--text-muted);
 }
@@ -141,25 +141,25 @@
 }
 
 .badge_correct {
-  background: var(--m3-success);
-  border-color: var(--m3-success);
+  background: var(--status-normal);
+  border-color: var(--status-normal);
   color: #fff;
 }
 
 .badge_incorrect {
-  background: var(--m3-error);
-  border-color: var(--m3-error);
+  background: var(--status-critical);
+  border-color: var(--status-critical);
   color: #fff;
 }
 
 .badge_selected {
-  background: var(--m3-selected-outline);
-  border-color: var(--m3-selected-outline);
+  background: var(--role-selection-border);
+  border-color: var(--role-selection-border);
   color: #fff;
 }
 
 .badge_unselected {
-  border-color: var(--m3-divider);
+  border-color: var(--role-card-border);
   color: var(--text-muted);
 }
 
@@ -172,16 +172,16 @@
   flex-shrink: 0;
   font-size: 0.72rem;
   font-weight: 700;
-  color: var(--m3-success);
+  color: var(--status-normal);
   margin-left: auto;
 }
 
 /* ── Confidence check ─────────────────────────────────────────────────────── */
 .confidenceBlock {
   padding: var(--space-4);
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--role-card-border);
   border-radius: var(--radius-sm);
-  background: var(--bg-subtle);
+  background: var(--role-card-surface-raised);
   animation: fadeSlideIn 180ms ease both;
 }
 
@@ -201,8 +201,8 @@
   flex: 1;
   padding: 0.55rem var(--space-2);
   border-radius: var(--radius-sm);
-  border: 1.5px solid var(--border-soft);
-  background: var(--bg-surface);
+  border: 1.5px solid var(--role-card-border);
+  background: var(--role-card-surface);
   font: inherit;
   font-size: 0.82rem;
   font-weight: 600;
@@ -218,16 +218,16 @@
   color: var(--text-muted);
 }
 .conf_low:hover {
-  background: var(--accent-slate-soft);
-  border-color: var(--accent-slate);
+  background: color-mix(in srgb, var(--text-muted) 10%, var(--role-card-surface));
+  border-color: var(--role-card-border);
 }
 
 .conf_medium {
-  color: var(--accent-amber-label);
+  color: var(--status-warn);
 }
 .conf_medium:hover {
-  background: var(--accent-amber-soft);
-  border-color: var(--accent-amber);
+  background: var(--role-status-warning-surface);
+  border-color: var(--role-status-warning-border);
 }
 
 .conf_high {
@@ -244,9 +244,9 @@
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--role-card-border);
   border-radius: var(--radius-sm);
-  background: var(--bg-subtle);
+  background: var(--role-card-surface-raised);
   animation: fadeSlideIn 180ms ease both;
 }
 
@@ -254,7 +254,7 @@
   font-size: 1.1rem;
   font-weight: 700;
 }
-.examAckCorrect { color: #16a34a; }
+.examAckCorrect { color: var(--status-normal); }
 .examAckWrong   { color: var(--text-muted); }
 
 .examAckText {
@@ -266,17 +266,17 @@
 /* ── Layered feedback block ───────────────────────────────────────────────── */
 .feedback {
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--role-card-border);
   overflow: hidden;
   animation: fadeSlideIn 200ms ease both;
 }
 
 .feedback_correct {
-  border-left: 4px solid var(--m3-success);
+  border-left: 4px solid var(--status-normal);
 }
 
 .feedback_incorrect {
-  border-left: 4px solid var(--m3-error);
+  border-left: 4px solid var(--status-critical);
 }
 
 /* Verdict banner */
@@ -284,8 +284,8 @@
   display: grid;
   gap: var(--space-2);
   padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid var(--border-soft);
-  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--role-divider);
+  background: var(--role-card-surface-raised);
 }
 
 .verdictPill {
@@ -301,13 +301,13 @@
 }
 
 .feedback_correct .verdictPill {
-  background: color-mix(in srgb, var(--m3-success) 15%, var(--bg-surface));
-  color: var(--m3-success);
+  background: var(--role-status-success-surface);
+  color: var(--status-normal);
 }
 
 .feedback_incorrect .verdictPill {
-  background: color-mix(in srgb, var(--m3-error) 12%, var(--bg-surface));
-  color: var(--m3-error);
+  background: var(--role-status-error-surface);
+  color: var(--status-critical);
 }
 
 .verdictSummary {
@@ -320,11 +320,11 @@
 
 /* ── Accordion ────────────────────────────────────────────────────────────── */
 .accordion {
-  border-bottom: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--role-divider);
 }
 
 .accordionItem {
-  border-bottom: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--role-divider);
 }
 
 .accordionItem:last-child {
@@ -337,7 +337,7 @@
   align-items: center;
   width: 100%;
   padding: var(--space-3) var(--space-4);
-  background: var(--bg-surface);
+  background: var(--role-card-surface);
   border: none;
   font: inherit;
   font-size: 0.82rem;
@@ -349,7 +349,7 @@
 }
 
 .accordionTrigger:hover {
-  background: var(--bg-hover);
+  background: var(--role-card-hover-surface);
 }
 
 .chevron {
@@ -365,7 +365,7 @@
 
 .accordionContent {
   padding: var(--space-3) var(--space-4) var(--space-4);
-  background: var(--bg-subtle);
+  background: var(--role-card-surface-raised);
   animation: fadeSlideIn 150ms ease both;
 }
 
@@ -402,7 +402,7 @@
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-3) var(--space-4);
-  background: var(--bg-surface);
+  background: var(--role-card-surface);
 }
 
 .flagBtn {
@@ -411,7 +411,7 @@
   gap: 0.3rem;
   padding: 0.35rem var(--space-3);
   background: transparent;
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--role-card-border);
   border-radius: var(--radius-sm);
   font: inherit;
   font-size: 0.78rem;
@@ -422,14 +422,14 @@
 }
 
 .flagBtn:hover {
-  border-color: var(--border-strong);
+  border-color: var(--role-selection-border);
   color: var(--text-strong);
 }
 
 .flagged {
-  background: var(--accent-amber-soft);
-  border-color: var(--accent-amber);
-  color: var(--accent-amber-label);
+  background: var(--role-status-warning-surface);
+  border-color: var(--role-status-warning-border);
+  color: var(--status-warn);
 }
 
 .handbookLink {
@@ -438,10 +438,10 @@
   gap: 0.25rem;
   font-size: 0.78rem;
   font-weight: 600;
-  color: var(--accent-sky);
+  color: var(--role-link);
   text-decoration: none;
   padding: 0.35rem var(--space-3);
-  border: 1px solid color-mix(in srgb, var(--accent-sky) 30%, transparent);
+  border: 1px solid var(--role-button-outlined-border);
   border-radius: var(--radius-sm);
 }
 
@@ -454,7 +454,7 @@
   display: inline-flex;
   align-items: center;
   padding: 0.5rem var(--space-4);
-  background: var(--btn-primary);
+  background: var(--role-button-filled-surface);
   border: none;
   border-radius: var(--radius-sm);
   color: #fff;
@@ -466,7 +466,7 @@
 }
 
 .nextBtn:hover {
-  background: var(--btn-primary-hover);
+  background: var(--role-button-filled-surface-hover);
   transform: translateY(-1px);
 }
 

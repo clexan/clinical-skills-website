@@ -9,19 +9,31 @@ import styles from './QuizDetailPage.module.css';
 
 export function QuizSessionPage() {
   const navigate = useNavigate();
-  const { status, queue, currentIndex, mode, submitAnswer, nextQuestion } = useQuizStore();
+  const { hasHydrated, status, queue, currentIndex, mode, submitAnswer, nextQuestion } = useQuizStore();
+  const canShowSession = status === 'active' && queue.length > 0;
 
   useEffect(() => {
-    if (status === 'idle')     navigate('/quiz');
-    if (status === 'finished') navigate('/quiz/results');
-  }, [status, navigate]);
+    if (canShowSession) {
+      return;
+    }
 
-  if (status !== 'active' || queue.length === 0) return null;
+    if (!hasHydrated) {
+      return;
+    }
+
+    if (status === 'finished' && queue.length > 0) {
+      navigate('/quiz/results', { replace: true });
+      return;
+    }
+
+    navigate('/quiz', { replace: true });
+  }, [canShowSession, hasHydrated, navigate, queue.length, status]);
+
+  if (!canShowSession) return null;
 
   const scenario = queue[currentIndex];
   const progressPct = Math.round(((currentIndex) / queue.length) * 100);
 
-  const modeBadgeColor = mode === 'learn' ? 'teal' : 'amber';
   const modeLabel      = mode === 'learn' ? 'Learn Mode' : 'Exam Mode';
 
   return (

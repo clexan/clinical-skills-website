@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { chapterIndex } from "@/content/chapter-index";
 import { getPartById, getPartBySlug } from "@/content/parts";
+import { getQuizScenarioBySlug } from "@/features/quiz/quizData";
 import { SearchModal } from "@/features/search/SearchModal";
 import { preloadSearchExperience } from "@/features/search/search-loader";
 import { SearchModalProvider, useSearchModal, useSearchShortcut } from "@/features/search/SearchModalContext";
@@ -79,6 +80,24 @@ function RootLayoutShell() {
 
     if (location.pathname === "/credits") {
       return "Credits";
+    }
+
+    if (location.pathname === "/quiz") {
+      return "Case Scenario Quiz";
+    }
+
+    if (location.pathname === "/quiz/session") {
+      return "Quiz Session";
+    }
+
+    if (location.pathname === "/quiz/results") {
+      return "Quiz Results";
+    }
+
+    const quizMatch = matchPath("/quiz/:quizSlug", location.pathname);
+    if (quizMatch?.params.quizSlug) {
+      const scenario = getQuizScenarioBySlug(quizMatch.params.quizSlug);
+      return scenario ? scenario.title : "Quiz unavailable";
     }
 
     if (matchedChapter) {

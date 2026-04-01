@@ -1,7 +1,7 @@
 import { QuizScenario } from '../quizData';
 
-export const case118: QuizScenario = {
-  id: 'case-118',
+export const case133: QuizScenario = {
+  id: 'case-133',
   slug: 'hypermagnesemia-esrd-calcium-and-dialysis',
   title: 'Hypermagnesemia in End-Stage Renal Disease',
   category: 'Emergency',

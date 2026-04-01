@@ -1,7 +1,7 @@
 import { QuizScenario } from '../quizData';
 
-export const case122: QuizScenario = {
-  id: 'case-122',
+export const case137: QuizScenario = {
+  id: 'case-137',
   slug: 'hypercalcemia-of-malignancy-calcitonin-bisphosphonate',
   title: 'Hypercalcemia of Malignancy: Bridge and Definitive Therapy',
   category: 'Emergency',

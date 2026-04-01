@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Link } from 'react-router-dom';
 import { QuizScenario, QuizOption } from './quizData';
@@ -55,12 +55,22 @@ function AccordionSection({
 }
 
 export function QuizQuestion({ scenario, onAnswerSubmit, onNext, isLastQuestion, mode }: Props) {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [confidenceSet, setConfidenceSet] = useState(false);
-  const [openSections, setOpenSections] = useState<Set<string>>(new Set());
+  const { answers, confidence, setConfidence, toggleFlag, flags } = useQuizStore();
+  const storedAnswer = answers[scenario.id] ?? null;
+  const storedConfidence = confidence[scenario.id];
 
-  const { setConfidence, toggleFlag, flags } = useQuizStore();
+  const [selectedOption, setSelectedOption] = useState<string | null>(storedAnswer);
+  const [confidenceSet, setConfidenceSet] = useState(Boolean(storedConfidence));
+  const [openSections, setOpenSections] = useState<Set<string>>(
+    storedAnswer && storedConfidence ? new Set(['correct', 'wrong']) : new Set(),
+  );
   const isFlagged = flags.includes(scenario.id);
+
+  useEffect(() => {
+    setSelectedOption(storedAnswer);
+    setConfidenceSet(mode === 'learn' ? Boolean(storedConfidence) : false);
+    setOpenSections(mode === 'learn' && storedAnswer && storedConfidence ? new Set(['correct', 'wrong']) : new Set());
+  }, [mode, scenario.id, storedAnswer, storedConfidence]);
 
   const isAnswered = selectedOption !== null;
   const selectedObj = scenario.options.find(o => o.id === selectedOption);
@@ -70,12 +80,13 @@ export function QuizQuestion({ scenario, onAnswerSubmit, onNext, isLastQuestion,
   const showConfidenceCheck = mode === 'learn' && isAnswered && !confidenceSet;
   const showLearnFeedback   = mode === 'learn' && isAnswered && confidenceSet;
   const showExamAck         = mode === 'exam'  && isAnswered;
+  const hasRevealedAnswer   = mode === 'learn' && confidenceSet;
 
   // ── Option display helpers ───────────────────────────────────────────────
 
   const getOptionMod = (opt: QuizOption): string => {
     if (!isAnswered) return '';
-    if (mode === 'learn' && !confidenceSet) {
+    if (!hasRevealedAnswer) {
       return opt.id === selectedOption ? styles.opt_selected : styles.opt_unselected;
     }
     if (opt.isCorrect) return styles.opt_correct;
@@ -84,7 +95,7 @@ export function QuizQuestion({ scenario, onAnswerSubmit, onNext, isLastQuestion,
   };
 
   const getBadgeContent = (opt: QuizOption): string => {
-    if (!isAnswered) return opt.id;
+    if (!isAnswered || !hasRevealedAnswer) return opt.id;
     if (opt.isCorrect) return '✓';
     if (opt.id === selectedOption) return '✗';
     return opt.id;
@@ -92,7 +103,7 @@ export function QuizQuestion({ scenario, onAnswerSubmit, onNext, isLastQuestion,
 
   const getBadgeMod = (opt: QuizOption): string => {
     if (!isAnswered) return '';
-    if (mode === 'learn' && !confidenceSet) {
+    if (!hasRevealedAnswer) {
       return opt.id === selectedOption ? styles.badge_selected : styles.badge_unselected;
     }
     if (opt.isCorrect) return styles.badge_correct;
@@ -163,7 +174,7 @@ export function QuizQuestion({ scenario, onAnswerSubmit, onNext, isLastQuestion,
               {getBadgeContent(opt)}
             </span>
             <span className={styles.optionText}>{opt.text}</span>
-            {isAnswered && opt.isCorrect && (
+            {hasRevealedAnswer && opt.isCorrect && (
               <span className={styles.correctTag} aria-label="Correct answer">✓</span>
             )}
           </button>

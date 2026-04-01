@@ -1,9 +1,9 @@
 .strip {
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--role-card-border);
   border-left: 3px solid var(--mode-learn);
   border-radius: var(--radius-sm);
   overflow: hidden;
-  background: var(--bg-surface);
+  background: var(--role-card-surface);
 }
 
 .header {
@@ -11,8 +11,8 @@
   align-items: baseline;
   gap: var(--space-2);
   padding: 0.45rem var(--space-3);
-  border-bottom: 1px solid var(--border-soft);
-  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--role-divider);
+  background: var(--role-card-surface-raised);
 }
 
 .headerTitle {
@@ -37,7 +37,7 @@
   display: flex;
   align-items: center;
   gap: 0;
-  border-bottom: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--role-divider);
   transition: background-color 120ms ease;
 }
 
@@ -64,8 +64,8 @@
   flex-shrink: 0;
   width: 3rem;
   padding: 0.4rem var(--space-2) 0.4rem 0;
-  border-right: 1px solid var(--border-soft);
-  background: color-mix(in srgb, var(--bg-elevated) 60%, transparent);
+  border-right: 1px solid var(--role-divider);
+  background: color-mix(in srgb, var(--role-card-surface-raised) 60%, transparent);
 }
 
 .abbr {
@@ -110,8 +110,8 @@
 }
 
 @keyframes pulse-dot {
-  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, #dc2626 40%, transparent); }
-  50%       { box-shadow: 0 0 0 3px color-mix(in srgb, #dc2626 15%, transparent); }
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--status-critical) 40%, transparent); }
+  50%       { box-shadow: 0 0 0 3px color-mix(in srgb, var(--status-critical) 15%, transparent); }
 }
 
 /* ── Mobile: inline badge strip ─────────────────────────────────────────── */
@@ -133,11 +133,11 @@
     gap: 0.3rem;
     padding: 0.2rem 0.5rem;
     border-radius: 999px;
-    border: 1px solid var(--border-soft);
-    border-bottom: 1px solid var(--border-soft);
+    border: 1px solid var(--role-card-border);
+    border-bottom: 1px solid var(--role-card-border);
   }
 
-  .row_normal { background: var(--bg-surface); }
+  .row_normal { background: var(--role-card-surface); }
 
   .rowMeta {
     width: auto;

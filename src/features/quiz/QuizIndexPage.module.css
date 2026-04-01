@@ -46,8 +46,8 @@
   align-items: start;
   gap: var(--space-2);
   padding: var(--space-4);
-  background: var(--bg-surface);
-  border: 2px solid var(--border-soft);
+  background: var(--role-card-surface);
+  border: 2px solid var(--role-card-border);
   border-radius: var(--radius-md);
   text-align: left;
   cursor: pointer;
@@ -108,8 +108,10 @@
   font-size: 0.7rem;
   font-weight: 700;
   color: #fff;
-  background: currentColor;
 }
+
+.modeCard.learn .modeCheck { background: var(--mode-learn); }
+.modeCard.exam .modeCheck  { background: var(--mode-exam); }
 
 .modeLine {
   margin: 0;
@@ -122,9 +124,10 @@
 .builder {
   display: grid;
   gap: 0;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-soft);
+  background: var(--role-card-surface);
+  border: 1px solid var(--role-card-border);
   border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
   padding: var(--space-2) 0;
 }
 
@@ -154,7 +157,7 @@
 .chip {
   padding: 0.35rem 0.85rem;
   background: transparent;
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--role-button-outlined-border);
   border-radius: 999px;
   color: var(--text-muted);
   font: inherit;
@@ -168,54 +171,34 @@
 }
 
 .chip:hover {
-  border-color: var(--border-strong);
+  border-color: var(--role-selection-border);
   color: var(--text-strong);
 }
 
 .chipActive {
-  background: color-mix(in srgb, var(--btn-primary) 8%, var(--bg-surface));
-  border-color: color-mix(in srgb, var(--btn-primary) 30%, var(--border-soft));
-  color: var(--btn-primary);
+  background: var(--role-selection-surface);
+  border-color: var(--role-selection-border);
+  color: var(--role-selection-label);
   font-weight: 600;
 }
 
 .builderRule {
   margin: 0;
   border: none;
-  border-bottom: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--role-divider);
 }
 
 /* ── CTAs ─────────────────────────────────────────────────────────────────── */
 .ctaBlock {
   display: grid;
-  gap: var(--space-3);
-}
-
-.summaryRow {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  font-size: 0.85rem;
-  color: var(--text-strong);
-}
-
-.summaryItem {
-  font-weight: 600;
-  color: var(--text-muted);
-}
-
-.summaryDot {
-  color: var(--text-muted);
-  opacity: 0.5;
+  gap: 0;
 }
 
 /* Start Button */
 .startBtn {
   width: 100%;
   padding: 1rem 2.5rem;
-  background: var(--btn-primary);
+  background: var(--role-button-filled-surface);
   border: none;
   border-radius: var(--radius-md);
   color: #fff;
@@ -227,7 +210,7 @@
 }
 
 .startBtn:hover:not(:disabled) {
-  background: var(--btn-primary-hover);
+  background: var(--role-button-filled-surface-hover);
   transform: translateY(-2px);
 }
 
