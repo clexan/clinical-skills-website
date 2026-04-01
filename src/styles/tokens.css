@@ -1,21 +1,50 @@
 :root {
-  /* Backgrounds */
-  --bg-page: #f8f5f0;
-  --bg-surface: #fdfaf6;
-  --bg-subtle: #f0ece5;
-  --bg-elevated: #eae5dc;
+  /* Material 3 Foundation Roles */
+  --m3-bg-page: #F6F2ED;
+  --m3-surface: #FFFDFC;
+  --m3-surface-container-low: #F2ECE6;
+  --m3-surface-container: #ECE4DC;
+  --m3-surface-container-high: #E6DDD4;
+
+  /* Material 3 Text Roles */
+  --m3-text-primary: #2C2622;
+  --m3-text-secondary: #655C56;
+  --m3-text-muted: #847A73;
+
+  /* Material 3 Accent Roles */
+  --m3-primary: #9C4E1E;
+  --m3-primary-hover: #7F3F17;
+  --m3-on-primary: #FFFFFF;
+
+  /* Material 3 Selection Roles */
+  --m3-selected-container: #F2E2D4;
+  --m3-selected-outline: #B55B22;
+  --m3-selected-text: #7A3B16;
+
+  /* Material 3 Utility Roles */
+  --m3-outline-default: #C9BBB0;
+  --m3-divider: #D8CDC3;
+  --m3-success: #2F6F4F;
+  --m3-warning: #A06112;
+  --m3-error: #A33A32;
+
+  /* Backgrounds (Legacy mapped to M3) */
+  --bg-page: var(--m3-bg-page);
+  --bg-surface: var(--m3-surface);
+  --bg-subtle: var(--m3-surface-container-low);
+  --bg-elevated: var(--m3-surface-container);
 
   /* Text */
-  --text-strong: #1a1a1a;
-  --text-body: #2e2e2e;
-  --text-muted: #6b6560;
+  --text-strong: var(--m3-text-primary);
+  --text-body: var(--m3-text-secondary);
+  --text-muted: var(--m3-text-muted);
   --text-display: color-mix(in srgb, var(--text-strong) 78%, var(--bg-surface));
   --font-display: "Lora", Georgia, serif;
   --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
 
   /* Borders */
-  --border-soft: #ddd8d0;
-  --border-strong: #b8b0a4;
+  --border-soft: var(--m3-divider);
+  --border-strong: var(--m3-outline-default);
 
   /* Accents — full saturation, used for text and borders */
   --accent-sky: #1a8fcc;
@@ -39,8 +68,8 @@
   /* Buttons */
   /* --btn-primary is darker than --accent-teal to meet WCAG AA contrast
      with white text. White on #157a6e is approximately 4.8:1. */
-  --btn-primary: #984727;
-  --btn-primary-hover: #7f3a1f;
+  --btn-primary: var(--m3-primary);
+  --btn-primary-hover: var(--m3-primary-hover);
 
   /* Shadows */
   --shadow-sm: 0 1px 3px rgba(26, 20, 12, 0.08), 0 1px 2px rgba(26, 20, 12, 0.06);
@@ -77,4 +106,21 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
   --z-modal: 300;
+
+  /* Quiz mode tokens */
+  --mode-learn: #0d9488;
+  --mode-learn-soft: color-mix(in srgb, #0d9488 12%, var(--bg-surface));
+  --mode-learn-label: #065f46;
+  --mode-exam: #b45309;
+  --mode-exam-soft: color-mix(in srgb, #b45309 12%, var(--bg-surface));
+  --mode-exam-label: #78350f;
+
+  /* Clinical findings status tokens */
+  --status-normal: var(--m3-success);
+  --status-normal-soft: color-mix(in srgb, var(--m3-success) 10%, var(--bg-surface));
+  --status-warn: var(--m3-warning);
+  --status-warn-soft: color-mix(in srgb, var(--m3-warning) 18%, var(--bg-surface));
+  --status-critical: var(--m3-error);
+  --status-critical-soft: color-mix(in srgb, var(--m3-error) 12%, var(--bg-surface));
+  --status-critical-border: color-mix(in srgb, var(--m3-error) 35%, transparent);
 }

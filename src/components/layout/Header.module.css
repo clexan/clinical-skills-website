@@ -3,8 +3,8 @@
   top: 0;
   z-index: 100;
   min-height: 64px;
-  background: color-mix(in srgb, var(--bg-surface) 92%, transparent);
-  border-bottom: 1px solid var(--border-soft);
+  background: color-mix(in srgb, var(--role-app-bar-surface) 92%, transparent);
+  border-bottom: 1px solid var(--role-app-bar-border);
   backdrop-filter: blur(12px) saturate(130%);
   box-shadow: 0 1px 0 rgba(26, 20, 12, 0.04);
 }
@@ -119,9 +119,9 @@
   min-width: 2.75rem;
   height: 2.75rem;
   padding: 0;
-  border: 1px solid var(--border-soft);
+  border: none;
   border-radius: 999px;
-  background: var(--bg-surface);
+  background: var(--role-search-surface);
   color: var(--text-body);
 }
 
@@ -155,7 +155,7 @@
 
 .menuButton:hover {
   color: var(--text-strong);
-  background: var(--bg-subtle);
+  background: var(--role-card-hover-surface);
 }
 
 .searchTriggerLabel,
@@ -170,7 +170,7 @@
 .searchTrigger:focus-visible,
 .menuButton:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--accent-sky-soft);
+  box-shadow: 0 0 0 3px var(--role-focus-ring-soft);
 }
 
 .icon {
@@ -231,8 +231,8 @@
   .searchTrigger:focus-visible {
     width: 11.5rem;
     padding-right: 0.75rem;
-    border-color: var(--border-soft);
-    background: color-mix(in srgb, var(--bg-subtle) 82%, var(--bg-surface));
+    border-color: var(--role-app-bar-border);
+    background: var(--role-search-surface);
   }
 
   .searchTrigger:hover .searchTriggerLabel,

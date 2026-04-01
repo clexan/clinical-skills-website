@@ -3,6 +3,10 @@
   gap: var(--space-4);
 }
 
+.chapterSection {
+  overflow: hidden;
+}
+
 .header {
   padding: var(--space-6);
 }
@@ -22,35 +26,63 @@
   line-height: 1.7;
 }
 
+.sectionHeader {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-5) var(--space-2);
+}
+
+.sectionEyebrow {
+  margin: 0;
+  color: var(--role-link);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.sectionTitle {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
 .list {
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .row {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: var(--space-2);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
   min-height: 64px;
-  padding: var(--space-4) var(--space-1);
-  border-bottom: 1px solid var(--border-soft);
+  padding: var(--space-4) var(--space-5);
+  background: transparent;
   color: inherit;
   text-decoration: none;
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease,
+    color 150ms ease;
+}
+
+.row + .row {
+  border-top: 1px solid var(--role-divider);
 }
 
 .row:hover {
-  background: var(--bg-subtle);
+  background: var(--role-card-hover-surface);
+  box-shadow: inset 3px 0 0 0 color-mix(in srgb, var(--role-link) 42%, transparent);
   text-decoration: none;
-}
-
-.row:last-child {
-  border-bottom: none;
 }
 
 .rowCopy {
   display: grid;
-  gap: 0;
+  gap: var(--space-2);
   width: 100%;
   min-width: 0;
 }
@@ -61,14 +93,23 @@
 
 .number {
   display: block;
-  margin: 0 0 var(--space-1);
+  margin: 0;
   color: var(--text-muted);
   font-size: 0.75rem;
   font-weight: 600;
 }
 
+.reviewLabel {
+  margin: 0;
+  color: var(--role-link);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .rowTitle {
-  margin: 0 0 var(--space-1);
+  margin: 0;
   color: var(--text-strong);
   font-size: 0.95rem;
   font-weight: 500;
@@ -78,17 +119,40 @@
 
 .rowDescription {
   display: -webkit-box;
-  margin: 0 0 var(--space-2);
+  margin: 0;
   overflow: hidden;
   color: var(--text-muted);
   font-size: 0.825rem;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.rowArrow {
+  flex: none;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition:
+    color 150ms ease,
+    transform 150ms ease;
+}
+
+.row:hover .rowArrow {
+  color: var(--role-link);
+  transform: translateX(2px);
+}
+
+.reviewRow {
+  background: color-mix(in srgb, var(--role-info-surface) 18%, transparent);
 }
 
 .row:focus-visible {
   outline: none;
-  box-shadow: inset 0 0 0 2px var(--accent-sky);
+  background: var(--role-card-focus-surface);
+  box-shadow:
+    0 0 0 3px var(--role-focus-ring-soft),
+    inset 3px 0 0 0 var(--role-focus-ring);
 }
 
 @media (max-width: 767px) {
@@ -100,37 +164,31 @@
   .description {
     margin-top: 0;
   }
+
+  .sectionHeader {
+    padding: var(--space-4);
+  }
+
+  .row {
+    padding: var(--space-4);
+  }
 }
 
 @media (min-width: 768px) {
-  .row {
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-3);
-    padding: var(--space-5);
-  }
-
   .rowCopy {
-    gap: var(--space-2);
     flex: 1 1 18rem;
   }
 
   .number {
-    margin-bottom: 0;
     font-size: 0.85rem;
   }
 
   .rowTitle {
-    margin-bottom: 0;
     font-size: 1.05rem;
     line-height: 1.35;
   }
 
   .rowDescription {
-    margin: var(--space-2) 0 0;
     font-size: 1rem;
   }
-
 }

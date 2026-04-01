@@ -6,7 +6,7 @@
 
 .hero {
   padding: var(--space-6);
-  background: var(--bg-elevated);
+  background: var(--role-card-surface-raised);
   text-align: center;
 }
 
@@ -15,7 +15,7 @@
   justify-items: center;
   gap: var(--space-2);
   padding: var(--space-6);
-  background: var(--bg-elevated);
+  background: var(--role-card-surface-raised);
   text-align: center;
 }
 
@@ -25,7 +25,7 @@
 
 .eyebrow {
   margin: 0 0 var(--space-3);
-  color: var(--accent-teal);
+  color: var(--role-button-filled-surface);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -70,7 +70,7 @@
 
 .summaryLink {
   margin-top: 0;
-  color: var(--accent-teal);
+  color: var(--role-link);
   font-size: 0.95rem;
   font-weight: 600;
 }
@@ -92,9 +92,9 @@
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-4);
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--role-card-border);
   border-radius: var(--radius-sm);
-  background: var(--bg-surface);
+  background: var(--role-card-surface);
   color: var(--text-body);
 }
 
@@ -105,8 +105,8 @@
 
 .panelHeader {
   padding: var(--space-5);
-  border-bottom: 1px solid var(--border-soft);
-  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--role-divider);
+  background: var(--role-card-surface);
 }
 
 .panelTitle {
@@ -134,7 +134,7 @@
 }
 
 .author + .author {
-  border-top: 1px solid var(--border-soft);
+  border-top: 1px solid var(--role-divider);
 }
 
 .identity {
@@ -190,7 +190,7 @@
   width: 0.4rem;
   height: 0.4rem;
   border-radius: 999px;
-  background: var(--accent-teal);
+  background: var(--role-button-filled-surface);
 }
 
 .footer {
@@ -207,10 +207,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--role-button-outlined-border);
   border-radius: var(--radius-md);
-  background: var(--bg-subtle);
-  color: var(--accent-teal);
+  background: var(--role-card-surface);
+  color: var(--role-link);
 }
 
 .footerCopy {

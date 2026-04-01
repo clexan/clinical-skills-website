@@ -5,9 +5,9 @@
 
 .image {
   width: 100%;
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--role-card-border);
   border-radius: var(--radius-md);
-  background: var(--bg-surface);
+  background: var(--role-page-surface);
 }
 
 .caption {
@@ -21,9 +21,9 @@
   display: grid;
   gap: var(--space-2);
   padding: var(--space-4);
-  border: 1px dashed var(--border-strong);
+  border: 1px dashed var(--role-button-outlined-border);
   border-radius: var(--radius-md);
-  background: var(--bg-subtle);
+  background: var(--role-card-surface);
 }
 
 .label {

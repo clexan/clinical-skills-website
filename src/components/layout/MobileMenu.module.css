@@ -17,8 +17,8 @@
   height: 100%;
   padding: calc(var(--space-5) + 3.25rem) var(--space-5) var(--space-7);
   overflow-y: auto;
-  background: var(--bg-surface);
-  border-left: 1px solid var(--border-soft);
+  background: var(--role-card-surface);
+  border-left: 1px solid var(--role-card-border);
   box-shadow: var(--shadow-md);
 }
 
@@ -71,7 +71,7 @@
 }
 
 .navLinkActive {
-  color: var(--accent-teal);
+  color: var(--role-link);
   font-weight: 600;
 }
 
@@ -79,7 +79,7 @@
   display: grid;
   gap: var(--space-3);
   padding-top: var(--space-5);
-  border-top: 1px solid var(--border-soft);
+  border-top: 1px solid var(--role-divider);
 }
 
 .partLabel {
@@ -135,7 +135,7 @@
 }
 
 .chapterLink:hover {
-  background: var(--bg-subtle);
+  background: var(--role-rail-hover-surface);
   text-decoration: none;
 }
 
@@ -160,5 +160,5 @@
 .accordionButton:focus-visible,
 .chapterLink:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--accent-sky-soft);
+  box-shadow: 0 0 0 3px var(--role-focus-ring-soft);
 }

@@ -1,29 +1,51 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Link } from "react-router-dom";
 
-import { getChaptersForPart } from "@/content/chapter-index";
+import { getChapterBySlug, getChaptersForPart } from "@/content/chapter-index";
+import { companionVideos, type CompanionVideo } from "@/content/videoData";
 import { parts } from "@/content/parts";
-import { emergencyEntries, type EREntry } from "@/features/reference/referenceData";
+import { emergencyEntries } from "@/features/reference/referenceData";
 import { preloadSearchExperience } from "@/features/search/search-loader";
 import { useSearchModal } from "@/features/search/SearchModalContext";
 import { openResourceSubtitle, siteTitle } from "@/lib/document-title";
 
 import styles from "./HomePage.module.css";
 
-const FEATURED_SLUGS = ["acs", "anaphylaxis", "sepsis"] as const;
+const EMERGENCY_RAIL_SLUGS = [
+  "acs",
+  "anaphylaxis",
+  "sepsis",
+  "hyperkalaemia",
+  "stroke",
+  "dka",
+] as const;
+const FEATURED_VIDEO_SLUGS = [
+  "deteriorating-patient-overview",
+  "acs-overview",
+  "sepsis-qsofa-overview",
+] as const;
 
 const chapterFamilies = parts.map((part) => ({
   ...part,
   chapterCount: getChaptersForPart(part.id).length,
 }));
 
+const emergencyRailItems = [
+  { label: "Critical", to: "/reference?filter=critical", tone: "critical" as const },
+  ...EMERGENCY_RAIL_SLUGS.flatMap((slug) => {
+    const entry = emergencyEntries.find((item) => item.slug === slug);
+
+    return entry ? [{ label: entry.title, to: `/reference#${entry.slug}`, tone: "default" as const }] : [];
+  }),
+];
+
 export function HomePage() {
   return (
     <section className={styles.page}>
       <HomeHero />
       <ChapterFamilies />
-      <ReferencePreview />
+      <HomeUtilities />
     </section>
   );
 }
@@ -64,80 +86,97 @@ function HomeHero() {
         <p className={styles.heroSubtitle}>{openResourceSubtitle}</p>
       </div>
 
-      <form
-        className={styles.searchForm}
-        onMouseEnter={warmSearch}
-        onSubmit={handleSubmit}
-      >
-        <label className={styles.visuallyHidden} htmlFor="home-search">
-          Search chapters and emergency reference
-        </label>
-        <div className={styles.searchField}>
-          <span aria-hidden="true" className={styles.searchIconWrap}>
-            <svg
-              className={styles.searchIcon}
-              fill="none"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                cx="11"
-                cy="11"
-                r="6.5"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
-              <path
-                d="M16 16l4.5 4.5"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeWidth="2"
-              />
-            </svg>
-          </span>
-          <input
-            aria-label="Search content"
-            autoComplete="off"
-            className={styles.searchInput}
-            id="home-search"
-            onChange={(event) => {
-              const nextQuery = event.target.value;
+      <div className={styles.heroControls}>
+        <form
+          className={styles.searchForm}
+          onMouseEnter={warmSearch}
+          onSubmit={handleSubmit}
+        >
+          <label className={styles.visuallyHidden} htmlFor="home-search">
+            Search chapters and emergency reference
+          </label>
+          <div className={styles.searchField}>
+            <span aria-hidden="true" className={styles.searchIconWrap}>
+              <svg
+                className={styles.searchIcon}
+                fill="none"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  cx="11"
+                  cy="11"
+                  r="6.5"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+                <path
+                  d="M16 16l4.5 4.5"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeWidth="2"
+                />
+              </svg>
+            </span>
+            <input
+              aria-label="Search content"
+              autoComplete="off"
+              className={styles.searchInput}
+              id="home-search"
+              onChange={(event) => {
+                const nextQuery = event.target.value;
 
-              if (!isOpen && nextQuery.trim()) {
-                openSearch(nextQuery);
-                setQuery("");
-                return;
-              }
+                if (!isOpen && nextQuery.trim()) {
+                  openSearch(nextQuery);
+                  setQuery("");
+                  return;
+                }
 
-              setQuery(nextQuery);
-            }}
-            onFocus={warmSearch}
-            placeholder="Search chapters and emergency reference"
-            spellCheck={false}
-            type="search"
-            value={query}
-          />
-          <button
-            aria-label="Search"
-            className={styles.searchSubmit}
-            type="submit"
-          >
-            <svg
-              className={styles.searchSubmitIcon}
-              fill="none"
-              viewBox="0 0 24 24"
+                setQuery(nextQuery);
+              }}
+              onFocus={warmSearch}
+              placeholder="Search chapters and emergency reference"
+              spellCheck={false}
+              type="search"
+              value={query}
+            />
+            <button
+              aria-label="Search"
+              className={styles.searchSubmit}
+              type="submit"
             >
-              <path
-                d="M5 12h14m-6-6l6 6-6 6"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2.5"
-              />
-            </svg>
-          </button>
+              <svg
+                className={styles.searchSubmitIcon}
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M5 12h14m-6-6l6 6-6 6"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2.5"
+                />
+              </svg>
+            </button>
+          </div>
+        </form>
+
+        <div className={styles.modeSwitch} aria-label="Quick access">
+          <p className={styles.modeSwitchLabel}>Quick access</p>
+          <div className={styles.modeSwitchLinks}>
+            <Link className={styles.modeLink} to="/quiz">
+              Take quiz
+            </Link>
+            <Link className={styles.modeLink} to="/videos">
+              Watch companion videos
+            </Link>
+            <Link className={styles.modeLink} to="/reference">
+              Open emergency reference
+            </Link>
+          </div>
         </div>
-      </form>
+      </div>
     </header>
   );
 }
@@ -170,51 +209,201 @@ function ChapterFamilies() {
   );
 }
 
-function ReferencePreview() {
-  const featured = FEATURED_SLUGS.flatMap((slug) => {
-    const match = emergencyEntries.find((entry) => entry.slug === slug);
+function HomeUtilities() {
+  const featuredVideos = FEATURED_VIDEO_SLUGS.flatMap((slug) => {
+    const match = companionVideos.find((video) => video.slug === slug);
     return match ? [match] : [];
   });
+  const featuredVideo = featuredVideos[0];
+  const additionalVideos = featuredVideos.slice(1);
+  const railRef = useRef<HTMLDivElement | null>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  useEffect(() => {
+    const rail = railRef.current;
+
+    if (!rail) {
+      return;
+    }
+
+    const updateRailState = () => {
+      const maxScrollLeft = rail.scrollWidth - rail.clientWidth;
+      const nextCanScrollLeft = rail.scrollLeft > 8;
+      const nextCanScrollRight = maxScrollLeft - rail.scrollLeft > 8;
+
+      setCanScrollLeft(nextCanScrollLeft);
+      setCanScrollRight(nextCanScrollRight);
+    };
+
+    updateRailState();
+    rail.addEventListener("scroll", updateRailState, { passive: true });
+    window.addEventListener("resize", updateRailState);
+
+    return () => {
+      rail.removeEventListener("scroll", updateRailState);
+      window.removeEventListener("resize", updateRailState);
+    };
+  }, []);
+
+  const scrollRail = (direction: "left" | "right") => {
+    railRef.current?.scrollBy({
+      left: direction === "left" ? -320 : 320,
+      behavior: "smooth",
+    });
+  };
 
   return (
-    <section className={styles.referencePreview}>
-      <div className={styles.previewHeader}>
-        <div className={styles.sectionIntro}>
-          <h2 className={styles.sectionTitle}>Emergency Reference</h2>
-          <p className={styles.sectionDescription}>
-            Compact first-minutes guidance for selected high-risk emergencies.
-          </p>
-        </div>
-        <Link className={styles.previewCta} to="/reference">
-          Open emergency reference
-        </Link>
-      </div>
+    <section className={styles.utilitySection}>
+      <div className={styles.utilityBand}>
+        <section aria-labelledby="home-reference-title" className={styles.referenceRailSection}>
+          <div className={styles.referenceRailHeader}>
+            <div className={styles.sectionIntro}>
+              <h2 className={styles.sectionTitle} id="home-reference-title">
+                Emergency Reference
+              </h2>
+              <p className={styles.sectionDescription}>
+                Fast-entry pathways for high-risk emergencies.
+              </p>
+            </div>
+            <div className={styles.referenceRailActions}>
+              <Link className={styles.previewCta} to="/reference">
+                View all emergency reference
+              </Link>
+            </div>
+          </div>
 
-      <div className={styles.previewGrid}>
-        {featured.map((entry) => (
-          <ReferencePreviewCard entry={entry} key={entry.slug} />
-        ))}
+          <div
+            className={`${styles.referenceRailViewport}${canScrollLeft ? ` ${styles.hasLeftFade}` : ""}${canScrollRight ? ` ${styles.hasRightFade}` : ""}`}
+          >
+            <div aria-label="Scroll emergency shortcuts" className={styles.referenceRailButtons}>
+              <button
+                aria-controls="home-emergency-rail"
+                aria-label="Scroll emergency shortcuts left"
+                className={`${styles.referenceRailButton} ${styles.referenceRailButtonLeft}`}
+                disabled={!canScrollLeft}
+                onClick={() => {
+                  scrollRail("left");
+                }}
+                type="button"
+              >
+                &larr;
+              </button>
+              <button
+                aria-controls="home-emergency-rail"
+                aria-label="Scroll emergency shortcuts right"
+                className={`${styles.referenceRailButton} ${styles.referenceRailButtonRight}`}
+                disabled={!canScrollRight}
+                onClick={() => {
+                  scrollRail("right");
+                }}
+                type="button"
+              >
+                &rarr;
+              </button>
+            </div>
+            <div className={styles.referenceRailScroller} id="home-emergency-rail" ref={railRef}>
+              <div aria-label="Emergency reference shortcuts" className={styles.referenceRail}>
+                {emergencyRailItems.map((item) => (
+                  <Link
+                    className={`${styles.referencePill}${item.tone === "critical" ? ` ${styles.referencePillCritical}` : ""}`}
+                    key={item.label}
+                    to={item.to}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section aria-labelledby="home-videos-title" className={styles.videoPanel}>
+          <div className={styles.panelHeader}>
+            <div className={styles.sectionIntro}>
+              <h2 className={styles.sectionTitle} id="home-videos-title">
+                Companion Videos
+              </h2>
+              <p className={styles.sectionDescription}>
+                Chapter-linked teaching videos with one core preview and quick entry into the full library.
+              </p>
+            </div>
+            <Link className={styles.previewCta} to="/videos">
+              Open video library
+            </Link>
+          </div>
+
+          {featuredVideo ? (
+            <VideoPreview featuredVideo={featuredVideo} quickLinks={additionalVideos} />
+          ) : null}
+        </section>
       </div>
     </section>
   );
 }
 
-function ReferencePreviewCard({ entry }: { entry: EREntry }) {
-  return (
-    <Link
-      className={`${styles.previewCard} ${styles[`severity-${entry.severity}`]}`}
-      to={`/reference#${entry.slug}`}
-    >
-      <div className={styles.previewCardHeader}>
-        <h3 className={styles.previewCardTitle}>{entry.title}</h3>
-        <span
-          className={`${styles.badge} ${styles[`badge-${entry.severity}`]}`}
-        >
-          {entry.severity}
-        </span>
-      </div>
+function VideoPreview({
+  featuredVideo,
+  quickLinks,
+}: {
+  featuredVideo: CompanionVideo;
+  quickLinks: CompanionVideo[];
+}) {
+  const featuredChapter = getChapterBySlug(featuredVideo.chapterSlug);
+  const thumbnail = featuredVideo.youtubeId
+    ? `https://i.ytimg.com/vi/${featuredVideo.youtubeId}/hqdefault.jpg`
+    : null;
 
-      <p className={styles.previewCardAlert}>{entry.subtitle}</p>
-    </Link>
+  return (
+    <div className={styles.videoPreviewStack}>
+      <a
+        className={styles.videoFeature}
+        href={featuredVideo.watchUrl}
+        rel="noreferrer"
+        target="_blank"
+      >
+        {thumbnail ? (
+          <div className={styles.videoFeatureMedia}>
+            <img alt="" className={styles.videoFeatureImage} src={thumbnail} />
+            <span className={styles.videoFeatureOverlay} />
+            <span className={styles.videoFeatureAction}>Open on YouTube</span>
+          </div>
+        ) : null}
+
+        <div className={styles.videoFeatureBody}>
+          <p className={styles.videoFeatureKicker}>Featured teaching video</p>
+          <h3 className={styles.videoFeatureTitle}>{featuredVideo.title}</h3>
+          <p className={styles.videoFeatureDescription}>{featuredVideo.description}</p>
+          {featuredChapter ? (
+            <p className={styles.videoFeatureMeta}>Linked chapter: {featuredChapter.title}</p>
+          ) : null}
+        </div>
+      </a>
+
+      {quickLinks.length ? (
+        <div className={styles.videoQuickLinks}>
+          <p className={styles.videoQuickLinksLabel}>More companion picks</p>
+          <div className={styles.videoQuickLinksList}>
+            {quickLinks.map((video) => {
+              const chapter = getChapterBySlug(video.chapterSlug);
+
+              return (
+                <Link className={styles.videoQuickLink} key={video.slug} to={`/videos#${video.chapterSlug}`}>
+                  <div>
+                    <p className={styles.videoQuickLinkTitle}>{video.title}</p>
+                    <p className={styles.videoQuickLinkMeta}>
+                      {chapter ? chapter.title : video.chapterSlug}
+                    </p>
+                  </div>
+                  <span aria-hidden="true" className={styles.videoQuickLinkArrow}>
+                    &gt;
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+    </div>
   );
 }

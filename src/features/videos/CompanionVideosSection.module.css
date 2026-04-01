@@ -3,8 +3,9 @@
   gap: var(--space-6);
   margin: 0 0 var(--space-6);
   padding: var(--space-5);
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--role-card-border);
   border-radius: var(--radius-lg);
+  background: var(--role-card-surface);
 }
 
 .header {
@@ -16,7 +17,7 @@
 
 .eyebrow {
   margin: 0 0 var(--space-2);
-  color: var(--accent-teal);
+  color: var(--role-button-filled-surface);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -39,7 +40,7 @@
 }
 
 .libraryLink {
-  color: var(--accent-teal);
+  color: var(--role-link);
   font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;

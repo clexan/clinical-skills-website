@@ -1,10 +1,10 @@
 .callout {
   margin: var(--space-4) 0;
   padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--border-soft);
-  border-left: 3px solid var(--accent-amber);
+  border: 1px solid var(--role-card-border);
+  border-left: 3px solid var(--role-status-warning-label);
   border-radius: var(--radius-md);
-  background: var(--bg-surface);
+  background: var(--role-card-surface);
 }
 
 .label {
@@ -40,7 +40,7 @@
 .variables {
   margin: var(--space-3) 0 0;
   padding-top: var(--space-3);
-  border-top: 1px solid var(--border-soft);
+  border-top: 1px solid var(--role-divider);
   display: grid;
   gap: var(--space-1);
 }
@@ -71,7 +71,7 @@
 .note {
   margin: var(--space-3) 0 0;
   padding-top: var(--space-3);
-  border-top: 1px solid var(--border-soft);
+  border-top: 1px solid var(--role-divider);
   font-size: 0.95rem;
   color: var(--text-body);
   line-height: 1.7;

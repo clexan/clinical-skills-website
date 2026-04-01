@@ -1,16 +1,14 @@
 .byline {
   margin-bottom: var(--space-5);
   padding: var(--space-4);
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--role-info-border);
   border-radius: var(--radius-md);
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--accent-teal) 7%, white), transparent 55%),
-    var(--bg-subtle);
+  background: color-mix(in srgb, var(--role-info-surface) 42%, var(--role-page-surface));
 }
 
 .label {
   margin-bottom: var(--space-3);
-  color: var(--accent-teal);
+  color: var(--role-info-label);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.12em;

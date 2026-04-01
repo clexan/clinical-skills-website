@@ -15,7 +15,7 @@
   margin: 0;
   border: none;
   border-radius: 2px;
-  background: var(--accent-teal);
+  background: var(--role-button-filled-surface);
 }
 
 .titleRow {
@@ -36,10 +36,10 @@
   display: inline-block;
   margin: 0 0 var(--space-3);
   padding: 0.2em 0.6em;
-  border: 1px solid color-mix(in srgb, var(--accent-sky) 24%, transparent);
+  border: 1px solid var(--role-info-border);
   border-radius: var(--radius-sm);
-  background: color-mix(in srgb, var(--accent-sky) 10%, var(--bg-surface));
-  color: var(--accent-sky);
+  background: var(--role-info-surface);
+  color: var(--role-info-label);
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -72,14 +72,14 @@
   display: grid;
   gap: var(--space-1);
   padding: var(--space-4);
-  border: 1px solid color-mix(in srgb, var(--accent-sky) 16%, var(--border-soft));
+  border: 1px solid var(--role-info-border);
   border-radius: var(--radius-md);
-  background: color-mix(in srgb, var(--accent-sky) 5%, var(--bg-surface));
+  background: color-mix(in srgb, var(--role-info-surface) 52%, var(--role-page-surface));
 }
 
 .scopeLabel {
   margin: 0;
-  color: var(--accent-sky);
+  color: var(--role-info-label);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -96,10 +96,10 @@
 .safetyNote {
   margin: 0;
   padding: var(--space-3) var(--space-4);
-  background: color-mix(in srgb, var(--accent-amber) 8%, var(--bg-surface));
-  border: 1px solid color-mix(in srgb, var(--accent-amber) 20%, var(--border-soft));
+  background: var(--role-status-warning-surface);
+  border: 1px solid var(--role-status-warning-border);
   border-radius: var(--radius-sm);
-  color: var(--text-muted);
+  color: var(--role-body-text);
   font-size: 0.82rem;
   line-height: 1.55;
 }
@@ -116,7 +116,7 @@
   min-height: 2rem;
   padding: 0 var(--space-3);
   background: transparent;
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--role-button-outlined-border);
   border-radius: 999px;
   color: var(--text-muted);
   font-size: 0.82rem;
@@ -129,14 +129,15 @@
 }
 
 .chip:hover {
-  border-color: var(--border-strong);
+  background: var(--role-button-outlined-surface-hover);
+  border-color: var(--role-focus-ring);
   color: var(--text-strong);
 }
 
 .chipActive {
-  background: color-mix(in srgb, var(--accent-teal) 10%, var(--bg-surface));
-  border-color: color-mix(in srgb, var(--accent-teal) 24%, var(--border-soft));
-  color: var(--accent-teal);
+  background: var(--role-selection-surface);
+  border-color: var(--role-selection-border);
+  color: var(--role-selection-label);
 }
 
 .cardList {
@@ -149,6 +150,7 @@
   background: var(--role-card-surface);
   border: 1px solid var(--role-card-border);
   border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
   overflow: hidden;
   transition:
     box-shadow 140ms ease,
@@ -161,11 +163,11 @@
 }
 
 .severity-critical {
-  border-left: 4px solid #e24b4a;
+  border-left: 4px solid var(--role-status-error-label);
 }
 
 .severity-urgent {
-  border-left: 4px solid #d4820a;
+  border-left: 4px solid var(--role-status-warning-label);
 }
 
 .referenceCardToggle {
@@ -186,7 +188,7 @@
 .chip:focus-visible,
 .cardChapterLink:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--accent-sky-soft);
+  box-shadow: 0 0 0 3px var(--role-focus-ring-soft);
 }
 
 .referenceCardHeader {
@@ -239,11 +241,11 @@
 }
 
 .badge-critical {
-  color: var(--accent-rose);
+  color: var(--role-status-error-label);
 }
 
 .badge-urgent {
-  color: var(--accent-amber-label);
+  color: var(--role-status-warning-label);
 }
 
 .referenceCardSummary {
@@ -263,7 +265,7 @@
   align-items: center;
   gap: var(--space-2);
   margin-top: var(--space-3);
-  color: var(--accent-sky);
+  color: var(--role-link);
   font-size: 0.8rem;
   font-weight: 600;
 }
@@ -274,7 +276,7 @@
   display: grid;
   gap: var(--space-5);
   padding: var(--space-5);
-  border-top: 1px solid var(--border-soft);
+  border-top: 1px solid var(--role-divider);
 }
 
 .bodyGrid {
@@ -342,8 +344,8 @@
 
 .keyNumbersList li {
   padding: var(--space-1) var(--space-3);
-  background: color-mix(in srgb, var(--accent-sky) 7%, var(--bg-surface));
-  border-left: 2px solid var(--accent-sky);
+  background: color-mix(in srgb, var(--role-info-surface) 65%, var(--role-page-surface));
+  border-left: 2px solid var(--role-link);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   font-size: 0.84rem;
   font-weight: 500;
@@ -382,16 +384,16 @@
   align-items: center;
   min-height: 2.5rem;
   padding: 0 var(--space-4);
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--role-button-outlined-border);
   border-radius: 999px;
-  color: var(--text-strong);
+  color: var(--role-button-outlined-label);
   font-size: 0.86rem;
   font-weight: 600;
   text-decoration: none;
 }
 
 .cardChapterLink:hover {
-  background: var(--bg-subtle);
+  background: var(--role-button-outlined-surface-hover);
   text-decoration: none;
 }
 

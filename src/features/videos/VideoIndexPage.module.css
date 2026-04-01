@@ -8,7 +8,8 @@
 .emptyState {
   padding: var(--space-5);
   border-radius: var(--radius-lg);
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--role-card-border);
+  background: var(--role-card-surface);
 }
 
 .headerRow,
@@ -22,7 +23,7 @@
 .eyebrow,
 .sectionKicker {
   margin: 0 0 var(--space-2);
-  color: var(--accent-teal);
+  color: var(--role-button-filled-surface);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -48,7 +49,7 @@
 
 .backLink,
 .chapterLink {
-  color: var(--accent-teal);
+  color: var(--role-link);
   font-weight: 600;
   text-decoration: none;
 }
@@ -71,7 +72,7 @@
 
 .chip {
   padding: 0.5rem 0.8rem;
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--role-button-outlined-border);
   border-radius: 999px;
   background: transparent;
   color: var(--text-muted);
@@ -80,9 +81,9 @@
 }
 
 .chipActive {
-  border-color: transparent;
-  background: color-mix(in srgb, var(--accent-teal) 14%, transparent);
-  color: var(--accent-teal);
+  border-color: var(--role-selection-border);
+  background: var(--role-selection-surface);
+  color: var(--role-selection-label);
 }
 
 .sectionList {

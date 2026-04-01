@@ -1,8 +1,11 @@
 .card {
   padding: var(--space-5);
+  background: var(--role-card-surface);
+  border: 1px solid var(--role-card-border);
+  border-radius: var(--radius-md);
 }
 
 .elevated {
   background: var(--role-card-surface-raised);
-  box-shadow: var(--md-sys-elevation-level2);
+  box-shadow: var(--shadow-sm);
 }

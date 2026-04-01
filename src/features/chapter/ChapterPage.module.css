@@ -33,7 +33,7 @@
   font-size: clamp(6rem, 14vw, 11rem);
   font-weight: 700;
   line-height: 1;
-  color: var(--accent-teal);
+  color: var(--role-button-filled-surface);
   opacity: 0.07;
   pointer-events: none;
   user-select: none;
@@ -60,10 +60,10 @@
   display: inline-block;
   margin: 0 0 var(--space-3);
   padding: 0.2em 0.6em;
-  border: 1px solid color-mix(in srgb, var(--accent-teal) 24%, transparent);
+  border: 1px solid var(--role-selection-border);
   border-radius: var(--radius-sm);
-  background: var(--accent-teal-soft);
-  color: var(--accent-teal);
+  background: var(--role-selection-surface);
+  color: var(--role-selection-label);
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -96,7 +96,7 @@
   position: relative;
   margin-top: var(--space-5);
   border: none;
-  border-top: 1px solid var(--border-soft);
+  border-top: 1px solid var(--role-divider);
 }
 
 .titleDivider::after {
@@ -106,8 +106,8 @@
   top: 50%;
   transform: translate(-50%, -50%);
   font-size: 0.45rem;
-  color: var(--accent-teal);
-  background: var(--bg-surface);
+  color: var(--role-button-filled-surface);
+  background: var(--role-page-surface);
   padding: 0 var(--space-2);
   opacity: 0.6;
 }
@@ -115,8 +115,8 @@
 .keyPoints {
   margin-bottom: var(--space-5);
   padding: var(--space-4) var(--space-5);
-  border-left: 3px solid var(--accent-teal);
-  background: var(--accent-teal-soft);
+  border-left: 3px solid var(--role-link);
+  background: color-mix(in srgb, var(--role-info-surface) 48%, var(--role-page-surface));
 }
 
 .keyPointsDisclosure {
@@ -148,7 +148,7 @@
   gap: var(--space-3);
   width: 100%;
   margin: 0;
-  color: var(--md-sys-color-on-surface);
+  color: var(--role-body-text);
   cursor: pointer;
   list-style: none;
 }
@@ -160,7 +160,7 @@
 .disclosureSummary::after {
   content: "+";
   flex: none;
-  color: var(--md-sys-color-on-surface-variant);
+  color: var(--role-rail-label);
   font-size: 1rem;
   line-height: 1;
 }
@@ -193,7 +193,7 @@
 
 .tocLabel {
   margin: 0;
-  color: var(--md-sys-color-on-surface-variant);
+  color: var(--role-rail-label);
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -221,7 +221,7 @@
 .proseBody h2 {
   margin-top: var(--space-7);
   padding-top: var(--space-5);
-  border-top: 1px solid var(--border-soft);
+  border-top: 1px solid var(--role-divider);
   font-family: var(--font-display);
   font-size: 1.4rem;
   font-weight: 600;
@@ -236,16 +236,16 @@
 .message {
   margin: 0 0 var(--space-4);
   padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--md-sys-color-outline-variant);
+  border: 1px solid var(--role-card-border);
   border-radius: var(--radius-md);
-  background: var(--md-sys-color-surface-container-low);
+  background: var(--role-card-surface);
   color: var(--role-body-text);
 }
 
 .error {
-  border-color: color-mix(in srgb, var(--md-sys-color-error) 40%, var(--md-sys-color-outline-variant));
-  background: var(--md-sys-color-error-container);
-  color: var(--md-sys-color-on-error-container);
+  border-color: var(--role-status-error-border);
+  background: var(--role-status-error-surface);
+  color: var(--role-status-error-label);
 }
 
 .loadingState {
@@ -353,7 +353,7 @@
   min-width: 0;
   min-height: 64px;
   padding: var(--space-4);
-  background: var(--role-card-surface);
+  background: var(--role-pagination-previous-surface);
   border: 1px solid var(--role-card-border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
@@ -379,7 +379,7 @@
 
 .paginationLabel {
   display: block;
-  color: var(--md-sys-color-on-surface-variant);
+  color: var(--role-pagination-label);
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -388,7 +388,7 @@
 
 .paginationTitle {
   display: block;
-  color: var(--md-sys-color-on-surface);
+  color: var(--role-pagination-title);
   font-size: 0.9rem;
   font-weight: 500;
   line-height: 1.35;
@@ -403,21 +403,21 @@
 
 .paginationArrow {
   flex: none;
-  color: var(--md-sys-color-on-surface-variant);
+  color: var(--role-pagination-label);
   font-size: 1.1rem;
 }
 
 .paginationLinkPrevious:hover {
   background: var(--role-pagination-previous-surface-hover);
-  border-color: var(--md-sys-color-outline);
-  box-shadow: var(--shadow-sm);
+  border-color: var(--role-card-border);
+  box-shadow: var(--shadow-md);
   text-decoration: none;
 }
 
 .paginationLinkNext:hover {
   background: var(--role-pagination-next-surface-hover);
-  border-color: color-mix(in srgb, var(--md-sys-color-primary) 30%, var(--md-sys-color-outline));
-  box-shadow: var(--shadow-sm);
+  border-color: var(--role-pagination-next-border);
+  box-shadow: var(--shadow-md);
   text-decoration: none;
 }
 
@@ -425,16 +425,19 @@
   outline: none;
   background: var(--role-card-focus-surface);
   border-color: var(--role-focus-ring);
-  box-shadow: 0 0 0 3px var(--role-focus-ring-soft), var(--shadow-sm);
+  box-shadow:
+    0 0 0 3px var(--role-focus-ring-soft),
+    inset 0 0 0 1px var(--role-focus-ring),
+    var(--shadow-sm);
 }
 
 .paginationLinkNext .paginationLabel,
 .paginationLinkNext .paginationArrow {
-  color: var(--md-sys-color-on-primary-container);
+  color: var(--role-link);
 }
 
 .paginationLinkNext:focus-visible {
-  background: var(--role-pagination-next-surface-hover);
+  background: var(--role-card-focus-surface);
 }
 
 @media (max-width: 767px) {
@@ -481,16 +484,16 @@
   .keyPointsDisclosure,
   .tocDisclosure {
     display: block;
-    background: var(--md-sys-color-surface-container-low);
-    border: 1px solid var(--md-sys-color-outline-variant);
+    background: var(--role-card-surface);
+    border: 1px solid var(--role-card-border);
     border-radius: var(--radius-sm);
     padding: var(--space-3) var(--space-4);
   }
 
   .keyPointsDisclosure {
     margin-bottom: var(--space-3);
-    border-left: 3px solid var(--accent-teal);
-    background: var(--accent-teal-soft);
+    border-left: 3px solid var(--role-link);
+    background: color-mix(in srgb, var(--role-info-surface) 48%, var(--role-page-surface));
   }
 
   .tocDisclosure {

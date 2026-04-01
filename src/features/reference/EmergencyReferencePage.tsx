@@ -13,25 +13,60 @@ import {
 } from "./referenceData";
 import styles from "./EmergencyReferencePage.module.css";
 
+function getRequestedFilter(search: string): ReferenceFilterKey {
+  const rawFilter = new URLSearchParams(search).get("filter");
+
+  if (referenceFilterChips.some((filter) => filter.key === rawFilter)) {
+    return rawFilter as ReferenceFilterKey;
+  }
+
+  return "all";
+}
+
 export function EmergencyReferencePage() {
   const location = useLocation();
+  const requestedFilter = getRequestedFilter(location.search);
   const [activeFilter, setActiveFilter] = useState<ReferenceFilterKey>("all");
   const [openSlug, setOpenSlug] = useState<string | null>(null);
 
   useEffect(() => {
-    const hash = window.location.hash.slice(1);
+    setActiveFilter(requestedFilter);
+    setOpenSlug((current) => {
+      if (!current) {
+        return null;
+      }
 
-    if (!hash || !emergencyEntries.some((entry) => entry.slug === hash)) {
+      const openEntry = emergencyEntries.find((entry) => entry.slug === current);
+
+      if (!openEntry) {
+        return null;
+      }
+
+      return requestedFilter === "all" || matchesReferenceFilter(openEntry, requestedFilter)
+        ? current
+        : null;
+    });
+  }, [requestedFilter]);
+
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    const matchingEntry = emergencyEntries.find((entry) => entry.slug === hash);
+
+    if (!matchingEntry) {
       return;
     }
 
-    setActiveFilter("all");
+    setActiveFilter(
+      requestedFilter !== "all" && matchesReferenceFilter(matchingEntry, requestedFilter)
+        ? requestedFilter
+        : "all",
+    );
     setOpenSlug(hash);
 
     window.requestAnimationFrame(() => {
       document.getElementById(hash)?.scrollIntoView({ block: "start" });
     });
-  }, [location.hash]);
+  }, [location.hash, requestedFilter]);
 
   const filteredEntries = emergencyEntries.filter((entry) =>
     matchesReferenceFilter(entry, activeFilter),

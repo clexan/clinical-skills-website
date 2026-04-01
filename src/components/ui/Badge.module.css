@@ -7,31 +7,31 @@
 }
 
 .sky {
-  background: var(--accent-sky-soft);
-  color: var(--accent-sky);
+  background: var(--role-info-surface);
+  color: var(--role-info-label);
 }
 
 .teal {
-  background: var(--accent-teal-soft);
-  color: var(--accent-teal);
+  background: var(--role-selection-surface);
+  color: var(--role-selection-label);
 }
 
 .rose {
-  background: var(--accent-rose-soft);
-  color: var(--accent-rose);
+  background: var(--role-status-error-surface);
+  color: var(--role-status-error-label);
 }
 
 .violet {
-  background: var(--accent-violet-soft);
-  color: var(--accent-violet);
+  background: var(--role-card-focus-surface);
+  color: var(--role-link);
 }
 
 .amber {
-  background: var(--accent-amber-soft);
-  color: var(--accent-amber);
+  background: var(--role-status-warning-surface);
+  color: var(--role-status-warning-label);
 }
 
 .slate {
-  background: var(--accent-slate-soft);
-  color: var(--accent-slate);
+  background: var(--role-card-hover-surface);
+  color: var(--text-body);
 }

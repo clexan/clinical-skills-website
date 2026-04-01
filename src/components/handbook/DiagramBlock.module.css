@@ -5,11 +5,11 @@
 
 .panel {
   padding: var(--space-4);
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--m3-divider);
   border-radius: var(--radius-lg);
   background:
     radial-gradient(circle at top right, color-mix(in srgb, var(--accent-sky) 12%, white), transparent 38%),
-    linear-gradient(180deg, var(--bg-surface), var(--bg-elevated));
+    linear-gradient(180deg, var(--m3-surface-container-low), var(--m3-surface-container));
   box-shadow: var(--shadow-sm);
 }
 

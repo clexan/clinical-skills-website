@@ -1,14 +1,14 @@
 .root {
   margin: 0 0 var(--space-5);
   padding: var(--space-4) var(--space-5);
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--role-info-border);
   border-radius: var(--radius-md);
-  background: var(--accent-teal-soft);
+  background: color-mix(in srgb, var(--role-info-surface) 48%, var(--role-page-surface));
 }
 
 .label {
   margin: 0 0 var(--space-3);
-  color: var(--accent-teal);
+  color: var(--role-link);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.12em;

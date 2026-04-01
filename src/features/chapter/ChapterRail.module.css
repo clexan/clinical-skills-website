@@ -8,7 +8,7 @@
 
 .partLabel {
   margin-bottom: var(--space-3);
-  color: var(--accent-teal);
+  color: var(--role-link);
   font-family: var(--font-display);
   font-size: 0.78rem;
   font-weight: 600;
@@ -49,8 +49,8 @@
 
 .chapterLink:hover {
   background: var(--role-rail-hover-surface);
-  border-color: color-mix(in srgb, var(--md-sys-color-outline) 40%, transparent);
-  color: var(--md-sys-color-on-surface);
+  border-color: var(--role-card-border);
+  color: var(--role-body-text);
   text-decoration: none;
 }
 
@@ -69,11 +69,11 @@
   box-shadow:
     0 0 0 3px var(--role-focus-ring-soft),
     inset 0 0 0 1px var(--role-focus-ring),
-    inset 3px 0 0 0 var(--md-sys-color-primary);
+    inset 3px 0 0 0 var(--role-link);
 }
 
 .tocLink:focus-visible {
-  background: color-mix(in srgb, var(--md-sys-color-secondary) 8%, transparent);
+  background: var(--role-card-focus-surface);
   outline: none;
   box-shadow:
     0 0 0 3px var(--role-focus-ring-soft),
@@ -85,14 +85,14 @@
   border-color: var(--role-rail-selected-border);
   box-shadow:
     inset 0 0 0 1px var(--role-rail-selected-border),
-    inset 3px 0 0 0 var(--md-sys-color-primary);
-  color: var(--md-sys-color-on-primary-container);
+    inset 3px 0 0 0 var(--role-link);
+  color: var(--role-rail-selected-label);
   font-weight: 600;
 }
 
 .chapterNumber {
   flex-shrink: 0;
-  color: var(--md-sys-color-on-surface-variant);
+  color: var(--role-rail-label);
   font-size: 0.75rem;
   font-variant-numeric: tabular-nums;
 }
@@ -104,11 +104,11 @@
 .active:hover {
   background: var(--role-rail-selected-surface-hover);
   border-color: var(--role-rail-selected-border);
-  color: var(--md-sys-color-on-primary-container);
+  color: var(--role-rail-selected-label);
 }
 
 .active .chapterNumber {
-  color: var(--md-sys-color-on-primary-container);
+  color: var(--role-rail-selected-label);
 }
 
 .chapterTitle {
@@ -129,7 +129,7 @@
 
 .tocLabel {
   margin-bottom: var(--space-2);
-  color: var(--md-sys-color-on-surface-variant);
+  color: var(--role-rail-label);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -148,7 +148,7 @@
   display: block;
   padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-sm);
-  color: var(--md-sys-color-on-surface-variant);
+  color: var(--role-rail-label);
   font-size: 0.82rem;
   line-height: 1.4;
   text-decoration: none;
@@ -158,13 +158,13 @@
 }
 
 .tocLink:hover {
-  background: color-mix(in srgb, var(--md-sys-color-on-surface) 4%, transparent);
+  background: var(--role-rail-hover-surface);
   color: var(--role-body-text);
   text-decoration: none;
 }
 
 .tocActive {
-  background: color-mix(in srgb, var(--md-sys-color-primary) 7%, transparent);
-  color: var(--md-sys-color-on-surface);
+  background: var(--role-rail-selected-surface);
+  color: var(--role-body-text);
   font-weight: 500;
 }

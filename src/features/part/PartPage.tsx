@@ -39,19 +39,43 @@ export function PartPage() {
         <p className={styles.description}>{part.description}</p>
       </header>
 
-      <div className={`${styles.list} surface`}>
-        {chapters.map((chapter) => (
-          <Link className={styles.row} key={chapter.id} to={`/chapter/${chapter.slug}`}>
-            <div className={styles.rowCopy}>
-              {hasDistinctChapterNumber(chapter) ? <p className={styles.number}>{chapter.number}</p> : null}
-              <div className={styles.rowBody}>
-                <h2 className={styles.rowTitle}>{chapter.title}</h2>
-                <p className={styles.rowDescription}>{chapter.description}</p>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
+      <section aria-labelledby="part-contents-title" className={`${styles.chapterSection} surface`}>
+        <div className={styles.sectionHeader}>
+          <p className={styles.sectionEyebrow}>In this part</p>
+          <h2 className={styles.sectionTitle} id="part-contents-title">
+            Chapters and review
+          </h2>
+        </div>
+
+        <div className={styles.list}>
+          {chapters.map((chapter) => {
+            const isReview = chapter.kind === "review";
+
+            return (
+              <Link
+                className={`${styles.row}${isReview ? ` ${styles.reviewRow}` : ""}`}
+                key={chapter.id}
+                to={`/chapter/${chapter.slug}`}
+              >
+                <div className={styles.rowCopy}>
+                  {hasDistinctChapterNumber(chapter) ? (
+                    <p className={styles.number}>{chapter.number}</p>
+                  ) : (
+                    <p className={styles.reviewLabel}>Review</p>
+                  )}
+                  <div className={styles.rowBody}>
+                    <h3 className={styles.rowTitle}>{chapter.title}</h3>
+                    <p className={styles.rowDescription}>{chapter.description}</p>
+                  </div>
+                </div>
+                <span aria-hidden="true" className={styles.rowArrow}>
+                  &gt;
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
     </section>
   );
 }

@@ -180,6 +180,8 @@
   --role-focus-ring: var(--md-sys-color-secondary);
   --role-focus-ring-soft: color-mix(in srgb, var(--md-sys-color-secondary) 22%, transparent);
   --role-divider: var(--md-sys-color-outline-variant);
+  --role-page-surface: var(--md-sys-color-surface);
+  --role-page-surface-subtle: var(--md-sys-color-surface-container-lowest);
   --role-app-bar-surface: color-mix(in srgb, var(--md-sys-color-surface-container-lowest) 82%, white);
   --role-app-bar-border: color-mix(in srgb, var(--md-sys-color-outline-variant) 72%, white);
   --role-card-surface: var(--md-sys-color-surface-container-low);
@@ -206,6 +208,22 @@
     var(--md-sys-color-primary) 18%,
     var(--md-sys-color-outline)
   );
+  --role-info-surface: var(--md-sys-color-secondary-container);
+  --role-info-border: color-mix(in srgb, var(--md-sys-color-secondary) 24%, var(--md-sys-color-outline-variant));
+  --role-info-label: var(--md-sys-color-on-secondary-container);
+  --role-selection-surface: var(--m3-selected-container);
+  --role-selection-border: var(--m3-selected-outline);
+  --role-selection-label: var(--m3-selected-text);
+  --role-status-success-label: var(--status-normal);
+  --role-status-success-surface: var(--status-normal-soft);
+  --role-status-success-border: color-mix(in srgb, var(--status-normal) 45%, var(--role-card-border));
+  --role-status-warning-label: color-mix(in srgb, var(--status-warn) 88%, black);
+  --role-status-warning-surface: var(--status-warn-soft);
+  --role-status-warning-border: color-mix(in srgb, var(--status-warn) 38%, var(--role-card-border));
+  --role-status-error-label: var(--status-critical);
+  --role-status-error-surface: var(--status-critical-soft);
+  --role-status-error-border: color-mix(in srgb, var(--status-critical) 45%, var(--role-card-border));
+  --role-rail-label: var(--md-sys-color-on-surface-variant);
   --role-rail-hover-surface: color-mix(
     in srgb,
     var(--md-sys-color-on-surface) 5%,
@@ -226,6 +244,9 @@
     var(--md-sys-color-primary) 28%,
     var(--md-sys-color-outline-variant)
   );
+  --role-rail-selected-label: var(--md-sys-color-on-primary-container);
+  --role-pagination-label: var(--md-sys-color-on-surface-variant);
+  --role-pagination-title: var(--md-sys-color-on-surface);
   --role-pagination-previous-surface: var(--md-sys-color-surface-container-low);
   --role-pagination-previous-surface-hover: var(--role-card-hover-surface);
   --role-pagination-next-surface: color-mix(

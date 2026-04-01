@@ -49,16 +49,22 @@
 
 .prose blockquote {
   margin: 0 0 var(--space-4);
-  border-left: 3px solid var(--accent-teal);
-  padding-left: var(--space-4);
+  border-left: 3px solid var(--m3-primary);
+  background: color-mix(in srgb, var(--m3-primary) 5%, transparent);
+  padding: var(--space-3) var(--space-4);
   color: var(--text-muted);
   font-style: italic;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 
 .prose table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: var(--space-5);
+  background: var(--m3-surface);
+  border: 1px solid var(--m3-divider);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
 }
 
 .prose th {
