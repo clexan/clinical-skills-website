@@ -25,6 +25,43 @@ function getFocusableElements(container: HTMLElement | null) {
   );
 }
 
+const NAV_ICONS: Record<string, string> = {
+  "/reference": "reference",
+  "/videos": "videos",
+  "/quiz": "quiz",
+};
+
+function NavIcon({ type }: { type: string }) {
+  if (type === "reference") {
+    return (
+      <svg aria-hidden="true" fill="none" height="20" viewBox="0 0 24 24" width="20">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+        <line stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" x1="12" x2="12" y1="9" y2="13" />
+        <line stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" x1="12" x2="12.01" y1="17" y2="17" />
+      </svg>
+    );
+  }
+
+  if (type === "videos") {
+    return (
+      <svg aria-hidden="true" fill="none" height="20" viewBox="0 0 24 24" width="20">
+        <polygon points="5 3 19 12 5 21 5 3" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+      </svg>
+    );
+  }
+
+  if (type === "quiz") {
+    return (
+      <svg aria-hidden="true" fill="none" height="20" viewBox="0 0 24 24" width="20">
+        <path d="M12 20h9" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+      </svg>
+    );
+  }
+
+  return null;
+}
+
 export function MobileMenu({ isOpen, onClose, currentPartSlug }: MobileMenuProps) {
   const drawerRef = useRef<HTMLDivElement | null>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
@@ -118,25 +155,42 @@ export function MobileMenu({ isOpen, onClose, currentPartSlug }: MobileMenuProps
         role="dialog"
         tabIndex={-1}
       >
-        <div className={styles.closeRow}>
+        <div aria-hidden="true" className={styles.handle} />
+
+        <div className={styles.sheetHeader}>
+          <span className={styles.sheetTitle}>Menu</span>
           <button aria-label="Close menu" className={styles.closeButton} onClick={onClose} type="button">
-            ×
+            <svg aria-hidden="true" fill="none" height="18" viewBox="0 0 24 24" width="18">
+              <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" />
+            </svg>
           </button>
         </div>
 
         {primaryNavItems.length ? (
           <nav aria-label="Primary" className={styles.primaryNav}>
-            {primaryNavItems.map((item) => (
-              <NavLink
-                className={getNavLinkClassName}
-                end={item.end}
-                key={item.to}
-                onClick={onClose}
-                to={item.to}
-              >
-                {item.label}
-              </NavLink>
-            ))}
+            {primaryNavItems.map((item) => {
+              const iconType = NAV_ICONS[item.to];
+
+              return (
+                <NavLink
+                  className={getNavLinkClassName}
+                  end={item.end}
+                  key={item.to}
+                  onClick={onClose}
+                  to={item.to}
+                >
+                  {iconType ? (
+                    <span className={styles.navIcon}>
+                      <NavIcon type={iconType} />
+                    </span>
+                  ) : null}
+                  <span className={styles.navLabel}>{item.label}</span>
+                  <svg aria-hidden="true" className={styles.navChevron} fill="none" height="16" viewBox="0 0 24 24" width="16">
+                    <path d="M9 18l6-6-6-6" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+                  </svg>
+                </NavLink>
+              );
+            })}
           </nav>
         ) : null}
 
