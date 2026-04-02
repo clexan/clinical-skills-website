@@ -254,16 +254,34 @@
     display: none;
   }
 
-  /* On the homepage, the hero already shows the title — keep the header
-     transparent so only the menu button floats over the content */
+  /* On the homepage, the hero already shows the title — float the menu
+     button over the content with no header background */
   .header[data-home] {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: auto;
+    width: auto;
+    min-height: 0;
     background: transparent;
-    border-bottom-color: transparent;
+    border: none;
     backdrop-filter: none;
     box-shadow: none;
+    padding: var(--space-3);
+    z-index: 100;
+  }
+
+  .header[data-home] .inner {
+    height: auto;
+    padding: 0;
+    max-width: none;
+    margin: 0;
   }
 
   .header[data-home] .brand {
-    display: none;
+    visibility: hidden;
+    pointer-events: none;
+    width: 0;
+    overflow: hidden;
   }
 }
