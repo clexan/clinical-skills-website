@@ -24,7 +24,7 @@
 }
 
 .featured {
-  grid-template-columns: minmax(0, 1.2fr) minmax(240px, 320px);
+  grid-template-columns: minmax(0, 1fr);
   align-items: start;
 }
 
@@ -32,6 +32,7 @@
   display: flex;
   align-items: start;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: var(--space-3);
 }
 
@@ -57,6 +58,7 @@
 
 .modeBadge {
   flex-shrink: 0;
+  align-self: flex-start;
   padding: 0.2rem 0.55rem;
   border-radius: 999px;
   background: var(--role-selection-surface);
@@ -87,6 +89,7 @@
 }
 
 .mediaShell {
+  position: relative;
   overflow: hidden;
   border: 1px solid var(--role-card-border);
   border-radius: var(--radius-md);
@@ -117,6 +120,7 @@
 .posterButton,
 .posterLink {
   position: relative;
+  overflow: hidden;
   padding: 0;
   border: 0;
   background: transparent;
@@ -135,12 +139,15 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.12));
+  pointer-events: none;
 }
 
 .posterAction {
   position: absolute;
+  z-index: 1;
   left: var(--space-3);
   bottom: var(--space-3);
+  max-width: calc(100% - (var(--space-3) * 2));
   padding: 0.5rem 0.9rem;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.92);
@@ -192,10 +199,6 @@
 @media (max-width: 767px) {
   .card {
     padding: var(--space-3);
-  }
-
-  .featured {
-    grid-template-columns: 1fr;
   }
 
   .description {
