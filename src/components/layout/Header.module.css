@@ -119,10 +119,11 @@
   min-width: 2.75rem;
   height: 2.75rem;
   padding: 0;
-  border: none;
+  border: 1px solid var(--role-app-bar-border);
   border-radius: 999px;
-  background: var(--role-search-surface);
+  background: var(--role-card-surface);
   color: var(--text-body);
+  box-shadow: var(--shadow-sm);
 }
 
 .menuIcon {
@@ -250,6 +251,19 @@
 
 @media (max-width: 767px) {
   .brandMeta {
+    display: none;
+  }
+
+  /* On the homepage, the hero already shows the title — keep the header
+     transparent so only the menu button floats over the content */
+  .header[data-home] {
+    background: transparent;
+    border-bottom-color: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+
+  .header[data-home] .brand {
     display: none;
   }
 }

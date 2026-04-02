@@ -28,7 +28,7 @@ export function Header({ currentPartSlug, onSearchOpen, onSearchWarmup }: Header
 
   return (
     <>
-      <header className={styles.header}>
+      <header className={styles.header} data-home={isHomePage ? "" : undefined}>
         <div className={`container ${styles.inner}`}>
           <NavLink className={styles.brand} to="/">
             <span className={styles.brandTitle}>{siteTitle}</span>
