@@ -12,6 +12,16 @@ export function QuizSessionPage() {
   const { hasHydrated, status, queue, currentIndex, mode, submitAnswer, nextQuestion } = useQuizStore();
   const canShowSession = status === 'active' && queue.length > 0;
 
+  const handleNextQuestion = () => {
+    const isFinalQuestion = currentIndex === queue.length - 1;
+
+    nextQuestion();
+
+    if (isFinalQuestion) {
+      navigate('/quiz/results', { replace: true });
+    }
+  };
+
   useEffect(() => {
     if (canShowSession) {
       return;
@@ -99,7 +109,7 @@ export function QuizSessionPage() {
           <QuizQuestion
             scenario={scenario}
             onAnswerSubmit={submitAnswer}
-            onNext={nextQuestion}
+            onNext={handleNextQuestion}
             isLastQuestion={currentIndex === queue.length - 1}
             mode={mode}
           />

@@ -86,7 +86,7 @@ export function QuizResultsPage() {
       <div className={styles.scoreCard}>
         <div className={styles.scoreHeader}>
           <span className={styles.modeTag} data-mode={mode}>
-            {mode === 'learn' ? '📖 Learn Mode' : '📋 Exam Mode'}
+            {mode === 'learn' ? '📖 Learn Mode' : 'Exam Mode'}
           </span>
           <h1 className={styles.resultTitle}>Session Complete</h1>
         </div>
