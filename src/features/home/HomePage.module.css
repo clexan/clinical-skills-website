@@ -726,17 +726,7 @@
 
 @media (max-width: 767px) {
   .hero {
-    justify-items: stretch;
     padding-top: var(--space-5);
-    text-align: left;
-  }
-
-  .heroTitle {
-    justify-content: flex-start;
-  }
-
-  .heroSubtitle {
-    justify-self: start;
   }
 
   .modeSwitch {
